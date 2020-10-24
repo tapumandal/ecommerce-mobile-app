@@ -29,22 +29,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
+import com.tapumandal.ecommerce.BuildConfig;
+import com.tapumandal.ecommerce.Model.CommonResponseSingle;
+import com.tapumandal.ecommerce.Model.UserProfile;
+import com.tapumandal.ecommerce.Model.VersionControlModel;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.ApiClient;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.UserControlViewModel;
+import com.tapumandal.ecommerce.databinding.AdminMessageDialogBinding;
 
 import java.util.Calendar;
 
 import static android.text.util.Linkify.ALL;
 import static androidx.databinding.DataBindingUtil.inflate;
+import static com.tapumandal.ecommerce.R.style.DialogTheme;
 import static com.tapumandal.ecommerce.Utility.OfflineCache.USER_PROFILE_FILE;
 
 
@@ -350,24 +357,27 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void checkForUpdate() {
         //        showProgressDialog("Signing Up..");
-        viewModel.getVersionControlModel().observe(this, response -> {
-            //            hideProgressDialog();
-            if (response != null) {
-                if (response.isSuccess()) {
-                    checkAppUpdate((VersionControlModel) response.getData());
+        viewModel.getVersionControlModel().observe(this, new Observer<CommonResponseSingle>() {
+            @Override
+            public void onChanged(CommonResponseSingle response) {
+                //            hideProgressDialog();
+                if (response != null) {
+                    if (response.isSuccess()) {
+                        BaseActivity.this.checkAppUpdate((VersionControlModel) response.getData());
+                    } else {
+                        BaseActivity.this.showFailedToast(response.getMessage());
+                    }
                 } else {
-                    showFailedToast(response.getMessage());
+                    BaseActivity.this.showFailedToast(BaseActivity.this.getString(R.string.something_went_wrong));
                 }
-            } else {
-                showFailedToast(getString(R.string.something_went_wrong));
-            }
 
+            }
         });
     }
 
     boolean appVersionDialogViewing = false;
 
-    private void checkAppUpdate(VersionControlModel versionControlModel) {
+    private void checkAppUpdate(final VersionControlModel versionControlModel) {
         if (versionControlModel == null)
             return;
 
@@ -408,16 +418,21 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
 
 
-            binding.btnClose.setOnClickListener(view -> {
-                MySharedPreference
-                        .put(MySharedPreference.Key.APP_UPDATE_SUPPRESED_VERSION, versionControlModel.getAppVersion());
-                dialog.dismiss();
+            binding.btnClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MySharedPreference.put(MySharedPreference.Key.APP_UPDATE_SUPPRESED_VERSION, versionControlModel.getAppVersion());
+                    dialog.dismiss();
+                }
             });
 
 
-            binding.updateAppBtn.setOnClickListener(view -> {
-                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            binding.updateAppBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final String appPackageName = BaseActivity.this.getPackageName(); // getPackageName() from Context or Activity object
+                    BaseActivity.this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
             });
             dialog.show();
             appVersionDialogViewing = true;
@@ -446,7 +461,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         MySharedPreference.clear();
 
 
-        viewModel.logOut().observe(this, response -> {
+        viewModel.logOut().observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object response) {
+            }
         });
 
     }
@@ -454,12 +472,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void showPermissionDeniedSnackbar(View view) {
         try {
             Snackbar snackbar = Snackbar.make(view, getResources().getString(R.string.message_no_permission_snackbar), 4000);
-            snackbar.setAction(getResources().getString(R.string.allow), v -> {
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package", context.getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
+            snackbar.setAction(getResources().getString(R.string.allow), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+                    intent.setData(uri);
+                    BaseActivity.this.startActivity(intent);
+                }
             });
             snackbar.show();
         } catch (Exception e) {

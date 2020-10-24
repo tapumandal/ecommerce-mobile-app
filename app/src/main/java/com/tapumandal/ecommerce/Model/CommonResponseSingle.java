@@ -11,7 +11,7 @@ public class CommonResponseSingle<Item> {
 
     @SerializedName("errors")
     @Expose
-    private String msg;
+    private String message;
     @SerializedName("reported")
     @Expose
     private boolean reported;
@@ -20,15 +20,15 @@ public class CommonResponseSingle<Item> {
     private boolean success;
     @SerializedName("data")
     @Expose
-    private Item items = null;
+    private Item data = null;
 
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public boolean isReported() {
@@ -47,11 +47,11 @@ public class CommonResponseSingle<Item> {
         this.success = success;
     }
 
-    public Item getItems() {
-        return items;
+    public Item getData() {
+        return data;
     }
 
-    public void setItems(Item items) {
-        this.items = items;
+    public void setData(Item data) {
+        this.data = data;
     }
 }

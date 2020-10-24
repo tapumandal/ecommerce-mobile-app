@@ -1,4 +1,4 @@
-package com.maxpro.covid19.Base;
+package com.tapumandal.ecommerce.Base;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,12 +15,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.provider.Settings;
 import android.text.Html;
 import android.view.View;
@@ -31,28 +25,27 @@ import android.widget.ImageView;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.maxpro.covid19.BuildConfig;
-import com.maxpro.covid19.ModelClass.UserProfile;
-import com.maxpro.covid19.ModelClass.VersionControlModel;
-import com.maxpro.covid19.R;
-import com.maxpro.covid19.Utility.ApiClient;
-import com.maxpro.covid19.Utility.OfflineCache;
-import com.maxpro.covid19.Utility.SharedPref;
-import com.maxpro.covid19.ViewModel.UserControlViewModel;
-import com.maxpro.covid19.databinding.AdminMessageDialogBinding;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
+import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.ApiClient;
+import com.tapumandal.ecommerce.Utility.MySharedPreference;
+import com.tapumandal.ecommerce.Utility.OfflineCache;
+import com.tapumandal.ecommerce.ViewModel.UserControlViewModel;
 
 import java.util.Calendar;
 
 import static android.text.util.Linkify.ALL;
 import static androidx.databinding.DataBindingUtil.inflate;
-import static com.maxpro.covid19.R.style.DialogTheme;
-import static com.maxpro.covid19.Utility.OfflineCache.USER_PROFILE_FILE;
+import static com.tapumandal.ecommerce.Utility.OfflineCache.USER_PROFILE_FILE;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -404,7 +397,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 binding.btnClose.setVisibility(View.VISIBLE);
                 dialog.setCancelable(true);
 
-                if (SharedPref.getInt(SharedPref.Key.APP_UPDATE_SUPPRESED_VERSION) == versionControlModel.getAppVersion()) {
+                if (MySharedPreference.getInt(MySharedPreference.Key.APP_UPDATE_SUPPRESED_VERSION) == versionControlModel.getAppVersion()) {
                     return;
                 }
             }
@@ -416,8 +409,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
             binding.btnClose.setOnClickListener(view -> {
-                SharedPref
-                        .put(SharedPref.Key.APP_UPDATE_SUPPRESED_VERSION, versionControlModel.getAppVersion());
+                MySharedPreference
+                        .put(MySharedPreference.Key.APP_UPDATE_SUPPRESED_VERSION, versionControlModel.getAppVersion());
                 dialog.dismiss();
             });
 
@@ -436,10 +429,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     public void saveUserProfile(UserProfile userProfile) {
-        SharedPref.put(SharedPref.Key.USER_TOKEN, "Bearer " + userProfile.getAccessToken());
-        SharedPref.put(SharedPref.Key.USER_ID, userProfile.getId());
+        MySharedPreference.put(MySharedPreference.Key.USER_TOKEN, "Bearer " + userProfile.getAccessToken());
+        MySharedPreference.put(MySharedPreference.Key.USER_ID, userProfile.getId());
 //        SharedPreferencesEnum.put(SharedPreferencesEnum.Key.USER_TYPE, userProfile.getType());
-        SharedPref.put(SharedPref.Key.IS_LOGIN, true);
+        MySharedPreference.put(MySharedPreference.Key.IS_LOGIN, true);
 
         OfflineCache.saveOffline(USER_PROFILE_FILE, userProfile);
 
@@ -450,7 +443,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void removeUserProfile() {
 
         OfflineCache.deleteAllCacheFile();
-        SharedPref.clear();
+        MySharedPreference.clear();
 
 
         viewModel.logOut().observe(this, response -> {

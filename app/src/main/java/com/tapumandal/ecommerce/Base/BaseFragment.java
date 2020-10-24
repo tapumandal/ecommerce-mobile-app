@@ -1,4 +1,4 @@
-package com.maxpro.covid19.Base;
+package com.tapumandal.ecommerce.Base;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

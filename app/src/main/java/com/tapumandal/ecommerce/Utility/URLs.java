@@ -1,0 +1,10 @@
+package com.tapumandal.ecommerce.Utility;
+
+public class URLs {
+
+//    public static String ROOT_URL_MAIN = "";
+    public static String ROOT_URL_MAIN = "";
+    public static boolean isLive = false;
+
+
+}

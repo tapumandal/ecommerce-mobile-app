@@ -1,10 +1,92 @@
 <resources>
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="windowNoTitle">true</item>
     </style>
+
+    <!--Changing toolbar back button color-->
+    <style name="ToolbarColoredBackArrow" parent="AppTheme">
+        <item name="android:textColorSecondary">@color/toolbarTextAndIconColor</item>
+        <item name="actionMenuTextColor">@color/toolbarTextAndIconColor</item>
+    </style>
+
+    <style name="EditText.Grey.Hint" parent="@style/EditText.Grey">
+        <item name="colorAccent">@color/grey_60</item>
+    </style>
+
+    <style name="inputBox" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_marginStart">@dimen/_16ssdp</item>
+        <item name="android:layout_marginEnd">@dimen/_16ssdp</item>
+        <item name="android:layout_marginRight">@dimen/_16ssdp</item>
+        <item name="android:layout_marginLeft">@dimen/_16ssdp</item>
+        <item name="android:layout_marginTop">@dimen/_16ssdp</item>
+
+
+    </style>
+
+    <style name="dropDownBox" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:layout_marginStart">@dimen/_16ssdp</item>
+        <item name="android:layout_marginEnd">@dimen/_16ssdp</item>
+        <item name="android:layout_marginRight">@dimen/_16ssdp</item>
+        <item name="android:layout_marginLeft">@dimen/_16ssdp</item>
+        <item name="android:layout_marginTop">@dimen/_16ssdp</item>
+
+
+    </style>
+
+    <style name="EditText.Grey" parent="@style/AppTheme">
+        <item name="colorControlActivated">@color/grey_60</item>
+        <item name="colorControlHighlight">@color/grey_60</item>
+        <item name="colorControlNormal">@color/grey_40</item>
+    </style>
+
+    <style name="button_style" parent="Widget.AppCompat.TextView">
+        <item name="background">@drawable/round_shape_5dp_corner_app_color</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="paddingStart">@dimen/_10ssdp</item>
+        <item name="paddingEnd">@dimen/_10ssdp</item>
+        <item name="android:paddingTop">@dimen/_5ssdp</item>
+        <item name="android:paddingBottom">@dimen/_5ssdp</item>
+        <item name="android:color">@color/white</item>
+
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <!-- No backgrounds, titles or window float -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/Transparent</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <declare-styleable name="RoundShape">
+        <attr name="shape_roundRect_borderWidth" format="dimension" />
+        <attr name="shape_roundRect" format="dimension" />
+        <attr name="shape_roundRect_borderColor" format="color" />
+    </declare-styleable>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
 </resources>

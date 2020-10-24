@@ -20,14 +20,46 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildFeatures {
+        dataBinding true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.6.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+
+    // FOR IMAGE
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0' // for full screen image
+
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.github.Shashank02051997:FancyToast-Android:0.1.8'
+    implementation 'id.zelory:compressor:2.1.0'
+
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    implementation 'com.airbnb.android:lottie:3.4.4'
+
+    //for making design pixel perfect
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
 
 }

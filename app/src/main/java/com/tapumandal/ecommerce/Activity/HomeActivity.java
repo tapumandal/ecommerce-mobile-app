@@ -1,13 +1,21 @@
 package com.tapumandal.ecommerce.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 
-public class HomeActivity extends AppCompatActivity {
+import com.tapumandal.ecommerce.Base.BaseActivity;
+import com.tapumandal.ecommerce.R;
+
+public class HomeActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+    protected int getLayoutResourceFile() {
+        return R.layout.activity_home;
+    }
+
+    @Override
+    protected void initComponent() {
+
     }
 }

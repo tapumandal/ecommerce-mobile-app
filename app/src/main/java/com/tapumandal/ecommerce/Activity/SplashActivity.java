@@ -32,9 +32,9 @@ public class SplashActivity extends BaseActivity {
 
         new Handler().postDelayed(() -> {
             if (MySharedPreference.getBoolean(MySharedPreference.Key.IS_LOGIN)) {
-//                startActivity(new Intent(context, HomePage.class));
+                startActivity(new Intent(context, ProductActivity.class));
             } else {
-//                startActivity(new Intent(context, IntroActivity.class));
+                startActivity(new Intent(context, ProductActivity.class));
             }
             finish();
         }, 1000);

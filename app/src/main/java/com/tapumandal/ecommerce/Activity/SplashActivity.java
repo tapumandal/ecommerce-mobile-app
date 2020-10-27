@@ -1,18 +1,18 @@
 package com.tapumandal.ecommerce.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 
+import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.databinding.ActivitySplashBinding;
 
-
+/**
+ * Created by tapumandal on 10/24/2020.
+ * For any query ask online.tapu@gmail.com
+ */
 public class SplashActivity extends BaseActivity {
 
     ActivitySplashBinding binding;

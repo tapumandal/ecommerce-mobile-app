@@ -1,4 +1,4 @@
-package com.tapumandal.ecommerce.Activity;
+package com.tapumandal.ecommerce.Activity.Product;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -17,12 +17,17 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Adapter.ExpandableListAdapter;
+import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.MenuModel;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.databinding.ActivityProductBinding;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,10 +35,12 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.Inflater;
 
 //public class ProductActivity extends AppCompatActivity {
 //
@@ -112,36 +119,64 @@ import java.util.List;
 //    }
 //}
 
+/**
+ * Created by tapumandal on 10/26/2020.
+ * For any query ask online.tapu@gmail.com
+ */
 
+public class ProductActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-public class ProductActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    ActivityProductBinding binding;
 
     ExpandableListAdapter expandableListAdapter;
-    ExpandableListView expandableListView;
     List<MenuModel> headerList = new ArrayList<>();
     HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
+    ViewPager viewPager;
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//
+//    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    protected int getLayoutResourceFile() {
+        return R.layout.activity_product;
+    }
 
-        expandableListView = findViewById(R.id.expandableListView);
+    @Override
+    protected void initComponent() {
+        context = this;
+        binding = getBinding();
+        expandableListAdapter = null;
+        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setToolbar("Product");
+
+//        expandableListView = findViewById(R.id.expandableListView);
         prepareMenuData();
         populateExpandableList();
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        binding.navView.setNavigationItemSelectedListener(this);
+
+        ViewPager tmpViewPager = findViewById(R.id.viewPager);
+
+//        setupViewPager(binding.appHeader.findViewById(R.id.viewPager));
+        setupViewPager(tmpViewPager);
     }
+
+    private void setupViewPager(ViewPager tmp) {
+        viewPager = tmp;
+        ProductActivity.ViewPagerAdapter adapter = new ProductActivity.ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new ProductCategoryFragment(), "Categories");
+        adapter.addFragment(new ProductListFragment(), "X Product List");
+        viewPager.setAdapter(adapter);
+
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -236,14 +271,21 @@ public class ProductActivity extends AppCompatActivity implements NavigationView
         if (menuModel.hasChildren) {
             childList.put(menuModel, childModelsList);
         }
+
+
     }
 
     private void populateExpandableList() {
 
-        expandableListAdapter = new ExpandableListAdapter(this, headerList, childList);
-        expandableListView.setAdapter(expandableListAdapter);
+        System.out.println("SSSSSSSSSSS");
+        System.out.println(new Gson().toJson(headerList));
+        System.out.println("==============");
+        System.out.println(new Gson().toJson(childList));
 
-        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+        expandableListAdapter = new ExpandableListAdapter(this, headerList, childList);
+        binding.expandableListView.setAdapter(expandableListAdapter);
+
+        binding.expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
@@ -255,13 +297,13 @@ public class ProductActivity extends AppCompatActivity implements NavigationView
 //                    }
                     System.out.println("XXXXXXXXXX GROUP BTN CLICKED:"+groupPosition+"-"+id);
                 }
-                System.out.println("XXXXXXXXXX GROUP OUT IF");
-
+                System.out.println("XXXXXXXXXX GROUP OUT IF"+groupPosition+"-"+id);
+                viewPager.setCurrentItem(2);
                 return false;
             }
         });
 
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        binding.expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
@@ -279,5 +321,42 @@ public class ProductActivity extends AppCompatActivity implements NavigationView
                 return false;
             }
         });
+    }
+
+    class ViewPagerAdapter extends FragmentStatePagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public int getItemPosition(@NonNull Object object) {
+            notifyDataSetChanged();
+            return POSITION_NONE;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 }

@@ -1,10 +1,22 @@
 package com.tapumandal.ecommerce.Utility;
 
 
+import com.tapumandal.ecommerce.Model.CommonResponseArray;
+import com.tapumandal.ecommerce.Model.MyMenu;
+
+import java.util.HashMap;
+
+import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.QueryMap;
 
 public interface APIInterface {
+
+
+    @GET("menu")
+    Single<CommonResponseArray<MyMenu>> getMenuList(@QueryMap HashMap<String , String > object);
+
 
 
 //    @GET("user")
@@ -87,3 +99,4 @@ public interface APIInterface {
 //    Single<CommonResponseArray<MembershipMFIModel>> getBankAccount(@QueryMap HashMap<String , String > object);
 
 }
+

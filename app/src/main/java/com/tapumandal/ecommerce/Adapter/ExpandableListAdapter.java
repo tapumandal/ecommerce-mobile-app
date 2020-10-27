@@ -34,8 +34,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public MenuModel getChild(int groupPosition, int childPosititon) {
-        return this.listDataChild.get(this.listDataHeader.get(groupPosition))
-                .get(childPosititon);
+        return this.listDataChild.get(this.listDataHeader.get(groupPosition)).get(childPosititon);
     }
 
     @Override

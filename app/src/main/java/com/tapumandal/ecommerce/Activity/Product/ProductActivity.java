@@ -19,7 +19,9 @@ import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Adapter.ExpandableListAdapter;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.MenuModel;
+import com.tapumandal.ecommerce.Model.MyMenu;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivityProductBinding;
 
 import androidx.annotation.NonNull;
@@ -28,6 +30,8 @@ import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -127,16 +131,13 @@ import java.util.zip.Inflater;
 public class ProductActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ActivityProductBinding binding;
+    ProductControlViewModel viewModel;
 
     ExpandableListAdapter expandableListAdapter;
     List<MenuModel> headerList = new ArrayList<>();
     HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
     ViewPager viewPager;
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//
-//    }
 
     @Override
     protected int getLayoutResourceFile() {
@@ -147,6 +148,7 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
     protected void initComponent() {
         context = this;
         binding = getBinding();
+        viewModel = ViewModelProviders.of(this).get(ProductControlViewModel.class);
         expandableListAdapter = null;
         Toolbar toolbar = findViewById(R.id.toolbar);
 //        setToolbar("Product");
@@ -163,9 +165,31 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         binding.navView.setNavigationItemSelectedListener(this);
 
         ViewPager tmpViewPager = findViewById(R.id.viewPager);
-
-//        setupViewPager(binding.appHeader.findViewById(R.id.viewPager));
         setupViewPager(tmpViewPager);
+
+
+        getMenuList();
+    }
+
+
+    public void getMenuList() {
+
+        viewModel.getMenuList().observe(this, response -> {
+            hideProgressDialog();
+            if (response != null) {
+                if (response.isSuccess() && response.getData() != null) {
+                    ArrayList<MyMenu> list = new ArrayList<MyMenu>();
+
+                    System.out.println("HSHSHSHSHSHSHSHS");
+                    System.out.println(new Gson().toJson(response.getData()));
+                } else {
+                    showFailedToast(response.getMessage());
+                }
+            } else {
+                showFailedToast(getString(R.string.something_went_wrong));
+            }
+
+        });
     }
 
     private void setupViewPager(ViewPager tmp) {

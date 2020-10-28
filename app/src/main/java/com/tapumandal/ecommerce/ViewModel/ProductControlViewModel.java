@@ -30,11 +30,11 @@ public class ProductControlViewModel extends AndroidViewModel {
 
 
 
-    public MutableLiveData<CommonResponseArray> getBankAccount(HashMap<String, String> params) {
+    public MutableLiveData<CommonResponseArray> getMenuList() {
 
         MutableLiveData<CommonResponseArray> liveData = new MutableLiveData<>();
 
-        ApiClient.getApiClient().getMenuList(params).subscribeOn(Schedulers.io())
+        ApiClient.getApiClient().getMenuList().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<CommonResponseArray<MyMenu>>() {
                     @Override

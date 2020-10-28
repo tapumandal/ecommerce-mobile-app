@@ -14,8 +14,8 @@ import retrofit2.http.QueryMap;
 public interface APIInterface {
 
 
-    @GET("menu")
-    Single<CommonResponseArray<MyMenu>> getMenuList(@QueryMap HashMap<String , String > object);
+    @GET("navigation/get")
+    Single<CommonResponseArray<MyMenu>> getMenuList();
 
 
 

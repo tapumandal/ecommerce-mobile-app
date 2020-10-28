@@ -43,7 +43,7 @@ public class ApiClient {
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request().newBuilder()
                         .addHeader("X-Requested-With", "XMLHttpRequest")
-                        .addHeader("accept", "application/json")
+                        .addHeader("Content-Type", "application/json")
                         .addHeader("Accept", "application/json")
                         .addHeader("Authorization", tokenId)
                         .addHeader("appVersion", String.valueOf(versionCode))

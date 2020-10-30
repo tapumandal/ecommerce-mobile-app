@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.tapumandal.ecommerce.Model.MenuModel;
+import com.tapumandal.ecommerce.Model.MyMenu;
+import com.tapumandal.ecommerce.Model.MyMenu;
 import com.tapumandal.ecommerce.R;
 
 import java.util.HashMap;
@@ -22,18 +23,18 @@ import java.util.List;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
-    private List<MenuModel> listDataHeader;
-    private HashMap<MenuModel, List<MenuModel>> listDataChild;
+    private List<MyMenu> listDataHeader;
+    private HashMap<MyMenu, List<MyMenu>> listDataChild;
 
-    public ExpandableListAdapter(Context context, List<MenuModel> listDataHeader,
-                                 HashMap<MenuModel, List<MenuModel>> listChildData) {
+    public ExpandableListAdapter(Context context, List<MyMenu> listDataHeader,
+                                 HashMap<MyMenu, List<MyMenu>> listChildData) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listDataChild = listChildData;
     }
 
     @Override
-    public MenuModel getChild(int groupPosition, int childPosititon) {
+    public MyMenu getChild(int groupPosition, int childPosititon) {
         return this.listDataChild.get(this.listDataHeader.get(groupPosition)).get(childPosititon);
     }
 
@@ -46,7 +47,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = getChild(groupPosition, childPosition).menuName;
+        final String childText = getChild(groupPosition, childPosition).getMenuName();
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
@@ -72,7 +73,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public MenuModel getGroup(int groupPosition) {
+    public MyMenu getGroup(int groupPosition) {
         return this.listDataHeader.get(groupPosition);
     }
 
@@ -90,7 +91,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String headerTitle = getGroup(groupPosition).menuName;
+        String headerTitle = getGroup(groupPosition).getMenuName();
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

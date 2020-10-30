@@ -134,9 +134,10 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
     ProductControlViewModel viewModel;
 
     ExpandableListAdapter expandableListAdapter;
-    List<MenuModel> headerList = new ArrayList<>();
-    HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
+    List<MyMenu> headerList = new ArrayList<>();
+    HashMap<MyMenu, List<MyMenu>> childList = new HashMap<>();
     ViewPager viewPager;
+
 
 
     @Override
@@ -154,8 +155,11 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 //        setToolbar("Product");
 
 //        expandableListView = findViewById(R.id.expandableListView);
-        prepareMenuData();
-        populateExpandableList();
+
+
+        loadMenu();
+
+//        populateExpandableList();
 
 //        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -167,30 +171,8 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         ViewPager tmpViewPager = findViewById(R.id.viewPager);
         setupViewPager(tmpViewPager);
 
-
-        getMenuList();
     }
 
-
-    public void getMenuList() {
-
-        viewModel.getMenuList().observe(this, response -> {
-            hideProgressDialog();
-            if (response != null) {
-                if (response.isSuccess() && response.getData() != null) {
-                    ArrayList<MyMenu> list = new ArrayList<MyMenu>();
-
-                    System.out.println("HSHSHSHSHSHSHSHS");
-                    System.out.println(new Gson().toJson(response.getData()));
-                } else {
-                    showFailedToast(response.getMessage());
-                }
-            } else {
-                showFailedToast(getString(R.string.something_went_wrong));
-            }
-
-        });
-    }
 
     private void setupViewPager(ViewPager tmp) {
         viewPager = tmp;
@@ -256,45 +238,94 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         return true;
     }
 
-    private void prepareMenuData() {
 
-        MenuModel menuModel = new MenuModel("Android WebView Tutorial", true, false, "https://www.journaldev.com/9333/android-webview-example-tutorial"); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
 
-        if (!menuModel.hasChildren) {
-            childList.put(menuModel, null);
+    protected void loadMenu(){
+//        check local data exist or not;
+//        IF FOUDN call populateExpandableList();
+//        If not load from API
+        getMenuListFromLive();
+
+    }
+
+    public ArrayList<MyMenu> getMenuListFromLive() {
+
+        ArrayList<MyMenu> menuList = new ArrayList<>();
+
+        viewModel.getMenuList().observe(this, response -> {
+            hideProgressDialog();
+            if (response != null) {
+                if (response.isSuccess() && response.getData() != null) {
+                    menuList.addAll(response.getData());
+
+                    preparedMenu(menuList);
+                    populateExpandableList();
+                } else {
+                    showFailedToast(response.getMessage());
+                }
+            } else {
+                showFailedToast(getString(R.string.something_went_wrong));
+            }
+
+        });
+
+        return menuList;
+    }
+
+
+    protected void preparedMenu(ArrayList<MyMenu> menus){
+
+        for (MyMenu parent: menus) {
+
+            headerList.add(parent);
+            if(!parent.isHasChildren()){
+                childList.put(parent, null);
+            }else{
+                childList.put(parent, parent.getChild());
+            }
         }
-
-        menuModel = new MenuModel("Java Tutorials", true, true, ""); //Menu of Java Tutorials
-        headerList.add(menuModel);
-        List<MenuModel> childModelsList = new ArrayList<>();
-        MenuModel childModel = new MenuModel("Core Java Tutorial", false, false, "https://www.journaldev.com/7153/core-java-tutorial");
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Java FileInputStream", false, false, "https://www.journaldev.com/19187/java-fileinputstream");
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Java FileReader", false, false, "https://www.journaldev.com/19115/java-filereader");
-        childModelsList.add(childModel);
+    }
 
 
-        if (menuModel.hasChildren) {
-            Log.d("API123","here");
-            childList.put(menuModel, childModelsList);
-        }
+    private void createMenuView() {
 
-        childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("Python Tutorials", true, true, ""); //Menu of Python Tutorials
-        headerList.add(menuModel);
-        childModel = new MenuModel("Python AST – Abstract Syntax Tree", false, false, "https://www.journaldev.com/19243/python-ast-abstract-syntax-tree");
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Python Fractions", false, false, "https://www.journaldev.com/19226/python-fractions");
-        childModelsList.add(childModel);
-
-        if (menuModel.hasChildren) {
-            childList.put(menuModel, childModelsList);
-        }
+//        MenuModel menuModel = new MenuModel("Android WebView Tutorial", true, false, "https://www.journaldev.com/9333/android-webview-example-tutorial"); //Menu of Android Tutorial. No sub menus
+//        headerList.add(menuModel);
+//
+//        if (!menuModel.hasChildren) {
+//            childList.put(menuModel, null);
+//        }
+//
+//        menuModel = new MenuModel("Java Tutorials", true, true, ""); //Menu of Java Tutorials
+//        headerList.add(menuModel);
+//        List<MenuModel> childModelsList = new ArrayList<>();
+//        MenuModel childModel = new MenuModel("Core Java Tutorial", false, false, "https://www.journaldev.com/7153/core-java-tutorial");
+//        childModelsList.add(childModel);
+//
+//        childModel = new MenuModel("Java FileInputStream", false, false, "https://www.journaldev.com/19187/java-fileinputstream");
+//        childModelsList.add(childModel);
+//
+//        childModel = new MenuModel("Java FileReader", false, false, "https://www.journaldev.com/19115/java-filereader");
+//        childModelsList.add(childModel);
+//
+//
+//        if (menuModel.hasChildren) {
+//            Log.d("API123","here");
+//            childList.put(menuModel, childModelsList);
+//        }
+//
+//        childModelsList = new ArrayList<>();
+//        menuModel = new MenuModel("Python Tutorials", true, true, ""); //Menu of Python Tutorials
+//        headerList.add(menuModel);
+//        childModel = new MenuModel("Python AST – Abstract Syntax Tree", false, false, "https://www.journaldev.com/19243/python-ast-abstract-syntax-tree");
+//        childModelsList.add(childModel);
+//
+//        childModel = new MenuModel("Python Fractions", false, false, "https://www.journaldev.com/19226/python-fractions");
+//        childModelsList.add(childModel);
+//
+//        if (menuModel.hasChildren) {
+//            childList.put(menuModel, childModelsList);
+//        }
 
 
     }
@@ -303,7 +334,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 
         System.out.println("SSSSSSSSSSS");
         System.out.println(new Gson().toJson(headerList));
-        System.out.println("==============");
         System.out.println(new Gson().toJson(childList));
 
         expandableListAdapter = new ExpandableListAdapter(this, headerList, childList);
@@ -313,15 +343,13 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
-                if (headerList.get(groupPosition).isGroup) {
-//                    if (!headerList.get(groupPosition).hasChildren) {
-//                        WebView webView = findViewById(R.id.webView);
-//                        webView.loadUrl(headerList.get(groupPosition).url);
-//                        onBackPressed();
-//                    }
+                if (headerList.get(groupPosition).isHasChildren()) {
                     System.out.println("XXXXXXXXXX GROUP BTN CLICKED:"+groupPosition+"-"+id);
                 }
                 System.out.println("XXXXXXXXXX GROUP OUT IF"+groupPosition+"-"+id);
+
+                MyMenu head = headerList.get(groupPosition);
+                System.out.println(new Gson().toJson(head));
                 viewPager.setCurrentItem(2);
                 return false;
             }
@@ -332,14 +360,9 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
                 if (childList.get(headerList.get(groupPosition)) != null) {
-                    MenuModel model = childList.get(headerList.get(groupPosition)).get(childPosition);
-                    if (model.url.length() > 0) {
-//                        WebView webView = findViewById(R.id.webView);
-//                        webView.loadUrl(model.url);
-//                        onBackPressed();
-                        System.out.println("XXXXXXXXXX CHILD BTN CLICKED:"+groupPosition+"-"+childPosition+"-"+id);
-                    }
-                    System.out.println("XXXXXXXXXX CHILD OUT IF");
+                    MyMenu child = childList.get(headerList.get(groupPosition)).get(childPosition);
+                    System.out.println(new Gson().toJson(child));
+                    System.out.println("YYYYYYYYYY CHILD BTN CLICKED:"+groupPosition+"-"+childPosition+"-"+id);
                 }
 
                 return false;

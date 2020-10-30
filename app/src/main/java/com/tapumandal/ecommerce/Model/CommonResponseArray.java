@@ -25,7 +25,7 @@ public class CommonResponseArray<Item> {
     @Expose
     private String total;
 
-    @SerializedName("success")
+    @SerializedName("action")
     @Expose
     private boolean success;
 

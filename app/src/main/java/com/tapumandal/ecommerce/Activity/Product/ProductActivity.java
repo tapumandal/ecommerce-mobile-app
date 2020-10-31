@@ -153,15 +153,7 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         expandableListAdapter = null;
         Toolbar toolbar = findViewById(R.id.toolbar);
 //        setToolbar("Product");
-
-//        expandableListView = findViewById(R.id.expandableListView);
-
-
         loadMenu();
-
-//        populateExpandableList();
-
-//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -175,10 +167,16 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 
 
     private void setupViewPager(ViewPager tmp) {
+        Bundle bundle = new Bundle();
+        bundle.putString("selectedMenu", "");
+
+        ProductListFragment productListFragment = new ProductListFragment();
+        productListFragment.setArguments(bundle);
+
         viewPager = tmp;
         ProductActivity.ViewPagerAdapter adapter = new ProductActivity.ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(productListFragment, "X Product List");
         adapter.addFragment(new ProductCategoryFragment(), "Categories");
-        adapter.addFragment(new ProductListFragment(), "X Product List");
         viewPager.setAdapter(adapter);
 
     }
@@ -186,9 +184,9 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -287,49 +285,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
     }
 
 
-    private void createMenuView() {
-
-//        MenuModel menuModel = new MenuModel("Android WebView Tutorial", true, false, "https://www.journaldev.com/9333/android-webview-example-tutorial"); //Menu of Android Tutorial. No sub menus
-//        headerList.add(menuModel);
-//
-//        if (!menuModel.hasChildren) {
-//            childList.put(menuModel, null);
-//        }
-//
-//        menuModel = new MenuModel("Java Tutorials", true, true, ""); //Menu of Java Tutorials
-//        headerList.add(menuModel);
-//        List<MenuModel> childModelsList = new ArrayList<>();
-//        MenuModel childModel = new MenuModel("Core Java Tutorial", false, false, "https://www.journaldev.com/7153/core-java-tutorial");
-//        childModelsList.add(childModel);
-//
-//        childModel = new MenuModel("Java FileInputStream", false, false, "https://www.journaldev.com/19187/java-fileinputstream");
-//        childModelsList.add(childModel);
-//
-//        childModel = new MenuModel("Java FileReader", false, false, "https://www.journaldev.com/19115/java-filereader");
-//        childModelsList.add(childModel);
-//
-//
-//        if (menuModel.hasChildren) {
-//            Log.d("API123","here");
-//            childList.put(menuModel, childModelsList);
-//        }
-//
-//        childModelsList = new ArrayList<>();
-//        menuModel = new MenuModel("Python Tutorials", true, true, ""); //Menu of Python Tutorials
-//        headerList.add(menuModel);
-//        childModel = new MenuModel("Python AST – Abstract Syntax Tree", false, false, "https://www.journaldev.com/19243/python-ast-abstract-syntax-tree");
-//        childModelsList.add(childModel);
-//
-//        childModel = new MenuModel("Python Fractions", false, false, "https://www.journaldev.com/19226/python-fractions");
-//        childModelsList.add(childModel);
-//
-//        if (menuModel.hasChildren) {
-//            childList.put(menuModel, childModelsList);
-//        }
-
-
-    }
-
     private void populateExpandableList() {
 
         System.out.println("SSSSSSSSSSS");
@@ -343,13 +298,20 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
+
+
                 if (headerList.get(groupPosition).isHasChildren()) {
                     System.out.println("XXXXXXXXXX GROUP BTN CLICKED:"+groupPosition+"-"+id);
+                }else{
+                    if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                        binding.drawerLayout.closeDrawer(GravityCompat.START);
+                    }
                 }
                 System.out.println("XXXXXXXXXX GROUP OUT IF"+groupPosition+"-"+id);
 
                 MyMenu head = headerList.get(groupPosition);
                 System.out.println(new Gson().toJson(head));
+
                 viewPager.setCurrentItem(2);
                 return false;
             }
@@ -359,10 +321,25 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
+
+
                 if (childList.get(headerList.get(groupPosition)) != null) {
+
+                    if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                        binding.drawerLayout.closeDrawer(GravityCompat.START);
+                    }
+
                     MyMenu child = childList.get(headerList.get(groupPosition)).get(childPosition);
+                    System.out.println("CHILD");
                     System.out.println(new Gson().toJson(child));
-                    System.out.println("YYYYYYYYYY CHILD BTN CLICKED:"+groupPosition+"-"+childPosition+"-"+id);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("selectedMenu", child.getMenuName());
+
+                    ProductListFragment productListFragment = new ProductListFragment();
+                    productListFragment.setArguments(bundle);
+
+                    viewPager.setCurrentItem(0);
                 }
 
                 return false;

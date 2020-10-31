@@ -1,7 +1,6 @@
 package com.tapumandal.ecommerce.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
+import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.databinding.ListProductBinding;
@@ -25,14 +24,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private ArrayList<Product> list;
     private Context context;
     private LayoutInflater layoutInflater;
-    String page;
 
 
     public ProductListAdapter(Context context, ArrayList<Product> list) {
 
         this.context = context;
         this.list = list;
-        this.page = page;
         layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -56,6 +53,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         ListProductBinding b = holder.binding;
         Product item = list.get(position);
 
+        System.out.println("ADAPTER");
+        System.out.println(new Gson().toJson(item));
 
         b.productId.setText(item.getId());
         b.productName.setText(item.getName() );

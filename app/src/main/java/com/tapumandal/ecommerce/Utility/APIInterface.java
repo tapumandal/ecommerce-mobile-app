@@ -3,6 +3,7 @@ package com.tapumandal.ecommerce.Utility;
 
 import com.tapumandal.ecommerce.Model.CommonResponseArray;
 import com.tapumandal.ecommerce.Model.MyMenu;
+import com.tapumandal.ecommerce.Model.Product;
 
 import java.util.HashMap;
 
@@ -16,6 +17,9 @@ public interface APIInterface {
 
     @GET("navigation/get")
     Single<CommonResponseArray<MyMenu>> getMenuList();
+
+    @GET("product/list/business/CCCC")
+    Single<CommonResponseArray<Product>> getProductList();
 
 
 

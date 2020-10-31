@@ -2,6 +2,7 @@ package com.tapumandal.ecommerce.Model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * Created by TapuMandal on 10/31/2020.
  * For any query ask online.tapu@gmail.com
  */
-public class Product {
+public class Product implements Serializable {
 
     @SerializedName("id")
     protected int id;

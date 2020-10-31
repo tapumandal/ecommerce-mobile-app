@@ -1,14 +1,19 @@
 package com.tapumandal.ecommerce.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+import com.tapumandal.ecommerce.Activity.Product.ProductDetailsActivity;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.databinding.ListProductBinding;
@@ -56,7 +61,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         System.out.println("ADAPTER");
         System.out.println(new Gson().toJson(item));
 
-        b.productId.setText(item.getId());
+//        b.productId.setText(item.getId());
         b.productName.setText(item.getName() );
         b.productShortDesc.setText(item.getDescription() );
         b.productPrice.setText(item.getSellingPricePerUnit() );
@@ -74,8 +79,32 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
 
 
-//        Picasso.with(context).load(img).placeholder(R.drawable.watermark_icon).into(holder.pro_img);
+        Picasso.LoadedFrom.
+        Picasso.with(context).load(img).placeholder(R.drawable.watermark_icon).into(holder.pro_img);
 
+        b.productName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startProductDetailsActivity(item);
+            }
+        });
+
+        b.productImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startProductDetailsActivity(item);
+            }
+        });
+
+    }
+    
+    private void startProductDetailsActivity(Product product){
+        Toast.makeText(context, "startProductDetailsActivity", Toast.LENGTH_SHORT).show();
+        Intent intent;
+
+        intent = new Intent(context, ProductDetailsActivity.class);
+        intent.putExtra("product", product);
+        context.startActivity(intent);
     }
 
 

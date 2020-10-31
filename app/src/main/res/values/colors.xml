@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#666bae</color>
+    <color name="colorPrimaryRed">#FA5258</color>
     <!--<color name="colorPrimary">#2196f3</color>-->
     <color name="colorPrimaryDark">#515794 </color>
     <!--<color name="colorPrimaryDark">#1d88dc</color>-->
@@ -920,5 +921,7 @@
     <color name="colorButton">#0277bd</color>
     <color name="material">#DA4453</color>
 
-
+    <color name="colordevider">#f1f2f4</color>
+    <color name="colorTex">#585858</color>
+    <color name="colorSub">#b0afaf</color>
 </resources>

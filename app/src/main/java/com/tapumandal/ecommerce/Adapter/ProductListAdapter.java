@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import com.tapumandal.ecommerce.Activity.Product.ProductDetailsActivity;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.URLs;
 import com.tapumandal.ecommerce.databinding.ListProductBinding;
 
 import java.util.ArrayList;
@@ -78,9 +79,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 //        }
 
 
-
-        Picasso.LoadedFrom.
-        Picasso.with(context).load(img).placeholder(R.drawable.watermark_icon).into(holder.pro_img);
+        System.out.println("IMAGE IMAGE IMAGE "+item.getImage());
+        if(item.getImage() != null){
+            String imgUrl  = item.getImage().replace("http://127.0.0.1:8080/api/v1/", "");
+            Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).into(b.productImg);
+        }
 
         b.productName.setOnClickListener(new View.OnClickListener() {
             @Override

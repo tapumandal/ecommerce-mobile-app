@@ -10,6 +10,7 @@ import java.util.HashMap;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 public interface APIInterface {
@@ -18,8 +19,8 @@ public interface APIInterface {
     @GET("navigation/get")
     Single<CommonResponseArray<MyMenu>> getMenuList();
 
-    @GET("product/list/business/CCCC")
-    Single<CommonResponseArray<Product>> getProductList();
+    @GET("product/list/business/{flag}")
+    Single<CommonResponseArray<Product>> getProductList(@Path("flag") String flag);
 
 
 

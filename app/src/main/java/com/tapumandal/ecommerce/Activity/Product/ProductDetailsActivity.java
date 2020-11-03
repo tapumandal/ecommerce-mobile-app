@@ -8,9 +8,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 
+import com.squareup.picasso.Picasso;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.URLs;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivityProductDetailsBinding;
 
@@ -43,6 +45,13 @@ public class ProductDetailsActivity extends BaseActivity {
     }
 
     private void viewPopulate(){
+        System.out.println("IMAGE IMAGE IMAGE "+product.getImage());
+        if(product.getImage() != null){
+            String imgUrl  = product.getImage().replace("http://127.0.0.1:8080/api/v1/", "");
+            imgUrl  = imgUrl.replace("thumbnail.", "");
+            Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).into(binding.apvImage);
+        }
+
         binding.apvTitle.setText(product.getName());
         binding.apvDescription.setText(product.getDescription());
         binding.apvCurrency.setText("BDT");

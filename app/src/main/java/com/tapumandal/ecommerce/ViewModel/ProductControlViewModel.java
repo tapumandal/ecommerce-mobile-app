@@ -57,11 +57,11 @@ public class ProductControlViewModel extends AndroidViewModel {
     }
 
 
-    public MutableLiveData<CommonResponseArray> getProductList() {
+    public MutableLiveData<CommonResponseArray> getProductList(String flag) {
 
         MutableLiveData<CommonResponseArray> liveData = new MutableLiveData<>();
 
-        ApiClient.getApiClient().getProductList().subscribeOn(Schedulers.io())
+        ApiClient.getApiClient().getProductList(flag).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<CommonResponseArray<Product>>() {
                     @Override

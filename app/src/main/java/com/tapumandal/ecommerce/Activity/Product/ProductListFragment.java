@@ -95,8 +95,11 @@ public class ProductListFragment extends BaseFragment {
         HashMap<String, String> params = new HashMap<>();
         params.put("page", page);
 
+        if(selectedMenu.isEmpty()) {
+            selectedMenu = " ";
+        }
         //        showProgressDialog("Signing Up..");
-        viewModel.getProductList().observe(this, response -> {
+        viewModel.getProductList(selectedMenu).observe(this, response -> {
             //            hideProgressDialog();
 //            stopShimmer();
             if (response != null) {

@@ -30,6 +30,7 @@ import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
@@ -176,7 +177,7 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         viewPager = tmp;
         ProductActivity.ViewPagerAdapter adapter = new ProductActivity.ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(productListFragment, "X Product List");
-        adapter.addFragment(new ProductCategoryFragment(), "Categories");
+//        adapter.addFragment(new ProductCategoryFragment(), "Categories");
         viewPager.setAdapter(adapter);
 
     }
@@ -301,18 +302,26 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 
 
                 if (headerList.get(groupPosition).isHasChildren()) {
-                    System.out.println("XXXXXXXXXX GROUP BTN CLICKED:"+groupPosition+"-"+id);
+//                    System.out.println("XXXXXXXXXX GROUP BTN CLICKED:"+groupPosition+"-"+id);
                 }else{
                     if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                         binding.drawerLayout.closeDrawer(GravityCompat.START);
                     }
+                    MyMenu head = headerList.get(groupPosition);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("selectedMenu", head.getMenuName());
+                    ProductListFragment productListFragment = new ProductListFragment();
+                    productListFragment.setArguments(bundle);
+
+                    ProductActivity.ViewPagerAdapter adapter = new ProductActivity.ViewPagerAdapter(getSupportFragmentManager());
+                    adapter.addFragment(productListFragment, "X Product List");
+                    viewPager.setAdapter(adapter);
                 }
-                System.out.println("XXXXXXXXXX GROUP OUT IF"+groupPosition+"-"+id);
+//                System.out.println("XXXXXXXXXX GROUP OUT IF"+groupPosition+"-"+id);
 
-                MyMenu head = headerList.get(groupPosition);
-                System.out.println(new Gson().toJson(head));
 
-                viewPager.setCurrentItem(2);
+
                 return false;
             }
         });
@@ -330,16 +339,15 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
                     }
 
                     MyMenu child = childList.get(headerList.get(groupPosition)).get(childPosition);
-                    System.out.println("CHILD");
-                    System.out.println(new Gson().toJson(child));
 
                     Bundle bundle = new Bundle();
                     bundle.putString("selectedMenu", child.getMenuName());
-
                     ProductListFragment productListFragment = new ProductListFragment();
                     productListFragment.setArguments(bundle);
 
-                    viewPager.setCurrentItem(0);
+                    ProductActivity.ViewPagerAdapter adapter = new ProductActivity.ViewPagerAdapter(getSupportFragmentManager());
+                    adapter.addFragment(productListFragment, "X Product List");
+                    viewPager.setAdapter(adapter);
                 }
 
                 return false;

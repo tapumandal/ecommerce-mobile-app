@@ -35,22 +35,25 @@ public class Product implements Serializable {
     private String description;
 
     @SerializedName("sellingPricePerUnit")
-    private String sellingPricePerUnit;
+    private int sellingPricePerUnit;
 
     @SerializedName("discountPrice")
-    private String discountPrice;
+    private int discountPrice;
 
     @SerializedName("discountTitle")
     private String discountTitle;
 
     @SerializedName("unit")
-    private String unit;
+    private float unit;
 
     @SerializedName("unitTitle")
     private String unitTitle;
 
     @SerializedName("quantity")
-    private String quantity;
+    private int quantity;
+
+    @SerializedName("order_quantity")
+    private int orderQuantity = 0;
 
 
     @SerializedName("is_active")
@@ -126,19 +129,19 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public String getSellingPricePerUnit() {
+    public int getSellingPricePerUnit() {
         return sellingPricePerUnit;
     }
 
-    public void setSellingPricePerUnit(String sellingPricePerUnit) {
+    public void setSellingPricePerUnit(int sellingPricePerUnit) {
         this.sellingPricePerUnit = sellingPricePerUnit;
     }
 
-    public String getDiscountPrice() {
+    public int getDiscountPrice() {
         return discountPrice;
     }
 
-    public void setDiscountPrice(String discountPrice) {
+    public void setDiscountPrice(int discountPrice) {
         this.discountPrice = discountPrice;
     }
 
@@ -150,11 +153,11 @@ public class Product implements Serializable {
         this.discountTitle = discountTitle;
     }
 
-    public String getUnit() {
+    public float getUnit() {
         return unit;
     }
 
-    public void setUnit(String unit) {
+    public void setUnit(float unit) {
         this.unit = unit;
     }
 
@@ -166,12 +169,20 @@ public class Product implements Serializable {
         this.unitTitle = unitTitle;
     }
 
-    public String getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getOrderQuantity() {
+        return orderQuantity;
+    }
+
+    public void setOrderQuantity(int orderQuantity) {
+        this.orderQuantity = orderQuantity;
     }
 
     public boolean isActive() {

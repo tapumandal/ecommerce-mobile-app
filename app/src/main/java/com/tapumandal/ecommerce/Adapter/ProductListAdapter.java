@@ -31,7 +31,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private Context context;
     private LayoutInflater layoutInflater;
 
-
     public ProductListAdapter(Context context, ArrayList<Product> list) {
 
         this.context = context;
@@ -65,13 +64,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 //        b.productId.setText(item.getId());
         b.productName.setText(item.getName() );
         b.productShortDesc.setText(item.getDescription() );
-        b.productPrice.setText(item.getSellingPricePerUnit() );
-        b.sellingPrice.setText(item.getDiscountPrice() );
+        b.productPrice.setText(String.valueOf(item.getSellingPricePerUnit()));
+        b.sellingPrice.setText(String.valueOf(item.getDiscountPrice()));
         b.brandName.setText(item.getCompany() );
-        b.discount.setText(item.getDiscountPrice()  + " %   OFF");
-        b.productQty.setText(item.getQuantity() );
+        b.discount.setText(String.valueOf(item.getDiscountPrice())  + " %   OFF");
+        b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
 
-        if (Integer.parseInt(item.getDiscountPrice() ) <= 0) {
+        if (item.getDiscountPrice() <= 0) {
             b.discount.setVisibility(View.GONE);
         }
 //        if(selling_price.trim().equals(price.trim())){
@@ -91,11 +90,41 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 startProductDetailsActivity(item);
             }
         });
-
         b.productImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startProductDetailsActivity(item);
+            }
+        });
+
+
+        b.add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Product Added"+list.get(position).getId(), Toast.LENGTH_SHORT).show();
+                int currentQuantity = Integer.parseInt(b.orderQuantity.getText().toString());
+                if(currentQuantity<list.get(position).getQuantity()){
+                    currentQuantity++;
+                    list.get(position).setOrderQuantity(currentQuantity);
+                    b.orderQuantity.setText(String.valueOf(list.get(position).getOrderQuantity()));
+                }else{
+                    Toast.makeText(context, "Maximum quantity reached!", Toast.LENGTH_SHORT).show();
+                }
+                System.out.println(currentQuantity+" -- "+String.valueOf(list.get(position).getOrderQuantity()));
+            }
+        });
+
+        b.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Product Removed "+list.get(position).getId(), Toast.LENGTH_SHORT).show();
+                int currentQuantity = Integer.parseInt(b.orderQuantity.getText().toString());
+                if(currentQuantity>0){
+                    currentQuantity--;
+                    list.get(position).setOrderQuantity(currentQuantity);
+                    b.orderQuantity.setText(String.valueOf(list.get(position).getOrderQuantity()));
+                }
+                System.out.println(currentQuantity+" -- "+String.valueOf(list.get(position).getOrderQuantity()));
             }
         });
 
@@ -110,7 +139,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         context.startActivity(intent);
     }
 
-
     @Override
     public int getItemCount() {
         return list.size();
@@ -121,7 +149,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         return position;
     }
 
-
     class ViewFilesHolder extends RecyclerView.ViewHolder {
 
         private final ListProductBinding binding;
@@ -131,6 +158,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             this.binding = itemBinding;
         }
     }
+
 
 
 }

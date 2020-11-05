@@ -12,14 +12,18 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 import com.tapumandal.ecommerce.Activity.Product.ProductDetailsActivity;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.Utility.URLs;
 import com.tapumandal.ecommerce.databinding.ListProductBinding;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by TapuMandal on 10/31/2020.
@@ -27,20 +31,22 @@ import java.util.ArrayList;
  */
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewFilesHolder> {
 
-    private ArrayList<Product> list;
+    private List<Product> products;
+    private List<Product> myProducts;
     private Context context;
     private LayoutInflater layoutInflater;
 
-    public ProductListAdapter(Context context, ArrayList<Product> list) {
+    public ProductListAdapter(Context context, ArrayList<Product> products) {
 
         this.context = context;
-        this.list = list;
+        this.products = products;
+        this.myProducts = new ArrayList<Product>();
         layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setData(ArrayList<Product> list) {
-        this.list = list;
+    public void setData(ArrayList<Product> products) {
+        this.products = products;
         notifyDataSetChanged();
     }
 
@@ -56,7 +62,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(final ProductListAdapter.ViewFilesHolder holder, int position) {
         ListProductBinding b = holder.binding;
-        Product item = list.get(position);
+        Product item = products.get(position);
+
+        Type type = (new TypeToken<List<Product>>() {}).getType();
+        myProducts = (List<Product>) new Gson().fromJson(MySharedPreference.getString(MySharedPreference.Key.MY_CART), type);
+
+        for(int i=0; i<myProducts.size(); i++){
+            System.out.println(myProducts.get(i).getId());
+            if(myProducts.get(i).getId() == item.getId()){
+                item = (Product) myProducts.get(i);
+                break;
+            }
+        }
 
         System.out.println("ADAPTER");
         System.out.println(new Gson().toJson(item));
@@ -73,9 +90,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         if (item.getDiscountPrice() <= 0) {
             b.discount.setVisibility(View.GONE);
         }
-//        if(selling_price.trim().equals(price.trim())){
-//            holder.pro_price.setVisibility(View.GONE);
-//        }
 
 
         System.out.println("IMAGE IMAGE IMAGE "+item.getImage());
@@ -84,47 +98,70 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).into(b.productImg);
         }
 
+        Product finalItem = item;
         b.productName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startProductDetailsActivity(item);
+                startProductDetailsActivity(finalItem);
             }
         });
         b.productImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startProductDetailsActivity(item);
+                startProductDetailsActivity(finalItem);
             }
         });
 
+        Product product = products.get(position);
 
         b.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Product Added"+list.get(position).getId(), Toast.LENGTH_SHORT).show();
+
                 int currentQuantity = Integer.parseInt(b.orderQuantity.getText().toString());
-                if(currentQuantity<list.get(position).getQuantity()){
+                if(currentQuantity<product.getQuantity()){
                     currentQuantity++;
-                    list.get(position).setOrderQuantity(currentQuantity);
-                    b.orderQuantity.setText(String.valueOf(list.get(position).getOrderQuantity()));
+                    product.setOrderQuantity(currentQuantity);
+                    b.orderQuantity.setText(String.valueOf(product.getOrderQuantity()));
+
+                    for(int i=0; i<myProducts.size(); i++){
+                        if(myProducts.get(i).getId() == product.getId()){
+                            myProducts.get(i).setOrderQuantity(product.getOrderQuantity());
+                        }else {
+                            myProducts.add(product);
+                        }
+                    }
+                    if(myProducts.size()<1){
+                        myProducts.add(product);
+                    }
                 }else{
                     Toast.makeText(context, "Maximum quantity reached!", Toast.LENGTH_SHORT).show();
                 }
-                System.out.println(currentQuantity+" -- "+String.valueOf(list.get(position).getOrderQuantity()));
+                System.out.println(new Gson().toJson(myProducts));
+
+                MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myProducts));
             }
         });
 
         b.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Product Removed "+list.get(position).getId(), Toast.LENGTH_SHORT).show();
                 int currentQuantity = Integer.parseInt(b.orderQuantity.getText().toString());
                 if(currentQuantity>0){
                     currentQuantity--;
-                    list.get(position).setOrderQuantity(currentQuantity);
-                    b.orderQuantity.setText(String.valueOf(list.get(position).getOrderQuantity()));
+                    product.setOrderQuantity(currentQuantity);
+                    b.orderQuantity.setText(String.valueOf(product.getOrderQuantity()));
+
+                    for(int i=0; i<myProducts.size(); i++){
+                        if(myProducts.get(i).getId() == product.getId()){
+                            myProducts.get(i).setOrderQuantity(product.getOrderQuantity());
+                        }else {
+                            myProducts.add(product);
+                        }
+                    }
                 }
-                System.out.println(currentQuantity+" -- "+String.valueOf(list.get(position).getOrderQuantity()));
+                System.out.println(new Gson().toJson(myProducts));
+                MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myProducts));
             }
         });
 
@@ -141,7 +178,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return products.size();
     }
 
     @Override

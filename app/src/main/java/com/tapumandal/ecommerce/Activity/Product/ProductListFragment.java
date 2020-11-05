@@ -56,6 +56,19 @@ public class ProductListFragment extends BaseFragment {
         Toast.makeText(getContext(), selectedMenu, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("On Resume On Resume On Resume On Resume On Resume On Resume ");
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        System.out.println("On Pause On Pause On Pause On Pause On Pause On Pause On Pause ");
+    }
+
     private void initRecycleView() {
 
         product = new ArrayList<Product>();

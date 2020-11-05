@@ -216,7 +216,7 @@ public class MySharedPreference {
      * Enum representing your setting names or key for your setting.
      */
     public enum Key {
-        USER_ID, USER_TOKEN, IS_LOGIN, USER_PHONE_NUMBER,USER_NAME, IS_LIVE, IS_NEW_UPDATE, APP_UPDATE_SUPPRESED_VERSION, APP_OPEN_COUNT
+        USER_ID, USER_TOKEN, IS_LOGIN, USER_PHONE_NUMBER,USER_NAME, IS_LIVE, IS_NEW_UPDATE, APP_UPDATE_SUPPRESED_VERSION, APP_OPEN_COUNT, MY_CART
     }
 
     public static String getUserId( ){

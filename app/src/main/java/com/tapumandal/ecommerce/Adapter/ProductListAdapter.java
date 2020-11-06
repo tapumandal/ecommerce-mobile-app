@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 import com.tapumandal.ecommerce.Activity.Product.ProductDetailsActivity;
+import com.tapumandal.ecommerce.Model.CartProduct;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
@@ -32,7 +33,7 @@ import java.util.List;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewFilesHolder> {
 
     private List<Product> products;
-    private List<Product> myProducts;
+    private List<CartProduct> myProducts;
     private Context context;
     private LayoutInflater layoutInflater;
 
@@ -40,7 +41,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         this.context = context;
         this.products = products;
-        this.myProducts = new ArrayList<Product>();
+        this.myProducts = new ArrayList<CartProduct>();
         layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -64,13 +65,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         ListProductBinding b = holder.binding;
         Product item = products.get(position);
 
-        Type type = (new TypeToken<List<Product>>() {}).getType();
-        myProducts = (List<Product>) new Gson().fromJson(MySharedPreference.getString(MySharedPreference.Key.MY_CART), type);
+        Type type = (new TypeToken<List<CartProduct>>() {}).getType();
+        myProducts = (List<CartProduct>) new Gson().fromJson(MySharedPreference.getString(MySharedPreference.Key.MY_CART), type);
+        if(myProducts == null){
+            System.out.println("myProducts IS NULL");
+            myProducts = new ArrayList<CartProduct>();
+        }
 
         for(int i=0; i<myProducts.size(); i++){
             System.out.println(myProducts.get(i).getId());
             if(myProducts.get(i).getId() == item.getId()){
-                item = (Product) myProducts.get(i);
+                item.setOrderQuantity(myProducts.get(i).getOrderQuantity());
                 break;
             }
         }
@@ -91,8 +96,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             b.discount.setVisibility(View.GONE);
         }
 
-
-        System.out.println("IMAGE IMAGE IMAGE "+item.getImage());
         if(item.getImage() != null){
             String imgUrl  = item.getImage().replace("http://127.0.0.1:8080/api/v1/", "");
             Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).into(b.productImg);
@@ -112,33 +115,40 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             }
         });
 
-        Product product = products.get(position);
+
+
 
         b.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                int currentQuantity = Integer.parseInt(b.orderQuantity.getText().toString());
-                if(currentQuantity<product.getQuantity()){
-                    currentQuantity++;
-                    product.setOrderQuantity(currentQuantity);
-                    b.orderQuantity.setText(String.valueOf(product.getOrderQuantity()));
+                if(myProducts.isEmpty()){
+                    System.out.println("myProducts IS EMPTY");
+                    myProducts.add(new CartProduct(item));
+                }
 
-                    for(int i=0; i<myProducts.size(); i++){
-                        if(myProducts.get(i).getId() == product.getId()){
-                            myProducts.get(i).setOrderQuantity(product.getOrderQuantity());
-                        }else {
-                            myProducts.add(product);
+                int currentQuantity = Integer.parseInt(b.orderQuantity.getText().toString());
+                if(currentQuantity<item.getMaximumOrderQuantity()){
+                    currentQuantity++;
+                    item.setOrderQuantity(currentQuantity);
+                    b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
+
+                    boolean matched = false;
+                    for (int i = 0; i < myProducts.size(); i++) {
+                        if (myProducts.get(i).getId() == item.getId()) {
+                            System.out.println("MATCHED "+myProducts.get(i).getId() +"=="+ item.getId());
+                            myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
+                            matched = true;
                         }
                     }
-                    if(myProducts.size()<1){
-                        myProducts.add(product);
+                    if(!matched){
+                        System.out.println("NOT MATCHED");
+                        myProducts.add(new CartProduct(item));
                     }
                 }else{
                     Toast.makeText(context, "Maximum quantity reached!", Toast.LENGTH_SHORT).show();
                 }
                 System.out.println(new Gson().toJson(myProducts));
-
                 MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myProducts));
             }
         });
@@ -149,18 +159,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 int currentQuantity = Integer.parseInt(b.orderQuantity.getText().toString());
                 if(currentQuantity>0){
                     currentQuantity--;
-                    product.setOrderQuantity(currentQuantity);
-                    b.orderQuantity.setText(String.valueOf(product.getOrderQuantity()));
+                    item.setOrderQuantity(currentQuantity);
+                    b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
 
-                    for(int i=0; i<myProducts.size(); i++){
-                        if(myProducts.get(i).getId() == product.getId()){
-                            myProducts.get(i).setOrderQuantity(product.getOrderQuantity());
-                        }else {
-                            myProducts.add(product);
+                    for (int i = 0; i < myProducts.size(); i++) {
+                        if (myProducts.get(i).getId() == item.getId()) {
+                            myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
                         }
                     }
                 }
-                System.out.println(new Gson().toJson(myProducts));
                 MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myProducts));
             }
         });

@@ -14,11 +14,14 @@ public class CartProduct implements Serializable {
     @SerializedName("id")
     protected int id;
 
+    @SerializedName("product_id")
+    private int productId;
+
     @SerializedName("order_quantity")
     private int orderQuantity = 0;
 
     public CartProduct(Product item) {
-        this.id = item.getId();
+        this.productId = item.getId();
         this.orderQuantity = item.getOrderQuantity();
     }
 
@@ -28,6 +31,14 @@ public class CartProduct implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public int getOrderQuantity() {

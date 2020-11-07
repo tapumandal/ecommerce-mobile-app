@@ -30,7 +30,7 @@ public class Cart implements Serializable {
     protected int totalPayable;
 
     @SerializedName("productList")
-    protected List<Product> productList;
+    protected List<CartProduct> cartProducts;
 
 
     public int getId() {
@@ -81,11 +81,11 @@ public class Cart implements Serializable {
         this.totalPayable = totalPayable;
     }
 
-    public List<Product> getProductList() {
-        return productList;
+    public List<CartProduct> getCartProducts() {
+        return cartProducts;
     }
 
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
+    public void setCartProducts(List<CartProduct> cartProducts) {
+        this.cartProducts = cartProducts;
     }
 }

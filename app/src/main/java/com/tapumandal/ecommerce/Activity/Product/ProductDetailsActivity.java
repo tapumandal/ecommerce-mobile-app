@@ -62,7 +62,7 @@ public class ProductDetailsActivity extends BaseActivity {
         }
 
         for(int i=0; i<myProducts.size(); i++){
-            if(myProducts.get(i).getId() == item.getId()){
+            if(myProducts.get(i).getProductId() == item.getId()){
                 item.setOrderQuantity(myProducts.get(i).getOrderQuantity());
                 break;
             }
@@ -93,8 +93,8 @@ public class ProductDetailsActivity extends BaseActivity {
 
                     boolean matched = false;
                     for (int i = 0; i < myProducts.size(); i++) {
-                        if (myProducts.get(i).getId() == item.getId()) {
-                            System.out.println("MATCHED "+myProducts.get(i).getId() +"=="+ item.getId());
+                        if (myProducts.get(i).getProductId() == item.getId()) {
+                            System.out.println("MATCHED "+myProducts.get(i).getProductId() +"=="+ item.getId());
                             myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
                             matched = true;
                         }
@@ -121,7 +121,7 @@ public class ProductDetailsActivity extends BaseActivity {
                     b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
 
                     for (int i = 0; i < myProducts.size(); i++) {
-                        if (myProducts.get(i).getId() == item.getId()) {
+                        if (myProducts.get(i).getProductId() == item.getId()) {
                             myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
                         }
                     }

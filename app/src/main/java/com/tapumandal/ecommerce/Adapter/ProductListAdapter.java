@@ -74,7 +74,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         for(int i=0; i<myProducts.size(); i++){
             System.out.println(myProducts.get(i).getId());
-            if(myProducts.get(i).getId() == item.getId()){
+            if(myProducts.get(i).getProductId() == item.getId()){
                 item.setOrderQuantity(myProducts.get(i).getOrderQuantity());
                 break;
             }
@@ -135,8 +135,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
                     boolean matched = false;
                     for (int i = 0; i < myProducts.size(); i++) {
-                        if (myProducts.get(i).getId() == item.getId()) {
-                            System.out.println("MATCHED "+myProducts.get(i).getId() +"=="+ item.getId());
+                        if (myProducts.get(i).getProductId() == item.getId()) {
+                            System.out.println("MATCHED "+myProducts.get(i).getProductId() +"=="+ item.getId());
                             myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
                             matched = true;
                         }
@@ -163,7 +163,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
 
                     for (int i = 0; i < myProducts.size(); i++) {
-                        if (myProducts.get(i).getId() == item.getId()) {
+                        if (myProducts.get(i).getProductId() == item.getId()) {
                             myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
                         }
                     }

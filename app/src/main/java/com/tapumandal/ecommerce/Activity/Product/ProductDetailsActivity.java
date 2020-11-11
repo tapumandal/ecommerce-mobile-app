@@ -1,5 +1,6 @@
 package com.tapumandal.ecommerce.Activity.Product;
 
+import android.util.Log;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -38,6 +39,7 @@ public class ProductDetailsActivity extends BaseActivity {
 
     Product item;
     List<CartProduct> myProducts;
+    private Cart myCart;
 
     @Override
     protected int getLayoutResourceFile() {
@@ -54,8 +56,12 @@ public class ProductDetailsActivity extends BaseActivity {
         myProducts = new  ArrayList<CartProduct>();
 
         item = (Product) getIntent().getSerializableExtra("product");
-        Type type = (new TypeToken<List<CartProduct>>() {}).getType();
-        myProducts = (List<CartProduct>) new Gson().fromJson(MySharedPreference.getString(MySharedPreference.Key.MY_CART), type);
+
+        Type type = (new TypeToken<Cart>() {}).getType();
+        myCart = (Cart) new Gson().fromJson(MySharedPreference.getString(MySharedPreference.Key.MY_CART), type);
+        if(myCart != null) {
+            myProducts = myCart.getCartProducts();
+        }
 
         if(myProducts == null){
             myProducts = new ArrayList<CartProduct>();
@@ -106,8 +112,9 @@ public class ProductDetailsActivity extends BaseActivity {
                 }else{
                     Toast.makeText(context, "Maximum quantity reached!", Toast.LENGTH_SHORT).show();
                 }
-                System.out.println(new Gson().toJson(myProducts));
-                MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myProducts));
+                myCart.setCartProducts(myProducts);
+                Log.d("STATUS", new Gson().toJson(myCart));
+                MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myCart));
             }
         });
 
@@ -126,7 +133,9 @@ public class ProductDetailsActivity extends BaseActivity {
                         }
                     }
                 }
-                MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myProducts));
+                myCart.setCartProducts(myProducts);
+                Log.d("STATUS", new Gson().toJson(myCart));
+                MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myCart));
             }
         });
     }

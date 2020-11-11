@@ -8,12 +8,6 @@
         android:orientation="vertical"
         tools:context=".Activity.Product.ProductActivity">
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Product List Fragment"/>
-
 <!--        <include-->
 <!--            android:id="@+id/loading"-->
 <!--            layout="@layout/loading_shimmer_layout" />-->

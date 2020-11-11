@@ -18,9 +18,11 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Adapter.ExpandableListAdapter;
 import com.tapumandal.ecommerce.Base.BaseActivity;
+import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.MenuModel;
 import com.tapumandal.ecommerce.Model.MyMenu;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivityProductBinding;
 
@@ -61,7 +63,7 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
     List<MyMenu> headerList = new ArrayList<>();
     HashMap<MyMenu, List<MyMenu>> childList = new HashMap<>();
     ViewPager viewPager;
-
+    Toolbar toolbar;
 
 
     @Override
@@ -75,9 +77,10 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         binding = getBinding();
         viewModel = ViewModelProviders.of(this).get(ProductControlViewModel.class);
         expandableListAdapter = null;
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Product Title");
-//        setToolbar("Product");
+        toolbar = findViewById(R.id.toolbar);
+
+        toolbar.setTitle("Product List XX");
+
         loadMenu();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
@@ -88,6 +91,24 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         ViewPager tmpViewPager = findViewById(R.id.viewPager);
         setupViewPager(tmpViewPager);
 
+        getAppActions();
+
+    }
+
+    private void getAppActions() {
+
+//        get app action from api.
+//        what I mean by app action is like Discount Conditions, Important announcement, Banners If have any....etc
+
+        setCartAction();
+
+    }
+
+    private void setCartAction() {
+        Cart cart = new Cart();
+        cart.setDiscountType("ProductDiscount");
+        cart.setDeliveryCharge(30);
+        MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(cart));
     }
 
 
@@ -162,7 +183,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
     }
 
 
-
     protected void loadMenu(){
 //        check local data exist or not;
 //        IF FOUDN call populateExpandableList();
@@ -226,12 +246,13 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 
 
                 if (headerList.get(groupPosition).isHasChildren()) {
-//                    System.out.println("XXXXXXXXXX GROUP BTN CLICKED:"+groupPosition+"-"+id);
+                    Log.d("STATUS", "HAS Child: "+new Gson().toJson(headerList.get(groupPosition)));
                 }else{
                     if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                         binding.drawerLayout.closeDrawer(GravityCompat.START);
                     }
                     MyMenu head = headerList.get(groupPosition);
+                    toolbar.setTitle(head.getMenuName());
 
                     Bundle bundle = new Bundle();
                     bundle.putString("selectedMenu", head.getMenuName());
@@ -242,10 +263,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
                     adapter.addFragment(productListFragment, "X Product List");
                     viewPager.setAdapter(adapter);
                 }
-//                System.out.println("XXXXXXXXXX GROUP OUT IF"+groupPosition+"-"+id);
-
-
-
                 return false;
             }
         });
@@ -263,6 +280,7 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
                     }
 
                     MyMenu child = childList.get(headerList.get(groupPosition)).get(childPosition);
+                    toolbar.setTitle(child.getMenuName());
 
                     Bundle bundle = new Bundle();
                     bundle.putString("selectedMenu", child.getMenuName());

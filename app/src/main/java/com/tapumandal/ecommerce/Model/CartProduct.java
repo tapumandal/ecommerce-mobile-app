@@ -14,10 +14,10 @@ public class CartProduct implements Serializable {
     @SerializedName("id")
     protected int id;
 
-    @SerializedName("product_id")
+    @SerializedName("productId")
     private int productId;
 
-    @SerializedName("order_quantity")
+    @SerializedName("orderQuantity")
     private int orderQuantity = 0;
 
     public CartProduct(Product item) {

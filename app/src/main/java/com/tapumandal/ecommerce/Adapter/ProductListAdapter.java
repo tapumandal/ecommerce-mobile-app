@@ -115,12 +115,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 startProductDetailsActivity(finalItem);
             }
         });
-//        b.productImg.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startProductDetailsActivity(finalItem);
-//            }
-//        });
 
 
         b.add.setOnClickListener(new View.OnClickListener() {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".Activity.Product.ProductActivity">
+
+        <!--        <include-->
+        <!--            android:id="@+id/loading"-->
+        <!--            layout="@layout/loading_shimmer_layout" />-->
+
+        <!--        <include-->
+        <!--            android:id="@+id/noItem"-->
+        <!--            layout="@layout/no_item_layout" />-->
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="@dimen/_10ssdp"
+                android:paddingBottom="@dimen/_20ssp" />
+
+
+    </LinearLayout>
+</layout>

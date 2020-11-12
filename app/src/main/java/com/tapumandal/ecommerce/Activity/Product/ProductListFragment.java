@@ -34,7 +34,7 @@ public class ProductListFragment extends BaseFragment {
 
     FragmentProductListBinding b;
     ProductListAdapter adapter;
-    ArrayList<Product> product;
+    List<Product> product;
     ProductControlViewModel viewModel;
 
     Context context;

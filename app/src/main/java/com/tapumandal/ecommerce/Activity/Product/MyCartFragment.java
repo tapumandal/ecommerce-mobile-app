@@ -11,28 +11,33 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tapumandal.ecommerce.Adapter.ProductListAdapter;
 import com.tapumandal.ecommerce.Base.BaseFragment;
+import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.FragmentMyCartBinding;
 import com.tapumandal.ecommerce.databinding.FragmentProductListBinding;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class MyCartFragment extends BaseFragment {
 
     FragmentMyCartBinding b;
     ProductListAdapter adapter;
-    ArrayList<Product> product;
     ProductControlViewModel viewModel;
 
     Context context;
-    String selectedMenu;
 
+    private Cart myCart;
+    private List<Product> myProducts;
 
     @Override
     protected Integer layoutResourceId() {
@@ -62,14 +67,14 @@ public class MyCartFragment extends BaseFragment {
 
     private void initRecycleView() {
 
-        product = new ArrayList<Product>();
+        myProducts = new ArrayList<Product>();
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         b.recycleView.setLayoutManager(mLayoutManager);
         b.recycleView.setItemAnimator(new DefaultItemAnimator());
         b.recycleView.setHasFixedSize(true);
 
-        adapter = new ProductListAdapter(context , product);
+        adapter = new ProductListAdapter(context , myProducts);
         b.recycleView.setAdapter(adapter);
 
         getData();
@@ -77,6 +82,16 @@ public class MyCartFragment extends BaseFragment {
 
 
     public void getData() {
+
+
+        Type type = (new TypeToken<Cart>() {}).getType();
+        myCart = (Cart) new Gson().fromJson(MySharedPreference.getString(MySharedPreference.Key.MY_CART), type);
+        if(myCart != null) {
+            myProducts = myCart.getProducts();
+
+            adapter.setData(myProducts);
+            adapter.notifyDataSetChanged();
+        }
 
     }
 }

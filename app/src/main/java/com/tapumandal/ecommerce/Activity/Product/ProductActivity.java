@@ -18,9 +18,11 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Adapter.ExpandableListAdapter;
 import com.tapumandal.ecommerce.Base.BaseActivity;
+import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.MenuModel;
 import com.tapumandal.ecommerce.Model.MyMenu;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivityProductBinding;
 
@@ -61,8 +63,8 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
     List<MyMenu> headerList = new ArrayList<>();
     HashMap<MyMenu, List<MyMenu>> childList = new HashMap<>();
     ViewPager viewPager;
-
-
+    Toolbar toolbar;
+    Fragment fragment;
 
     @Override
     protected int getLayoutResourceFile() {
@@ -75,9 +77,10 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         binding = getBinding();
         viewModel = ViewModelProviders.of(this).get(ProductControlViewModel.class);
         expandableListAdapter = null;
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Product Title");
-//        setToolbar("Product");
+        toolbar = findViewById(R.id.toolbar);
+
+        toolbar.setTitle("Products");
+
         loadMenu();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
@@ -85,28 +88,42 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 
         binding.navView.setNavigationItemSelectedListener(this);
 
-        ViewPager tmpViewPager = findViewById(R.id.viewPager);
-        setupViewPager(tmpViewPager);
-
-    }
-
-
-    private void setupViewPager(ViewPager tmp) {
+        fragment = new ProductListFragment();
         Bundle bundle = new Bundle();
         bundle.putString("selectedMenu", "");
+        fragment.setArguments(bundle);
 
-        ProductListFragment productListFragment = new ProductListFragment();
-        productListFragment.setArguments(bundle);
+        addFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG");
 
-        viewPager = tmp;
-        ProductActivity.ViewPagerAdapter adapter = new ProductActivity.ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(productListFragment, "X Product List");
-//        adapter.addFragment(new ProductCategoryFragment(), "Categories");
-        viewPager.setAdapter(adapter);
+        getAppActions();
 
+        clickEvent();
     }
 
+    private void clickEvent() {
+        FloatingActionButton btnCart = findViewById(R.id.btnCart);
+        btnCart.setOnClickListener(v->{
+            Toast.makeText(context, "Cart BTN Clicked", Toast.LENGTH_SHORT).show();
+            toolbar.setTitle("My Cart");
+            fragment = new MyCartFragment();
+            replaceFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG", null);
+        });
+    }
 
+    private void getAppActions() {
+
+//        get app action from api.
+//        what I mean by app action is like Discount Conditions, Important announcement, Banners If have any....etc
+
+        setCartAction();
+
+    }
+    private void setCartAction() {
+        Cart cart = new Cart();
+        cart.setDiscountType("ProductDiscount");
+        cart.setDeliveryCharge(30);
+        MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(cart));
+    }
     @Override
     public void onBackPressed() {
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -116,14 +133,12 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
             super.onBackPressed();
         }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.product, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -138,7 +153,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 
         return super.onOptionsItemSelected(item);
     }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -160,9 +174,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-
     protected void loadMenu(){
 //        check local data exist or not;
 //        IF FOUDN call populateExpandableList();
@@ -170,7 +181,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         getMenuListFromLive();
 
     }
-
     public ArrayList<MyMenu> getMenuListFromLive() {
 
         ArrayList<MyMenu> menuList = new ArrayList<>();
@@ -194,12 +204,8 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 
         return menuList;
     }
-
-
     protected void preparedMenu(ArrayList<MyMenu> menus){
-
         for (MyMenu parent: menus) {
-
             headerList.add(parent);
             if(!parent.isHasChildren()){
                 childList.put(parent, null);
@@ -211,11 +217,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 
 
     private void populateExpandableList() {
-
-        System.out.println("SSSSSSSSSSS");
-        System.out.println(new Gson().toJson(headerList));
-        System.out.println(new Gson().toJson(childList));
-
         expandableListAdapter = new ExpandableListAdapter(this, headerList, childList);
         binding.expandableListView.setAdapter(expandableListAdapter);
 
@@ -223,29 +224,17 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
-
-
                 if (headerList.get(groupPosition).isHasChildren()) {
-//                    System.out.println("XXXXXXXXXX GROUP BTN CLICKED:"+groupPosition+"-"+id);
+                    Log.d("STATUS", "HAS Child: "+new Gson().toJson(headerList.get(groupPosition)));
                 }else{
                     if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                         binding.drawerLayout.closeDrawer(GravityCompat.START);
                     }
                     MyMenu head = headerList.get(groupPosition);
+                    toolbar.setTitle(head.getMenuName());
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("selectedMenu", head.getMenuName());
-                    ProductListFragment productListFragment = new ProductListFragment();
-                    productListFragment.setArguments(bundle);
-
-                    ProductActivity.ViewPagerAdapter adapter = new ProductActivity.ViewPagerAdapter(getSupportFragmentManager());
-                    adapter.addFragment(productListFragment, "X Product List");
-                    viewPager.setAdapter(adapter);
+                    replaceFragment(head.getMenuName());
                 }
-//                System.out.println("XXXXXXXXXX GROUP OUT IF"+groupPosition+"-"+id);
-
-
-
                 return false;
             }
         });
@@ -254,8 +243,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-
-
                 if (childList.get(headerList.get(groupPosition)) != null) {
 
                     if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -263,56 +250,20 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
                     }
 
                     MyMenu child = childList.get(headerList.get(groupPosition)).get(childPosition);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("selectedMenu", child.getMenuName());
-                    ProductListFragment productListFragment = new ProductListFragment();
-                    productListFragment.setArguments(bundle);
-
-                    ProductActivity.ViewPagerAdapter adapter = new ProductActivity.ViewPagerAdapter(getSupportFragmentManager());
-                    adapter.addFragment(productListFragment, "X Product List");
-                    viewPager.setAdapter(adapter);
+                    toolbar.setTitle(child.getMenuName());
+                    replaceFragment(child.getMenuName());
                 }
-
                 return false;
             }
         });
     }
 
-    class ViewPagerAdapter extends FragmentStatePagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public int getItemPosition(@NonNull Object object) {
-            notifyDataSetChanged();
-            return POSITION_NONE;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
+    public void replaceFragment(String selectedMenu) {
+        fragment = new ProductListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("selectedMenu", selectedMenu);
+        fragment.setArguments(bundle);
+        replaceFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG", null);
     }
+
 }

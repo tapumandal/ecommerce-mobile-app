@@ -1,5 +1,6 @@
 package com.tapumandal.ecommerce.Activity.Product;
 
+import android.util.Log;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.Cart;
+import com.tapumandal.ecommerce.Model.CartProduct;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
@@ -35,9 +37,9 @@ public class ProductDetailsActivity extends BaseActivity {
     ActivityProductDetailsBinding b;
     ProductControlViewModel viewModel;
 
-    Product product;
-
+    Product item;
     List<Product> myProducts;
+    private Cart myCart;
 
     @Override
     protected int getLayoutResourceFile() {
@@ -53,14 +55,21 @@ public class ProductDetailsActivity extends BaseActivity {
         setToolbar("Product");
         myProducts = new  ArrayList<Product>();
 
-        Type type = (new TypeToken<List<Product>>() {}).getType();
-        myProducts = (List<Product>) new Gson().fromJson(MySharedPreference.getString(MySharedPreference.Key.MY_CART), type);
-        product = (Product) getIntent().getSerializableExtra("product");
+        item = (Product) getIntent().getSerializableExtra("product");
+
+        Type type = (new TypeToken<Cart>() {}).getType();
+        myCart = (Cart) new Gson().fromJson(MySharedPreference.getString(MySharedPreference.Key.MY_CART), type);
+        if(myCart != null) {
+            myProducts = myCart.getProducts();
+        }
+
+        if(myProducts == null){
+            myProducts = new ArrayList<Product>();
+        }
 
         for(int i=0; i<myProducts.size(); i++){
-            System.out.println(myProducts.get(i).getId());
-            if(myProducts.get(i).getId() == product.getId()){
-                product = (Product) myProducts.get(i);
+            if(myProducts.get(i).getId() == item.getId()){
+                item.setOrderQuantity(myProducts.get(i).getOrderQuantity());
                 break;
             }
         }
@@ -68,9 +77,7 @@ public class ProductDetailsActivity extends BaseActivity {
         viewPopulate();
         clickEvent();
 
-
-        System.out.println("PPPPPPPPPPPPP");
-        System.out.println(new Gson().toJson(myProducts));
+        System.out.println("Activity MY PRODUCT"+(new Gson().toJson(myProducts)));
 
     }
 
@@ -78,74 +85,73 @@ public class ProductDetailsActivity extends BaseActivity {
         b.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(item.getOrderQuantity()<item.getMaximumOrderQuantity()){
+                    item.setOrderQuantity(item.getOrderQuantity()+1);
+                    b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
 
-                int currentQuantity = Integer.parseInt(b.orderQuantity.getText().toString());
-                if(currentQuantity<product.getQuantity()){
-                    currentQuantity++;
-                    product.setOrderQuantity(currentQuantity);
-                    b.orderQuantity.setText(String.valueOf(product.getOrderQuantity()));
-
-                    for(int i=0; i<myProducts.size(); i++){
-                        if(myProducts.get(i).getId() == product.getId()){
-                            myProducts.get(i).setOrderQuantity(product.getOrderQuantity());
-                        }else {
-                            myProducts.add(product);
+                    boolean matched = false;
+                    for (int i = 0; i < myProducts.size(); i++) {
+                        if (myProducts.get(i).getId() == item.getId()) {
+                            System.out.println("MATCHED "+myProducts.get(i).getId() +"=="+ item.getId());
+                            myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
+                            matched = true;
                         }
                     }
-                    if(myProducts.size()<1){
-                        myProducts.add(product);
+                    if(!matched){
+                        System.out.println("NOT MATCHED");
+                        myProducts.add(item);
                     }
+
+                    myCart.setProducts(myProducts);
+                    Log.d("STATUS", new Gson().toJson(myCart));
+                    MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myCart));
+
                 }else{
                     Toast.makeText(context, "Maximum quantity reached!", Toast.LENGTH_SHORT).show();
                 }
-                System.out.println(new Gson().toJson(myProducts));
-
-                MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myProducts));
             }
         });
 
         b.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int currentQuantity = Integer.parseInt(b.orderQuantity.getText().toString());
-                if(currentQuantity>0){
-                    currentQuantity--;
-                    product.setOrderQuantity(currentQuantity);
-                    b.orderQuantity.setText(String.valueOf(product.getOrderQuantity()));
+                if(item.getOrderQuantity()>0){
+                    item.setOrderQuantity(item.getOrderQuantity()-1);
+                    b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
 
-                    for(int i=0; i<myProducts.size(); i++){
-                        if(myProducts.get(i).getId() == product.getId()){
-                            myProducts.get(i).setOrderQuantity(product.getOrderQuantity());
-                        }else {
-                            myProducts.add(product);
+                    for (int i = 0; i < myProducts.size(); i++) {
+                        if (myProducts.get(i).getId() == item.getId()) {
+                            myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
                         }
                     }
+                    myCart.setProducts(myProducts);
+                    Log.d("STATUS", new Gson().toJson(myCart));
+                    MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myCart));
                 }
-                System.out.println(new Gson().toJson(myProducts));
-                MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myProducts));
+
             }
         });
     }
 
     private void viewPopulate(){
-        System.out.println("IMAGE IMAGE IMAGE "+product.getImage());
-        if(product.getImage() != null){
-            String imgUrl  = product.getImage().replace("http://127.0.0.1:8080/api/v1/", "");
+        System.out.println("IMAGE IMAGE IMAGE "+item.getImage());
+        if(item.getImage() != null){
+            String imgUrl  = item.getImage().replace("http://127.0.0.1:8080/api/v1/", "");
             imgUrl  = imgUrl.replace("thumbnail.", "");
             Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).into(b.apvImage);
         }
 
-        b.apvTitle.setText(product.getName());
-        b.apvDescription.setText(product.getDescription());
+        b.apvTitle.setText(item.getName());
+        b.apvDescription.setText(item.getDescription());
         b.apvCurrency.setText("BDT");
-        b.apvPrice.setText(String.valueOf(product.getSellingPricePerUnit()));
+        b.apvPrice.setText(String.valueOf(item.getSellingPricePerUnit()));
         b.apvAttribute.setText("Attribute");
-        b.apvDiscount.setText(String.valueOf(product.getDiscountPrice()));
-//        b.apvImage.setText(product.);
-//        b.progressbar.setText(product.);
-//        b.quantityRl.setText(product.);
-        b.quantity.setText(String.valueOf(product.getQuantity()));
-        b.orderQuantity.setText(String.valueOf(product.getOrderQuantity()));
+        b.apvDiscount.setText(String.valueOf(item.getDiscountPrice()));
+//        b.apvImage.setText(item.);
+//        b.progressbar.setText(item.);
+//        b.quantityRl.setText(item.);
+        b.quantity.setText(String.valueOf(item.getQuantity()));
+        b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
 //        b.quantityPlus
 //        b.quantityMinus
     }

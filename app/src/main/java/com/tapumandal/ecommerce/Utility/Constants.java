@@ -386,8 +386,13 @@ public class Constants {
             myCart = new Cart();
         }
         if(item.getOrderQuantity()<item.getMaximumOrderQuantity()){
-            item.setOrderQuantity(item.getOrderQuantity()+1);
 
+            myCart.setTotalProductQuantity( myCart.getTotalProductQuantity() + 1 );
+            myCart.setTotalProductPrice( myCart.getTotalProductPrice() + item.getSellingPricePerUnit() );
+            myCart.setTotalProductDiscountedPrice( myCart.getTotalProductDiscountedPrice() + item.getDiscountPrice() );
+
+
+            item.setOrderQuantity(item.getOrderQuantity()+1);
             boolean matched = false;
             for (int i = 0; i < myProducts.size(); i++) {
                 if (myProducts.get(i).getId() == item.getId()) {
@@ -410,9 +415,11 @@ public class Constants {
 
     public Product removeProduct(Product item){
 
-        Log.d("STATUS", new Gson().toJson(myProducts));
-
         item.setOrderQuantity(item.getOrderQuantity()-1);
+
+        myCart.setTotalProductQuantity( myCart.getTotalProductQuantity() + 1 );
+        myCart.setTotalProductPrice( myCart.getTotalProductPrice() + item.getSellingPricePerUnit() );
+        myCart.setTotalProductDiscountedPrice( myCart.getTotalProductDiscountedPrice() + item.getDiscountPrice() );
 
         for (int i = 0; i < myProducts.size(); i++) {
             if (myProducts.get(i).getId() == item.getId()) {

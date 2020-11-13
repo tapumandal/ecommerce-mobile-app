@@ -3,6 +3,7 @@ package com.tapumandal.ecommerce.Activity.Product;
 import android.content.Context;
 import android.os.Bundle;
 
+import android.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -53,12 +54,19 @@ public class ProductListFragment extends BaseFragment {
         context = getContext();
         viewModel = ViewModelProviders.of(this).get(ProductControlViewModel.class);
         initRecycleView();
+
         Toast.makeText(getContext(), selectedMenu, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        if(selectedMenu.equals(" ")){
+            ((ProductActivity) getActivity()).setActionBarTitle("Products");
+        }else{
+            ((ProductActivity) getActivity()).setActionBarTitle(selectedMenu);
+        }
+
         System.out.println("On Resume On Resume On Resume On Resume On Resume On Resume ");
         adapter.notifyDataSetChanged();
     }

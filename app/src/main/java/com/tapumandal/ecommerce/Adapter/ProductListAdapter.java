@@ -90,7 +90,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         if(item.getImage() != null){
             String imgUrl  = item.getImage().replace("http://127.0.0.1:8080/api/v1/", "");
-            Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).into(b.productImg);
+            Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).placeholder(R.drawable.app_logo).into(b.productImg);
         }
 
         Product finalItem = item;

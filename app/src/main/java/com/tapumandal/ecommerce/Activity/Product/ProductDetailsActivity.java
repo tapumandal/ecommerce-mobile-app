@@ -19,6 +19,7 @@ import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.CartProduct;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.Constants;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.Utility.URLs;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
@@ -40,6 +41,7 @@ public class ProductDetailsActivity extends BaseActivity {
     Product item;
     List<Product> myProducts;
     private Cart myCart;
+    Constants constants;
 
     @Override
     protected int getLayoutResourceFile() {
@@ -55,24 +57,10 @@ public class ProductDetailsActivity extends BaseActivity {
         setToolbar("Product");
         myProducts = new  ArrayList<Product>();
 
+
         item = (Product) getIntent().getSerializableExtra("product");
-
-        Type type = (new TypeToken<Cart>() {}).getType();
-        myCart = (Cart) new Gson().fromJson(MySharedPreference.getString(MySharedPreference.Key.MY_CART), type);
-        if(myCart != null) {
-            myProducts = myCart.getProducts();
-        }
-
-        if(myProducts == null){
-            myProducts = new ArrayList<Product>();
-        }
-
-        for(int i=0; i<myProducts.size(); i++){
-            if(myProducts.get(i).getId() == item.getId()){
-                item.setOrderQuantity(myProducts.get(i).getOrderQuantity());
-                break;
-            }
-        }
+        constants = new Constants();
+        item = constants.cartMatchProduct(item);
 
         viewPopulate();
         clickEvent();
@@ -82,30 +70,13 @@ public class ProductDetailsActivity extends BaseActivity {
     }
 
     private void clickEvent() {
+        final Product itemTmp = item;
         b.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(item.getOrderQuantity()<item.getMaximumOrderQuantity()){
-                    item.setOrderQuantity(item.getOrderQuantity()+1);
-                    b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
 
-                    boolean matched = false;
-                    for (int i = 0; i < myProducts.size(); i++) {
-                        if (myProducts.get(i).getId() == item.getId()) {
-                            System.out.println("MATCHED "+myProducts.get(i).getId() +"=="+ item.getId());
-                            myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
-                            matched = true;
-                        }
-                    }
-                    if(!matched){
-                        System.out.println("NOT MATCHED");
-                        myProducts.add(item);
-                    }
-
-                    myCart.setProducts(myProducts);
-                    Log.d("STATUS", new Gson().toJson(myCart));
-                    MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myCart));
-
+                if((itemTmp.getOrderQuantity()+1)<=itemTmp.getMaximumOrderQuantity()){
+                    b.orderQuantity.setText(String.valueOf(constants.addProduct(itemTmp).getOrderQuantity()));
                 }else{
                     Toast.makeText(context, "Maximum quantity reached!", Toast.LENGTH_SHORT).show();
                 }
@@ -115,18 +86,8 @@ public class ProductDetailsActivity extends BaseActivity {
         b.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(item.getOrderQuantity()>0){
-                    item.setOrderQuantity(item.getOrderQuantity()-1);
-                    b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
-
-                    for (int i = 0; i < myProducts.size(); i++) {
-                        if (myProducts.get(i).getId() == item.getId()) {
-                            myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
-                        }
-                    }
-                    myCart.setProducts(myProducts);
-                    Log.d("STATUS", new Gson().toJson(myCart));
-                    MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myCart));
+                if((itemTmp.getOrderQuantity())>0){
+                    b.orderQuantity.setText(String.valueOf(constants.removeProduct(itemTmp).getOrderQuantity()));
                 }
 
             }

@@ -20,6 +20,7 @@ import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.CartProduct;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.Constants;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.Utility.URLs;
 import com.tapumandal.ecommerce.databinding.ListProductBinding;
@@ -38,12 +39,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     private Cart myCart;
     private List<Product> myProducts;
+
+    String origin = "";
     private Context context;
     private LayoutInflater layoutInflater;
 
-    public ProductListAdapter(Context context, List<Product> products) {
+    public ProductListAdapter(Context context, List<Product> products, String origin) {
 
         this.context = context;
+        this.origin = origin;
         this.products = products;
         this.myProducts = new ArrayList<Product>();
         layoutInflater = (LayoutInflater) context
@@ -69,27 +73,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         ListProductBinding b = holder.binding;
         Product item = products.get(position);
 
-        Type type = (new TypeToken<Cart>() {}).getType();
-        myCart = (Cart) new Gson().fromJson(MySharedPreference.getString(MySharedPreference.Key.MY_CART), type);
-        if(myCart != null) {
-            myProducts = myCart.getProducts();
-        }
-
-        if(myProducts == null){
-            System.out.println("myProducts IS NULL");
-            myProducts = new ArrayList<Product>();
-        }
-
-        for(int i=0; i<myProducts.size(); i++){
-            System.out.println(myProducts.get(i).getId());
-            if(myProducts.get(i).getId() == item.getId()){
-                item.setOrderQuantity(myProducts.get(i).getOrderQuantity());
-                break;
-            }
-        }
-
-        System.out.println("ADAPTER");
-        System.out.println(new Gson().toJson(item));
+        Constants constants = new Constants();
+        item = constants.cartMatchProduct(item);
 
         b.productName.setText(item.getName() );
         b.productShortDesc.setText(item.getDescription() );
@@ -117,30 +102,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         });
 
 
+        final Product itemTmp = item;
         b.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(item.getOrderQuantity()<item.getMaximumOrderQuantity()){
-                    item.setOrderQuantity(item.getOrderQuantity()+1);
-                    b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
 
-                    boolean matched = false;
-                    for (int i = 0; i < myProducts.size(); i++) {
-                        if (myProducts.get(i).getId() == item.getId()) {
-                            System.out.println("MATCHED "+myProducts.get(i).getId() +"=="+ item.getId());
-                            myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
-                            matched = true;
-                        }
-                    }
-                    if(!matched){
-                        System.out.println("NOT MATCHED");
-                        myProducts.add(item);
-                    }
-
-                    myCart.setProducts(myProducts);
-                    Log.d("STATUS", new Gson().toJson(myCart));
-                    MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myCart));
-
+                if((itemTmp.getOrderQuantity()+1)<=itemTmp.getMaximumOrderQuantity()){
+                    b.orderQuantity.setText(String.valueOf(constants.addProduct(itemTmp).getOrderQuantity()));
                 }else{
                     Toast.makeText(context, "Maximum quantity reached!", Toast.LENGTH_SHORT).show();
                 }
@@ -150,20 +118,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         b.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(item.getOrderQuantity()>0){
-                    item.setOrderQuantity(item.getOrderQuantity()-1);
-                    b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
-
-                    for (int i = 0; i < myProducts.size(); i++) {
-                        if (myProducts.get(i).getId() == item.getId()) {
-                            myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
-                        }
+                if((itemTmp.getOrderQuantity())>0){
+                    b.orderQuantity.setText(String.valueOf(constants.removeProduct(itemTmp).getOrderQuantity()));
+                }else{
+                    if(origin.equals("MY_CART")) {
+                        products.remove(position);
+                        notifyDataSetChanged();
                     }
-                    myCart.setProducts(myProducts);
-                    Log.d("STATUS", new Gson().toJson(myCart));
-                    MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(myCart));
                 }
-
             }
         });
 
@@ -180,7 +142,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public int getItemCount() {
-        return products.size();
+        if(products != null){
+            return products.size();
+        }
+        return 0;
     }
 
     @Override

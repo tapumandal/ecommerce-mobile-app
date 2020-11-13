@@ -78,7 +78,7 @@ public class ProductListFragment extends BaseFragment {
         b.recycleView.setItemAnimator(new DefaultItemAnimator());
         b.recycleView.setHasFixedSize(true);
 
-        adapter = new ProductListAdapter(context , product);
+        adapter = new ProductListAdapter(context , product, "PRODUCT_LIST");
         b.recycleView.setAdapter(adapter);
 
 //        initShimmer(b.loading.shimmerViewContainer);

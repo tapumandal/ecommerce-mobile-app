@@ -18,6 +18,7 @@ import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
+import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.FragmentMyCartBinding;
 import com.tapumandal.ecommerce.databinding.FragmentProductListBinding;
@@ -74,7 +75,7 @@ public class MyCartFragment extends BaseFragment {
         b.recycleView.setItemAnimator(new DefaultItemAnimator());
         b.recycleView.setHasFixedSize(true);
 
-        adapter = new ProductListAdapter(context , myProducts);
+        adapter = new ProductListAdapter(context , myProducts, "MY_CART");
         b.recycleView.setAdapter(adapter);
 
         getData();
@@ -83,9 +84,8 @@ public class MyCartFragment extends BaseFragment {
 
     public void getData() {
 
+        myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
 
-        Type type = (new TypeToken<Cart>() {}).getType();
-        myCart = (Cart) new Gson().fromJson(MySharedPreference.getString(MySharedPreference.Key.MY_CART), type);
         if(myCart != null) {
             myProducts = myCart.getProducts();
 

@@ -108,15 +108,15 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
     }
 
     private void clickEvent() {
-        FloatingActionButton btnCart = findViewById(R.id.btnCart);
-
-        btnCart.setOnClickListener(v->{
-            isCartActive = true;
-            Toast.makeText(context, "Cart BTN Clicked", Toast.LENGTH_SHORT).show();
-            toolbar.setTitle("My Cart");
-            fragment = new MyCartFragment();
-            replaceFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG", null);
-        });
+//        FloatingActionButton btnCart = findViewById(R.id.btnCart);
+//
+//        btnCart.setOnClickListener(v->{
+//            isCartActive = true;
+//            Toast.makeText(context, "Cart BTN Clicked", Toast.LENGTH_SHORT).show();
+//            toolbar.setTitle("My Cart");
+//            fragment = new MyCartFragment();
+//            replaceFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG", null);
+//        });
     }
 
     private void getAppActions() {

@@ -15,19 +15,29 @@ public class Cart implements Serializable {
     protected int id;
 
     @SerializedName("deliveryCharge")
-    protected int deliveryCharge;
+    protected int deliveryCharge = 0;
 
     @SerializedName("discountType")
     protected String discountType; // TotalPercentage/OverallAmount/ProductDiscount
 
     @SerializedName("totalDiscount")
-    protected int totalDiscount;
+    protected int totalDiscount = 0;
+
+
+
+    @SerializedName("totalProductQuantity")
+    protected int totalProductQuantity = 0;
 
     @SerializedName("totalProductPrice")
-    protected int totalProductPrice;
+    protected int totalProductPrice = 0 ;
+
+    @SerializedName("totalProductDiscountedPrice")
+    protected int totalProductDiscountedPrice = 0;
+
+
 
     @SerializedName("totalPayable")
-    protected int totalPayable;
+    protected int totalPayable = 0;
 
     @SerializedName("productList")
     protected List<Product> products;
@@ -65,6 +75,14 @@ public class Cart implements Serializable {
         this.totalDiscount = totalDiscount;
     }
 
+    public int getTotalProductQuantity() {
+        return totalProductQuantity;
+    }
+
+    public void setTotalProductQuantity(int totalProductQuantity) {
+        this.totalProductQuantity = totalProductQuantity;
+    }
+
     public int getTotalProductPrice() {
         return totalProductPrice;
     }
@@ -87,5 +105,13 @@ public class Cart implements Serializable {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public int getTotalProductDiscountedPrice() {
+        return totalProductDiscountedPrice;
+    }
+
+    public void setTotalProductDiscountedPrice(int totalProductDiscountedPrice) {
+        this.totalProductDiscountedPrice = totalProductDiscountedPrice;
     }
 }

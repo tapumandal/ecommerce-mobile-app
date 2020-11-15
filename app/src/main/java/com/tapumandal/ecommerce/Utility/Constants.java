@@ -18,16 +18,23 @@ import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+import com.tapumandal.ecommerce.Model.Cart;
+import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import id.zelory.compressor.Compressor;
 
@@ -349,6 +356,86 @@ public class Constants {
         Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null));
         sendIntent.putExtra("sms_body", message);
         context.startActivity(sendIntent);
+    }
+
+    private Cart myCart;
+    private List<Product> myProducts;
+    public Product cartMatchProduct(Product item){
+
+        myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
+        if(myCart != null) {
+            myProducts = myCart.getProducts();
+        }
+
+        if(myProducts == null){
+            System.out.println("myProducts IS NULL");
+            myProducts = new ArrayList<Product>();
+        }
+
+        for(int i=0; i<myProducts.size(); i++){
+            if(myProducts.get(i).getId() == item.getId()){
+                item.setOrderQuantity(myProducts.get(i).getOrderQuantity());
+                break;
+            }
+        }
+        return item;
+    }
+
+    public Product addProduct(Product item){
+        if(myCart == null) {
+            myCart = new Cart();
+        }
+        if(item.getOrderQuantity()<item.getMaximumOrderQuantity()){
+
+            myCart.setTotalProductQuantity( myCart.getTotalProductQuantity() + 1 );
+            myCart.setTotalProductPrice( myCart.getTotalProductPrice() + item.getSellingPricePerUnit() );
+            myCart.setTotalProductDiscountedPrice( myCart.getTotalProductDiscountedPrice() + item.getDiscountPrice() );
+
+
+            item.setOrderQuantity(item.getOrderQuantity()+1);
+            boolean matched = false;
+            for (int i = 0; i < myProducts.size(); i++) {
+                if (myProducts.get(i).getId() == item.getId()) {
+                    System.out.println("MATCHED "+myProducts.get(i).getId() +"=="+ item.getId());
+                    myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
+                    matched = true;
+                }
+            }
+            if(!matched){
+                System.out.println("NOT MATCHED");
+                myProducts.add(item);
+            }
+
+            myCart.setProducts(myProducts);
+            Log.d("STATUS", new Gson().toJson(myCart));
+            OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
+        }
+        return item;
+    }
+
+    public Product removeProduct(Product item){
+
+        item.setOrderQuantity(item.getOrderQuantity()-1);
+
+        myCart.setTotalProductQuantity( myCart.getTotalProductQuantity() + 1 );
+        myCart.setTotalProductPrice( myCart.getTotalProductPrice() + item.getSellingPricePerUnit() );
+        myCart.setTotalProductDiscountedPrice( myCart.getTotalProductDiscountedPrice() + item.getDiscountPrice() );
+
+        for (int i = 0; i < myProducts.size(); i++) {
+            if (myProducts.get(i).getId() == item.getId()) {
+                myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
+
+                Log.d("STATUS", myProducts.get(i).getId()+":Product Quanty:"+myProducts.get(i).getOrderQuantity());
+                if(myProducts.get(i).getOrderQuantity() == 0){
+                    myProducts.remove(i);
+                }
+            }
+        }
+        Log.d("STATUS", new Gson().toJson(myProducts));
+        myCart.setProducts(myProducts);
+        OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
+
+        return item;
     }
 
 }

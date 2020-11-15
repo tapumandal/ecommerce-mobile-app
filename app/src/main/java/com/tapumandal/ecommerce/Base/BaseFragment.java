@@ -185,6 +185,4 @@ public abstract class BaseFragment extends Fragment {
         FancyToast.makeText(context, "" + txt, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
     }
 
-
-
 }

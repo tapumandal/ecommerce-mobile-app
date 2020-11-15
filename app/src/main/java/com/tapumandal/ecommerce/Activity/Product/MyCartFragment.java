@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tapumandal.ecommerce.Adapter.CustomEventListener;
 import com.tapumandal.ecommerce.Adapter.ProductListAdapter;
 import com.tapumandal.ecommerce.Base.BaseFragment;
 import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
+import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.FragmentMyCartBinding;
 import com.tapumandal.ecommerce.databinding.FragmentProductListBinding;
@@ -28,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class MyCartFragment extends BaseFragment {
+public class MyCartFragment extends BaseFragment implements CustomEventListener {
 
     FragmentMyCartBinding b;
     ProductListAdapter adapter;
@@ -74,7 +76,7 @@ public class MyCartFragment extends BaseFragment {
         b.recycleView.setItemAnimator(new DefaultItemAnimator());
         b.recycleView.setHasFixedSize(true);
 
-        adapter = new ProductListAdapter(context , myProducts);
+        adapter = new ProductListAdapter(context , myProducts, "MY_CART", this);
         b.recycleView.setAdapter(adapter);
 
         getData();
@@ -83,15 +85,19 @@ public class MyCartFragment extends BaseFragment {
 
     public void getData() {
 
+        myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
 
-        Type type = (new TypeToken<Cart>() {}).getType();
-        myCart = (Cart) new Gson().fromJson(MySharedPreference.getString(MySharedPreference.Key.MY_CART), type);
         if(myCart != null) {
             myProducts = myCart.getProducts();
 
             adapter.setData(myProducts);
             adapter.notifyDataSetChanged();
         }
+
+    }
+
+    @Override
+    public void cartBtnLayout(boolean visibility) {
 
     }
 }

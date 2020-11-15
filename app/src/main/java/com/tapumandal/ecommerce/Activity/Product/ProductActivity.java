@@ -23,6 +23,7 @@ import com.tapumandal.ecommerce.Model.MenuModel;
 import com.tapumandal.ecommerce.Model.MyMenu;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
+import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivityProductBinding;
 
@@ -66,6 +67,8 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
     Toolbar toolbar;
     Fragment fragment;
 
+    boolean isCartActive = false;
+
     @Override
     protected int getLayoutResourceFile() {
         return R.layout.activity_product;
@@ -77,9 +80,8 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         binding = getBinding();
         viewModel = ViewModelProviders.of(this).get(ProductControlViewModel.class);
         expandableListAdapter = null;
-        toolbar = findViewById(R.id.toolbar);
 
-        toolbar.setTitle("Products");
+        setActionBarTitle("Products");
 
         loadMenu();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -92,7 +94,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         Bundle bundle = new Bundle();
         bundle.putString("selectedMenu", "");
         fragment.setArguments(bundle);
-
         addFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG");
 
         getAppActions();
@@ -100,14 +101,21 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         clickEvent();
     }
 
+    public void setActionBarTitle(String title) {
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(title);
+    }
+
     private void clickEvent() {
-        FloatingActionButton btnCart = findViewById(R.id.btnCart);
-        btnCart.setOnClickListener(v->{
-            Toast.makeText(context, "Cart BTN Clicked", Toast.LENGTH_SHORT).show();
-            toolbar.setTitle("My Cart");
-            fragment = new MyCartFragment();
-            replaceFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG", null);
-        });
+//        FloatingActionButton btnCart = findViewById(R.id.btnCart);
+//
+//        btnCart.setOnClickListener(v->{
+//            isCartActive = true;
+//            Toast.makeText(context, "Cart BTN Clicked", Toast.LENGTH_SHORT).show();
+//            toolbar.setTitle("My Cart");
+//            fragment = new MyCartFragment();
+//            replaceFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG", null);
+//        });
     }
 
     private void getAppActions() {
@@ -118,11 +126,12 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         setCartAction();
 
     }
+
     private void setCartAction() {
-        Cart cart = new Cart();
-        cart.setDiscountType("ProductDiscount");
-        cart.setDeliveryCharge(30);
-        MySharedPreference.put(MySharedPreference.Key.MY_CART, new Gson().toJson(cart));
+//        Cart cart = new Cart();
+//        cart.setDiscountType("ProductDiscount");
+//        cart.setDeliveryCharge(30);
+//        OfflineCache.saveOffline(OfflineCache.MY_CART, cart);
     }
     @Override
     public void onBackPressed() {
@@ -130,6 +139,11 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
+            if(isCartActive){
+                Log.d("STATUS", "isCartActive TRUE");
+                removeFragment(new MyCartFragment());
+                isCartActive = false;
+            }
             super.onBackPressed();
         }
     }
@@ -231,9 +245,8 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
                         binding.drawerLayout.closeDrawer(GravityCompat.START);
                     }
                     MyMenu head = headerList.get(groupPosition);
-                    toolbar.setTitle(head.getMenuName());
 
-                    replaceFragment(head.getMenuName());
+                    productListFragment(head.getMenuName());
                 }
                 return false;
             }
@@ -250,15 +263,21 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
                     }
 
                     MyMenu child = childList.get(headerList.get(groupPosition)).get(childPosition);
-                    toolbar.setTitle(child.getMenuName());
-                    replaceFragment(child.getMenuName());
+                    productListFragment(child.getMenuName());
                 }
                 return false;
             }
         });
     }
 
-    public void replaceFragment(String selectedMenu) {
+    public void productListFragment(String selectedMenu) {
+//        removeFragment(fragment);
+        if(isCartActive){
+            Log.d("STATUS", "isCartActive TRUE");
+            removeFragment(new MyCartFragment());
+            isCartActive = false;
+        }
+
         fragment = new ProductListFragment();
         Bundle bundle = new Bundle();
         bundle.putString("selectedMenu", selectedMenu);

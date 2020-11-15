@@ -94,7 +94,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         Bundle bundle = new Bundle();
         bundle.putString("selectedMenu", "");
         fragment.setArguments(bundle);
-
         addFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG");
 
         getAppActions();
@@ -129,10 +128,10 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
     }
 
     private void setCartAction() {
-        Cart cart = new Cart();
-        cart.setDiscountType("ProductDiscount");
-        cart.setDeliveryCharge(30);
-        OfflineCache.saveOffline(OfflineCache.MY_CART, cart);
+//        Cart cart = new Cart();
+//        cart.setDiscountType("ProductDiscount");
+//        cart.setDeliveryCharge(30);
+//        OfflineCache.saveOffline(OfflineCache.MY_CART, cart);
     }
     @Override
     public void onBackPressed() {

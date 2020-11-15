@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 import com.tapumandal.ecommerce.Activity.Product.ProductDetailsActivity;
+import com.tapumandal.ecommerce.Activity.Product.ProductListFragment;
 import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.CartProduct;
 import com.tapumandal.ecommerce.Model.Product;
@@ -27,6 +28,7 @@ import com.tapumandal.ecommerce.databinding.ListProductBinding;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
 /**
@@ -44,14 +46,16 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private Context context;
     private LayoutInflater layoutInflater;
 
-    public ProductListAdapter(Context context, List<Product> products, String origin) {
+    private CustomEventListener customEventListener;
+
+    public ProductListAdapter(Context context, List<Product> products, String origin, CustomEventListener customEventListener) {
 
         this.context = context;
         this.origin = origin;
         this.products = products;
         this.myProducts = new ArrayList<Product>();
-        layoutInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.customEventListener = customEventListener;
     }
 
     public void setData(List<Product> products) {
@@ -61,6 +65,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public ProductListAdapter.ViewFilesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         if (layoutInflater == null) {
             layoutInflater = LayoutInflater.from(parent.getContext());
         }
@@ -109,6 +114,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
                 if((itemTmp.getOrderQuantity()+1)<=itemTmp.getMaximumOrderQuantity()){
                     b.orderQuantity.setText(String.valueOf(constants.addProduct(itemTmp).getOrderQuantity()));
+                    customEventListener.cartBtnLayout(true);
                 }else{
                     Toast.makeText(context, "Maximum quantity reached!", Toast.LENGTH_SHORT).show();
                 }

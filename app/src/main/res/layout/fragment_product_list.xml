@@ -22,7 +22,7 @@
                 android:id="@+id/recycleView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/_100ssdp"
+                android:layout_marginBottom="@dimen/_80ssdp"
                 android:clipToPadding="false"
                 android:paddingTop="@dimen/_10ssdp"
                 android:paddingBottom="@dimen/_20ssp"
@@ -31,38 +31,51 @@
 
         <LinearLayout
                 android:id="@+id/cartBtnLayout"
+                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_70ssdp"
+                android:layout_height="@dimen/_60ssdp"
                 android:weightSum="5"
                 android:orientation="horizontal"
-                android:padding="@dimen/_10ssdp"
+                android:padding="@dimen/_5ssdp"
                 android:layout_margin="@dimen/_10ssdp"
-                android:background="@drawable/cart_rectangle_border"
+                android:background="@color/colorPrimaryRed"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/_25ssdp"
-                    android:text="TOTAL PURCHASE:"/>
 
             <LinearLayout
-                    android:layout_width="@dimen/_45ssdp"
-                    android:layout_height="@dimen/_70ssdp"
-                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
                     android:layout_gravity="center"
-                    android:background="@drawable/box5"
-                    android:gravity="center">
-                <ImageView
-                        android:layout_width="@dimen/_50ssdp"
-                        android:layout_height="@dimen/_50ssdp"
+                    android:orientation="horizontal">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/_15ssdp"
+                        android:textColor="@color/white"
                         android:layout_gravity="center"
+                        android:textSize="@dimen/_20ssdp"
+                        android:text="TOTAL PURCHASE :"/>
+                <TextView
+                        android:id="@+id/totalAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:paddingStart="@dimen/_6ssdp"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:gravity="left"
+                        android:textSize="@dimen/_20ssdp"
+                        android:text=""/>
+            </LinearLayout>
+
+                <ImageView
+                        android:layout_width="@dimen/_40ssdp"
+                        android:layout_height="@dimen/_40ssdp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
                         android:foregroundGravity="right"
                         android:src="@drawable/ic_baseline_shopping_cart_white_24"/>
-            </LinearLayout>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,10 +16,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.tapumandal.ecommerce.Adapter.CustomEventListener;
 import com.tapumandal.ecommerce.Adapter.ProductListAdapter;
 import com.tapumandal.ecommerce.Base.BaseFragment;
+import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.FragmentProductListBinding;
 
@@ -31,7 +34,7 @@ import java.util.List;
  * Created by tapumandal on 10/26/2020.
  * For any query ask online.tapu@gmail.com
  */
-public class ProductListFragment extends BaseFragment {
+public class ProductListFragment extends BaseFragment implements CustomEventListener {
 
     FragmentProductListBinding b;
     ProductListAdapter adapter;
@@ -56,11 +59,13 @@ public class ProductListFragment extends BaseFragment {
         initRecycleView();
 
         Toast.makeText(getContext(), selectedMenu, Toast.LENGTH_SHORT).show();
+        clickEvent();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        cartBtnLayout(true);
         if(selectedMenu.equals(" ")){
             ((ProductActivity) getActivity()).setActionBarTitle("Products");
         }else{
@@ -69,6 +74,26 @@ public class ProductListFragment extends BaseFragment {
 
         System.out.println("On Resume On Resume On Resume On Resume On Resume On Resume ");
         adapter.notifyDataSetChanged();
+    }
+
+    private void clickEvent() {
+
+        b.cartBtnLayout.setOnClickListener(v->{
+
+
+//
+//            isCartActive = true;
+//            Toast.makeText(context, "Cart BTN Clicked", Toast.LENGTH_SHORT).show();
+//            toolbar.setTitle("My Cart");
+//            fragment = new MyCartFragment();
+//            replaceFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG", null);
+
+            Fragment fragment= new MyCartFragment();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentLayout, fragment, "MY_CART_FRAGMENT")
+                    .addToBackStack(null)
+                    .commit();
+        });
     }
 
     @Override
@@ -86,7 +111,7 @@ public class ProductListFragment extends BaseFragment {
         b.recycleView.setItemAnimator(new DefaultItemAnimator());
         b.recycleView.setHasFixedSize(true);
 
-        adapter = new ProductListAdapter(context , product, "PRODUCT_LIST");
+        adapter = new ProductListAdapter(context , product, "PRODUCT_LIST", this);
         b.recycleView.setAdapter(adapter);
 
 //        initShimmer(b.loading.shimmerViewContainer);
@@ -145,5 +170,18 @@ public class ProductListFragment extends BaseFragment {
 
         });
 
+    }
+
+    @Override
+    public void cartBtnLayout(boolean visibility) {
+        if(visibility) {
+            Cart myCart = OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
+            if(myCart.getProducts().size()>0) {
+                b.cartBtnLayout.setVisibility(View.VISIBLE);
+                b.totalAmount.setText("৳ "+myCart.getTotalProductPrice());
+            }
+        }else{
+            b.cartBtnLayout.setVisibility(View.GONE);
+        }
     }
 }

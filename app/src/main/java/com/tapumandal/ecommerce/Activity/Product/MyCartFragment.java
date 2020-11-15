@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tapumandal.ecommerce.Adapter.CustomEventListener;
 import com.tapumandal.ecommerce.Adapter.ProductListAdapter;
 import com.tapumandal.ecommerce.Base.BaseFragment;
 import com.tapumandal.ecommerce.Model.Cart;
@@ -29,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class MyCartFragment extends BaseFragment {
+public class MyCartFragment extends BaseFragment implements CustomEventListener {
 
     FragmentMyCartBinding b;
     ProductListAdapter adapter;
@@ -75,7 +76,7 @@ public class MyCartFragment extends BaseFragment {
         b.recycleView.setItemAnimator(new DefaultItemAnimator());
         b.recycleView.setHasFixedSize(true);
 
-        adapter = new ProductListAdapter(context , myProducts, "MY_CART");
+        adapter = new ProductListAdapter(context , myProducts, "MY_CART", this);
         b.recycleView.setAdapter(adapter);
 
         getData();
@@ -92,6 +93,11 @@ public class MyCartFragment extends BaseFragment {
             adapter.setData(myProducts);
             adapter.notifyDataSetChanged();
         }
+
+    }
+
+    @Override
+    public void cartBtnLayout(boolean visibility) {
 
     }
 }

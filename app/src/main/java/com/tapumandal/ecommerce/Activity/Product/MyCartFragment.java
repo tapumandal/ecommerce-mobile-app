@@ -2,6 +2,8 @@ package com.tapumandal.ecommerce.Activity.Product;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -41,6 +43,8 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
     private Cart myCart;
     private List<Product> myProducts;
 
+    private String selectedDiscountOption;
+
     @Override
     protected Integer layoutResourceId() {
         return R.layout.fragment_my_cart;
@@ -52,6 +56,9 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
         context = getContext();
         viewModel = ViewModelProviders.of(this).get(ProductControlViewModel.class);
         initRecycleView();
+
+        selectedDiscountOption = "ONPRODUCT";
+        onClickEvent();
     }
 
     @Override
@@ -82,6 +89,18 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
         getData();
     }
 
+    private void onClickEvent(){
+        RadioGroup radioGroup = (RadioGroup) b.discountRadioGroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                getText(checkedId);
+                getResources()
+                Toast.makeText(context, checkedId, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     public void getData() {
 
@@ -95,7 +114,10 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
 
             b.subTotal.setText(String.valueOf(myCart.getTotalProductPrice()));
             b.shipping.setText(String.valueOf(myCart.getDeliveryCharge()));
+
             b.totalDiscount.setText(String.valueOf(myCart.getTotalProductDiscountedPrice()));
+
+            b.totalPayable.setText(String.valueOf(myCart.getTotalPayable()));
         }
 
     }

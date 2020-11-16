@@ -123,25 +123,26 @@
 
 
                         <RadioGroup
+                                    android:id="@+id/discountRadioGroup"
                                     android:layout_width="0dp"
                                     android:layout_weight="1"
                                     android:layout_height="wrap_content"
                                     android:paddingLeft="-5dp"
                                     android:orientation="horizontal">
 
-                            <RadioButton android:id="@+id/radio_ninjas"
+                            <RadioButton android:id="@+id/radioOnProduct"
                                          android:checked="true"
                                          android:layout_width="wrap_content"
                                          android:layout_height="wrap_content"
                                          android:textSize="@dimen/_16ssdp"
-                                         android:text="Product"
+                                         android:text="On Product"
                                          android:onClick="onRadioButtonClicked"/>
 
-                            <RadioButton android:id="@+id/radio_pirates"
+                            <RadioButton android:id="@+id/radioSpecialOffer"
                                          android:layout_width="wrap_content"
                                          android:layout_height="wrap_content"
                                          android:textSize="@dimen/_16ssdp"
-                                         android:text="Special"
+                                         android:text="Special Offer"
                                          android:onClick="onRadioButtonClicked"/>
                         </RadioGroup>
 
@@ -197,14 +198,14 @@
                     android:id="@+id/checkoutBtnLayout"
                     android:visibility="visible"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_60ssdp"
+                    android:layout_height="@dimen/_50ssdp"
                     android:layout_marginTop="@dimen/_10ssdp"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:background="@color/colorPrimaryRed">
                     <ImageView
-                            android:layout_width="@dimen/_40ssdp"
-                            android:layout_height="@dimen/_40ssdp"
+                            android:layout_width="@dimen/_30ssdp"
+                            android:layout_height="@dimen/_30ssdp"
                             android:layout_gravity="center"
                             android:foregroundGravity="right"
                             android:src="@drawable/ic_baseline_shopping_cart_white_24"/>
@@ -214,7 +215,7 @@
                             android:paddingStart="@dimen/_15ssdp"
                             android:textColor="@color/white"
                             android:layout_gravity="center"
-                            android:textSize="@dimen/_20ssdp"
+                            android:textSize="@dimen/_18ssdp"
                             android:text="Checkout"/>
             </LinearLayout>
         </LinearLayout>

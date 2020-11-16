@@ -2,8 +2,13 @@
 <resources>
 <!--    <color name="colorPrimary">#666bae</color>-->
     <color name="colorPrimary">#212121</color>
-    <color name="colorPrimaryRed">#7f0000</color>
+    <color name="colorPrimaryRed">#CB0101</color>
     <color name="colorPrimaryWhite">#ffffff</color>
+    <color name="textColor">#202020</color>
+    <color name="highlightTextColor">#151515</color>
+    <color name="horizontalLine">#989898</color>
+
+
     <!--<color name="colorPrimary">#2196f3</color>-->
     <color name="colorPrimaryDark">#515794 </color>
     <!--<color name="colorPrimaryDark">#1d88dc</color>-->

@@ -41,6 +41,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     private Cart myCart;
     private List<Product> myProducts;
+    Constants constants;
 
     String origin = "";
     private Context context;
@@ -66,6 +67,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public ProductListAdapter.ViewFilesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        this.constants = new Constants();
+
         if (layoutInflater == null) {
             layoutInflater = LayoutInflater.from(parent.getContext());
         }
@@ -78,7 +81,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         ListProductBinding b = holder.binding;
         Product item = products.get(position);
 
-        Constants constants = new Constants();
         item = constants.cartMatchProduct(item);
 
         b.productName.setText(item.getName() );
@@ -126,7 +128,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             public void onClick(View view) {
                 if((itemTmp.getOrderQuantity())>0){
                     b.orderQuantity.setText(String.valueOf(constants.removeProduct(itemTmp).getOrderQuantity()));
+                    customEventListener.cartBtnLayout(true);
                 }else{
+                    customEventListener.cartBtnLayout(true);
                     if(origin.equals("MY_CART")) {
                         products.remove(position);
                         notifyDataSetChanged();

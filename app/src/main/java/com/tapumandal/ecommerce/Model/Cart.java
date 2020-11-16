@@ -17,12 +17,25 @@ public class Cart implements Serializable {
     @SerializedName("deliveryCharge")
     protected int deliveryCharge = 0;
 
+    @SerializedName("defaultDiscountBtn")
+    protected String defaultDiscountBtn = "radioOnProduct"; // radioOnProduct/radioSpecialOffer
+
+//    IF
+    @SerializedName("discountName")
+    protected String discountName = "Special Offer"; // Special Offer(Eid/Puja/NewYear)
+
     @SerializedName("discountType")
-    protected String discountType; // TotalPercentage/OverallAmount/ProductDiscount
+    protected String discountType = "OverallAmount"; // TotalPercentage/OverallAmount
 
-    @SerializedName("totalDiscount")
-    protected int totalDiscount = 0;
+    @SerializedName("discountTypeCondition")
+    protected List<DiscountTypeCondition> discountTypeCondition;
 
+    @SerializedName("discountValue")
+    protected int discountValue = 0;
+//    OR
+    @SerializedName("totalProductDiscount")
+    protected int totalProductDiscount = 0;
+//    END
 
 
     @SerializedName("totalProductQuantity")
@@ -31,10 +44,10 @@ public class Cart implements Serializable {
     @SerializedName("totalProductPrice")
     protected int totalProductPrice = 0 ;
 
-    @SerializedName("totalProductDiscountedPrice")
-    protected int totalProductDiscountedPrice = 0;
 
 
+    @SerializedName("totalDiscount")
+    protected int totalDiscount = 0;
 
     @SerializedName("totalPayable")
     protected int totalPayable = 0;
@@ -59,6 +72,22 @@ public class Cart implements Serializable {
         this.deliveryCharge = deliveryCharge;
     }
 
+    public String getDefaultDiscountBtn() {
+        return defaultDiscountBtn;
+    }
+
+    public void setDefaultDiscountBtn(String defaultDiscountBtn) {
+        this.defaultDiscountBtn = defaultDiscountBtn;
+    }
+
+    public String getDiscountName() {
+        return discountName;
+    }
+
+    public void setDiscountName(String discountName) {
+        this.discountName = discountName;
+    }
+
     public String getDiscountType() {
         return discountType;
     }
@@ -67,12 +96,28 @@ public class Cart implements Serializable {
         this.discountType = discountType;
     }
 
-    public int getTotalDiscount() {
-        return totalDiscount;
+    public List<DiscountTypeCondition> getDiscountTypeCondition() {
+        return discountTypeCondition;
     }
 
-    public void setTotalDiscount(int totalDiscount) {
-        this.totalDiscount = totalDiscount;
+    public void setDiscountTypeCondition(List<DiscountTypeCondition> discountTypeCondition) {
+        this.discountTypeCondition = discountTypeCondition;
+    }
+
+    public int getDiscountValue() {
+        return discountValue;
+    }
+
+    public void setDiscountValue(int discountValue) {
+        this.discountValue = discountValue;
+    }
+
+    public int getTotalProductDiscount() {
+        return totalProductDiscount;
+    }
+
+    public void setTotalProductDiscount(int totalProductDiscount) {
+        this.totalProductDiscount = totalProductDiscount;
     }
 
     public int getTotalProductQuantity() {
@@ -91,6 +136,14 @@ public class Cart implements Serializable {
         this.totalProductPrice = totalProductPrice;
     }
 
+    public int getTotalDiscount() {
+        return totalDiscount;
+    }
+
+    public void setTotalDiscount(int totalDiscount) {
+        this.totalDiscount = totalDiscount;
+    }
+
     public int getTotalPayable() {
         return totalPayable;
     }
@@ -106,12 +159,5 @@ public class Cart implements Serializable {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
-
-    public int getTotalProductDiscountedPrice() {
-        return totalProductDiscountedPrice;
-    }
-
-    public void setTotalProductDiscountedPrice(int totalProductDiscountedPrice) {
-        this.totalProductDiscountedPrice = totalProductDiscountedPrice;
-    }
 }
+

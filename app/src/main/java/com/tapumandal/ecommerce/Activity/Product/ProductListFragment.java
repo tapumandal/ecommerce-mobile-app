@@ -3,6 +3,7 @@ package com.tapumandal.ecommerce.Activity.Product;
 import android.content.Context;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -176,9 +177,13 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
     public void cartBtnLayout(boolean visibility) {
         if(visibility) {
             Cart myCart = OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
+            Log.d("CART", new Gson().toJson(myCart));
+            if(myCart != null)
             if(myCart.getProducts().size()>0) {
                 b.cartBtnLayout.setVisibility(View.VISIBLE);
                 b.totalAmount.setText("৳ "+myCart.getTotalProductPrice());
+            }else{
+                b.cartBtnLayout.setVisibility(View.GONE);
             }
         }else{
             b.cartBtnLayout.setVisibility(View.GONE);

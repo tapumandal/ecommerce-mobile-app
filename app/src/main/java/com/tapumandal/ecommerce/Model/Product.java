@@ -52,6 +52,9 @@ public class Product implements Serializable {
     @SerializedName("quantity")
     private int quantity;
 
+    @SerializedName("deliveryCharge")
+    private int deliveryCharge = 0;
+
     @SerializedName("maximum_order_quantity")
     private int maximumOrderQuantity = 20;
 
@@ -226,5 +229,13 @@ public class Product implements Serializable {
 
     public void setMaximumOrderQuantity(int maximumOrderQuantity) {
         this.maximumOrderQuantity = maximumOrderQuantity;
+    }
+
+    public int getDeliveryCharge() {
+        return deliveryCharge;
+    }
+
+    public void setDeliveryCharge(int deliveryCharge) {
+        this.deliveryCharge = deliveryCharge;
     }
 }

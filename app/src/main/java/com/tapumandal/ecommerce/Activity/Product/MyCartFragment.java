@@ -92,12 +92,16 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
 
             adapter.setData(myProducts);
             adapter.notifyDataSetChanged();
+
+            b.subTotal.setText(String.valueOf(myCart.getTotalProductPrice()));
+            b.shipping.setText(String.valueOf(myCart.getDeliveryCharge()));
+            b.totalDiscount.setText(String.valueOf(myCart.getTotalProductDiscountedPrice()));
         }
 
     }
 
     @Override
     public void cartBtnLayout(boolean visibility) {
-
+        getData();
     }
 }

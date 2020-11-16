@@ -363,6 +363,9 @@ public class Constants {
     public Product cartMatchProduct(Product item){
 
         myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
+
+        Log.d("MYCART", new Gson().toJson(myCart));
+
         if(myCart != null) {
             myProducts = myCart.getProducts();
         }
@@ -391,6 +394,9 @@ public class Constants {
             myCart.setTotalProductPrice( myCart.getTotalProductPrice() + item.getSellingPricePerUnit() );
             myCart.setTotalProductDiscountedPrice( myCart.getTotalProductDiscountedPrice() + item.getDiscountPrice() );
 
+            if(myCart.getDeliveryCharge() < item.getDeliveryCharge()) {
+                myCart.setDeliveryCharge(item.getDeliveryCharge());
+            }
 
             item.setOrderQuantity(item.getOrderQuantity()+1);
             boolean matched = false;
@@ -417,9 +423,9 @@ public class Constants {
 
         item.setOrderQuantity(item.getOrderQuantity()-1);
 
-        myCart.setTotalProductQuantity( myCart.getTotalProductQuantity() + 1 );
-        myCart.setTotalProductPrice( myCart.getTotalProductPrice() + item.getSellingPricePerUnit() );
-        myCart.setTotalProductDiscountedPrice( myCart.getTotalProductDiscountedPrice() + item.getDiscountPrice() );
+        myCart.setTotalProductQuantity( myCart.getTotalProductQuantity() - 1 );
+        myCart.setTotalProductPrice( myCart.getTotalProductPrice() - item.getSellingPricePerUnit() );
+        myCart.setTotalProductDiscountedPrice( myCart.getTotalProductDiscountedPrice() - item.getDiscountPrice() );
 
         for (int i = 0; i < myProducts.size(); i++) {
             if (myProducts.get(i).getId() == item.getId()) {
@@ -429,6 +435,7 @@ public class Constants {
                 if(myProducts.get(i).getOrderQuantity() == 0){
                     myProducts.remove(i);
                 }
+                break;
             }
         }
         Log.d("STATUS", new Gson().toJson(myProducts));

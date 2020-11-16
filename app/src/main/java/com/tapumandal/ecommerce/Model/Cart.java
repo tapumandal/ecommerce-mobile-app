@@ -17,6 +17,9 @@ public class Cart implements Serializable {
     @SerializedName("deliveryCharge")
     protected int deliveryCharge = 0;
 
+    @SerializedName("discountName")
+    protected String discountName; // Special Discount /Product Discount
+
     @SerializedName("discountType")
     protected String discountType; // TotalPercentage/OverallAmount/ProductDiscount
 

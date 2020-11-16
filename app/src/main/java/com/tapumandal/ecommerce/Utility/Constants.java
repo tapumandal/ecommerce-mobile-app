@@ -364,7 +364,6 @@ public class Constants {
 
         myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
 
-        Log.d("MYCART", new Gson().toJson(myCart));
 
         if(myCart != null) {
             myProducts = myCart.getProducts();
@@ -392,7 +391,7 @@ public class Constants {
 
             myCart.setTotalProductQuantity( myCart.getTotalProductQuantity() + 1 );
             myCart.setTotalProductPrice( myCart.getTotalProductPrice() + item.getSellingPricePerUnit() );
-            myCart.setTotalProductDiscountedPrice( myCart.getTotalProductDiscountedPrice() + item.getDiscountPrice() );
+            myCart.setTotalProductDiscount( myCart.getTotalProductDiscount() + item.getDiscountPrice() );
 
             if(myCart.getDeliveryCharge() < item.getDeliveryCharge()) {
                 myCart.setDeliveryCharge(item.getDeliveryCharge());
@@ -425,7 +424,7 @@ public class Constants {
 
         myCart.setTotalProductQuantity( myCart.getTotalProductQuantity() - 1 );
         myCart.setTotalProductPrice( myCart.getTotalProductPrice() - item.getSellingPricePerUnit() );
-        myCart.setTotalProductDiscountedPrice( myCart.getTotalProductDiscountedPrice() - item.getDiscountPrice() );
+        myCart.setTotalProductDiscount( myCart.getTotalProductDiscount() - item.getDiscountPrice() );
 
         for (int i = 0; i < myProducts.size(); i++) {
             if (myProducts.get(i).getId() == item.getId()) {

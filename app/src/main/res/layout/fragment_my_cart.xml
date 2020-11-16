@@ -131,19 +131,18 @@
                                     android:orientation="horizontal">
 
                             <RadioButton android:id="@+id/radioOnProduct"
-                                         android:checked="true"
                                          android:layout_width="wrap_content"
                                          android:layout_height="wrap_content"
+                                         android:checked="false"
                                          android:textSize="@dimen/_16ssdp"
-                                         android:text="On Product"
-                                         android:onClick="onRadioButtonClicked"/>
+                                         android:text="On Product"/>
 
                             <RadioButton android:id="@+id/radioSpecialOffer"
                                          android:layout_width="wrap_content"
                                          android:layout_height="wrap_content"
+                                         android:checked="false"
                                          android:textSize="@dimen/_16ssdp"
-                                         android:text="Special Offer"
-                                         android:onClick="onRadioButtonClicked"/>
+                                         android:text="Special Offer"/>
                         </RadioGroup>
 
                         <TextView

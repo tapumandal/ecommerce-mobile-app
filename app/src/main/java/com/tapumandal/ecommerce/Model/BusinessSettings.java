@@ -21,11 +21,17 @@ public class BusinessSettings implements Serializable {
     @SerializedName("deliveryCharge")
     protected int deliveryCharge = 20;
 
+    @SerializedName("defaultDiscountBtn")
+    protected String defaultDiscountBtn = "radioSpecialOffer"; // radioOnProduct/radioSpecialOffer
+
     @SerializedName("discountName")
-    protected String discountName = "Wednesday Special"; // Special Discount /Product Discount
+    protected String discountName = "Special Offer"; // Special Offer(Eid/Puja/NewYear)
 
     @SerializedName("discountType")
     protected String discountType = "TotalPercentage"; // TotalPercentage/OverallAmount/ProductDiscount
+
+    @SerializedName("discountTypeCondition")
+    protected List<DiscountTypeCondition> discountTypeCondition;
 
     @SerializedName("discountAmount")
     protected int discountAmount = 15;
@@ -35,6 +41,7 @@ public class BusinessSettings implements Serializable {
 
     @SerializedName("mobilePaymentDiscount")
     protected int mobilePaymentDiscount = 20;
+
 
     public int getId() {
         return id;
@@ -60,6 +67,14 @@ public class BusinessSettings implements Serializable {
         this.deliveryCharge = deliveryCharge;
     }
 
+    public String getDefaultDiscountBtn() {
+        return defaultDiscountBtn;
+    }
+
+    public void setDefaultDiscountBtn(String defaultDiscountBtn) {
+        this.defaultDiscountBtn = defaultDiscountBtn;
+    }
+
     public String getDiscountName() {
         return discountName;
     }
@@ -76,11 +91,35 @@ public class BusinessSettings implements Serializable {
         this.discountType = discountType;
     }
 
+    public List<DiscountTypeCondition> getDiscountTypeCondition() {
+        return discountTypeCondition;
+    }
+
+    public void setDiscountTypeCondition(List<DiscountTypeCondition> discountTypeCondition) {
+        this.discountTypeCondition = discountTypeCondition;
+    }
+
     public int getDiscountAmount() {
         return discountAmount;
     }
 
     public void setDiscountAmount(int discountAmount) {
         this.discountAmount = discountAmount;
+    }
+
+    public int getCardPaymentDiscount() {
+        return cardPaymentDiscount;
+    }
+
+    public void setCardPaymentDiscount(int cardPaymentDiscount) {
+        this.cardPaymentDiscount = cardPaymentDiscount;
+    }
+
+    public int getMobilePaymentDiscount() {
+        return mobilePaymentDiscount;
+    }
+
+    public void setMobilePaymentDiscount(int mobilePaymentDiscount) {
+        this.mobilePaymentDiscount = mobilePaymentDiscount;
     }
 }

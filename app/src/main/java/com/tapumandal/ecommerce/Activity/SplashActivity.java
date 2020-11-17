@@ -3,11 +3,20 @@ package com.tapumandal.ecommerce.Activity;
 import android.content.Intent;
 import android.os.Handler;
 
+import android.util.Log;
+import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
+import com.tapumandal.ecommerce.Model.Cart;
+import com.tapumandal.ecommerce.Model.DiscountTypeCondition;
+import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
+import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.databinding.ActivitySplashBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tapumandal on 10/24/2020.
@@ -25,10 +34,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void initComponent() {
         context = this;
-
         binding =  getBinding();
-
-
 
         new Handler().postDelayed(() -> {
             if (MySharedPreference.getBoolean(MySharedPreference.Key.IS_LOGIN)) {

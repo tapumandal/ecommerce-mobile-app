@@ -1,6 +1,8 @@
 package com.tapumandal.ecommerce.Model;
 
-public class DiscountTypeCondition {
+import java.io.Serializable;
+
+public class DiscountTypeCondition implements Serializable {
     private int minimumAmount = 0;
     private int discountedAmount = 0;
 

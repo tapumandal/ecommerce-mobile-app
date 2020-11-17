@@ -23,6 +23,7 @@ import com.tapumandal.ecommerce.Base.BaseFragment;
 import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.Constants;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.FragmentProductListBinding;
@@ -59,7 +60,6 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
         viewModel = ViewModelProviders.of(this).get(ProductControlViewModel.class);
         initRecycleView();
 
-        Toast.makeText(getContext(), selectedMenu, Toast.LENGTH_SHORT).show();
         clickEvent();
     }
 
@@ -73,7 +73,6 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
             ((ProductActivity) getActivity()).setActionBarTitle(selectedMenu);
         }
 
-        System.out.println("On Resume On Resume On Resume On Resume On Resume On Resume ");
         adapter.notifyDataSetChanged();
     }
 
@@ -100,7 +99,6 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
     @Override
     public void onPause() {
         super.onPause();
-        System.out.println("On Pause On Pause On Pause On Pause On Pause On Pause On Pause ");
     }
 
     private void initRecycleView() {
@@ -154,18 +152,14 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
                     adapter.setData(response.getData());
                     adapter.notifyDataSetChanged();
 
-                    System.out.println("XXXXXXX Data Loaded");
-                    System.out.println(new Gson().toJson(response.getData()));
 
                 } else {
-                    System.out.println("ELSE");
                     showFailedToast(response.getMessage());
 
 //                    b.noItem.mainLayout.setVisibility(View.VISIBLE);
 //                    b.noItem.titleMessage.setText(response.getMessage());
                 }
             } else {
-                System.out.println("ELSE ELSE");
                 showFailedToast(getString(R.string.something_went_wrong));
             }
 
@@ -177,7 +171,8 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
     public void cartBtnLayout(boolean visibility) {
         if(visibility) {
             Cart myCart = OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
-            Log.d("CART", new Gson().toJson(myCart));
+
+//            if(myCart.getProducts() != null)
             if(myCart != null)
             if(myCart.getProducts().size()>0) {
                 b.cartBtnLayout.setVisibility(View.VISIBLE);

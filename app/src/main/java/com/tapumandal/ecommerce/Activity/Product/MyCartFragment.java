@@ -2,7 +2,6 @@ package com.tapumandal.ecommerce.Activity.Product;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -102,11 +101,9 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
         myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
 
         if(myCart.getDefaultDiscountBtn().equals("radioOnProduct")){
-            Log.d("MYCART", "Auto Click radioOnProduct");
             radioOnProduct();
 
         }else if(myCart.getDefaultDiscountBtn().equals("radioSpecialOffer")){
-            Log.d("MYCART", "Auto Click radioSpecialOffer");
             radioSpecialOffer();
         }
 
@@ -153,7 +150,6 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
                     }
                 }
 //                OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
-                Log.d("MYCART", new Gson().toJson(myCart));
                 getData();
             }
         });
@@ -170,7 +166,6 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
 
     private void radioOnProduct(){
         myCart.setDefaultDiscountBtn("radioOnProduct");
-        Log.d("MYCART", "radioOnProduct:"+myCart.getTotalProductDiscount());
         myCart.setTotalDiscount( myCart.getTotalProductDiscount() );
         OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
     }
@@ -185,7 +180,6 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
                 }
             }
         }
-        Log.d("MYCART", "calculativeAmount:"+calculativeAmount);
 
         if(myCart.getDiscountType().equals("TotalPercentage")){
             myCart.setTotalDiscount( (myCart.getTotalProductPrice()*calculativeAmount)/100 );

@@ -17,118 +17,19 @@
 		Financial Stimulus Packages for Marginal Farmers and Entrepreneurs
 	</string>
 
-	<string-array name="location_type_array">
-		<item>Select Location Type *</item>
-		<item>Rural</item>
-		<item>Sub-Urban</item>
-		<item>Urban</item>
-	</string-array>
-
-	<string-array name="location_district_array">
-		<item>Select District</item>
-		<item>Dhaka</item>
-		<item>Madaripur</item>
-		<item>Comilla</item>
-		<item>Jossore</item>
-		<item>Munshiganj</item>
-	</string-array>
-
-	<string-array name="location_upzila_array">
-		<item>Select Upzila</item>
-		<item>Upzila 1</item>
-		<item>Upzila 2</item>
-		<item>Upzila 3</item>
-		<item>Upzila 4</item>
-		<item>Upzila 5</item>
-	</string-array>
-
-	<string-array name="location_union_array">
-		<item>Select Union</item>
-		<item>Union 1</item>
-		<item>Union 2</item>
-		<item>Union 3</item>
-		<item>Union 4</item>
-	</string-array>
-
-	<string-array name="location_municipality_array">
-		<item>Select Union</item>
-		<item>Municipality 1</item>
-		<item>Municipality 2</item>
-		<item>Municipality 3</item>
-		<item>Municipality 4</item>
-	</string-array>
-
-	<string-array name="location_city_corporation_array">
-		<item>Select City Corporation</item>
-		<item>City Corporation 1</item>
-		<item>City Corporation 2</item>
-		<item>City Corporation 3</item>
-		<item>City Corporation 4</item>
-		<item>City Corporation 5</item>
-	</string-array>
-
 	<string-array name="gender_selection_array">
 		<item>Select Sex *</item>
 		<item>Male</item>
 		<item>Female</item>
 		<item>Other</item>
-		<item>Prefer not to
-			<Disclose></Disclose>
-		</item>
 	</string-array>
 
-	<string-array name="farming_type_selection_array">
-		<item>Select Farming Type *</item>
-		<item>Cattle Farming</item>
-		<item>Fisheries</item>
-		<item>Poultry</item>
-		<item>Cropping</item>
+	<string-array name="area_array">
+		<item>Area</item>
+		<item>Banasree</item>
+		<item>Aftabnagar</item>
 	</string-array>
 
-	<string-array name="enterprise_type_selection_array">
-		<item>Select Enterprise Type *</item>
-		<item>Musrat Hasan Emon</item>
-		<item>ASA</item>
-		<item>Tea Stall</item>
-		<item>Barbar Shop</item>
-		<item>sdsds</item>
-	</string-array>
-
-
-	<string-array name="anyCurrentLoanFromFormalSector_selection_array">
-		<item>Any Current Loan From Formal Sector ? *</item>
-		<item>YES</item>
-		<item>No</item>
-	</string-array>
-
-	<string-array name="interestedToApplyForLoan_selection_array">
-		<item>Interested To Apply For Loan ?</item>
-		<item>YES</item>
-		<item>No</item>
-	</string-array>
-
-	<string-array name="interestLoanStatus_selection_array">
-		<item>Select Status *</item>
-		<item>Enable</item>
-		<item>Disable</item>
-	</string-array>
-
-	<string-array name="fiCategoryOfCurrentLoan_selection_array">
-		<item>Select FI Category of current loan</item>
-		<item>Bank</item>
-		<item>Micro-Finance Institution</item>
-		<item>Cooperative</item>
-		<item>Financial Institution</item>
-		<item>Insurance</item>
-		<item>Other</item>
-	</string-array>
-
-	<string-array name="currentLoanSize_selection_array">
-		<item>Current Loan Size *</item>
-		<item>"Below 50,000"</item>
-		<item>"50,000 -Below 100,000"</item>
-		<item>"100,000 - Below 200,000"</item>
-	</string-array>
 	<string name="title_activity_product">ProductActivity</string>
 	<string name="navigation_drawer_open">Open navigation drawer</string>
 	<string name="navigation_drawer_close">Close navigation drawer</string>

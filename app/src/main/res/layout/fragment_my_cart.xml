@@ -157,6 +157,13 @@
 
                     </LinearLayout>
 
+                    <ImageView
+                            android:id="@+id/discountBanner"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_80ssdp"
+                            android:maxHeight="@dimen/_80ssdp" />
+
                 </LinearLayout>
 
                 <LinearLayout

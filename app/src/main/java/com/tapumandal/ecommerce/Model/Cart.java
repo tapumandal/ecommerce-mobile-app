@@ -30,8 +30,8 @@ public class Cart implements Serializable {
     @SerializedName("discountTypeCondition")
     protected List<DiscountTypeCondition> discountTypeCondition;
 
-    @SerializedName("discountValue")
-    protected int discountValue = 15;
+    @SerializedName("discountBanner")
+    protected String discountBanner;
 //    OR
     @SerializedName("totalProductDiscount")
     protected int totalProductDiscount = 0;
@@ -103,12 +103,12 @@ public class Cart implements Serializable {
         this.discountTypeCondition = discountTypeCondition;
     }
 
-    public int getDiscountValue() {
-        return discountValue;
+    public String getDiscountBanner() {
+        return discountBanner;
     }
 
-    public void setDiscountValue(int discountValue) {
-        this.discountValue = discountValue;
+    public void setDiscountBanner(String discountBanner) {
+        this.discountBanner = discountBanner;
     }
 
     public int getTotalProductDiscount() {

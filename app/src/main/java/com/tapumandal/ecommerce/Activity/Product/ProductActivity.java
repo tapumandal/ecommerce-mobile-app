@@ -281,7 +281,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         replaceFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG", null);
     }
 
-
     private void setMyCart() {
         Log.d("MYCART","ProductActivity setMyCart()");
 

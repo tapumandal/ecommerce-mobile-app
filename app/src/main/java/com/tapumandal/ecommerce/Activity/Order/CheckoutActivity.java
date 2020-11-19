@@ -8,7 +8,9 @@ import android.os.Bundle;
 import androidx.lifecycle.ViewModelProviders;
 import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Base.BaseActivity;
+import com.tapumandal.ecommerce.Model.UserProfile;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivityCheckoutBinding;
 
@@ -22,6 +24,8 @@ public class CheckoutActivity extends BaseActivity {
     ActivityCheckoutBinding binding;
     ProductControlViewModel viewModel;
 
+    UserProfile userProfile;
+
     @Override
     protected int getLayoutResourceFile() {
         return R.layout.activity_checkout;
@@ -32,9 +36,25 @@ public class CheckoutActivity extends BaseActivity {
         context = this;
         binding = getBinding();
         viewModel = ViewModelProviders.of(this).get(ProductControlViewModel.class);
-
         setToolbar("Checkout", true);
+
+        userProfile = OfflineCache.getOfflineSingle(OfflineCache.MY_PROFILE);
+
+        addressLayout();
+
         initAreaSpinner();
+    }
+
+    private void addressLayout() {
+        if(userProfile == null){
+            binding.addressEditLayout.setVisibility(View.VISIBLE);
+        }else{
+            if(userProfile.getAddress() == null){
+                binding.addressEditLayout.setVisibility(View.VISIBLE);
+            }else{
+                binding.existingAddressLayout.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void initAreaSpinner() {

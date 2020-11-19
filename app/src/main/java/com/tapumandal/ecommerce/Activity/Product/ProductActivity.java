@@ -87,7 +87,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         toggle.syncState();
         binding.navView.setNavigationItemSelectedListener(this);
 
-        setMyCart();
 
         fragment = new ProductListFragment();
         Bundle bundle = new Bundle();
@@ -281,28 +280,5 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         replaceFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG", null);
     }
 
-    private void setMyCart() {
-        Log.d("MYCART","ProductActivity setMyCart()");
-
-        Cart myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
-        if(myCart == null) {
-            myCart = new Cart();
-            Log.d("MYCART","ProductActivity setMyCart myCart IS NULL");
-            List<DiscountTypeCondition> discountTypeConditionList = new ArrayList<DiscountTypeCondition>();
-            DiscountTypeCondition discountTypeCondition = new DiscountTypeCondition();
-            discountTypeCondition.setMinimumAmount(100);
-            discountTypeCondition.setDiscountedAmount(50);
-            discountTypeConditionList.add(discountTypeCondition);
-            myCart.setDiscountTypeCondition(discountTypeConditionList);
-
-
-            myCart.setProducts(new ArrayList<Product>());
-
-            OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
-        }else {
-            Log.d("MYCART","ProductActivity setMyCart myCart IS NOT NULL");
-        }
-
-    }
 
 }

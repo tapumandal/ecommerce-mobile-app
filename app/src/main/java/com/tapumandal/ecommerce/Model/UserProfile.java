@@ -3,6 +3,8 @@ package com.tapumandal.ecommerce.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by tapumandal on 10/25/2020.
  * For any query ask online.tapu@gmail.com
@@ -14,27 +16,32 @@ public class UserProfile {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("created_at")
+    @SerializedName("createdAt")
     @Expose
     private String createdAt;
-    @SerializedName("updated_at")
+    @SerializedName("updatedAt")
     @Expose
     private String updatedAt;
-    @SerializedName("user_name")
+    @SerializedName("userName")
     @Expose
     private String userName;
-    @SerializedName("mobile_no")
+    @SerializedName("mobileNo")
     @Expose
     private String mobileNo;
-    @SerializedName("is_active")
+    @SerializedName("isActive")
     @Expose
     private String isActive;
     @SerializedName("picture")
     @Expose
     private String picture;
-    @SerializedName("access_token")
+    @SerializedName("accessToken")
     @Expose
     private String accessToken;
+
+    @SerializedName("address")
+    @Expose
+    private List<Address> address;
+
 
 
     public String getId() {
@@ -107,5 +114,13 @@ public class UserProfile {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public List<Address> getAddress() {
+        return address;
+    }
+
+    public void setAddress(List<Address> address) {
+        this.address = address;
     }
 }

@@ -31,12 +31,12 @@
 
         <LinearLayout
                 android:id="@+id/checkoutLayout"
+                android:padding="@dimen/_16ssdp"
                 android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_350ssdp"
                 android:gravity="bottom"
                 android:orientation="vertical"
-                android:layout_margin="@dimen/_10ssdp"
                 android:background="@color/colorPrimaryWhite"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
@@ -156,6 +156,13 @@
                                 android:text="৳ 0"/>
 
                     </LinearLayout>
+
+                    <ImageView
+                            android:id="@+id/discountBanner"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_80ssdp"
+                            android:maxHeight="@dimen/_80ssdp" />
 
                 </LinearLayout>
 

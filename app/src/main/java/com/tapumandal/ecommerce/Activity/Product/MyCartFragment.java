@@ -1,8 +1,8 @@
 package com.tapumandal.ecommerce.Activity.Product;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
+import com.tapumandal.ecommerce.Activity.Order.CheckoutActivity;
 import com.tapumandal.ecommerce.Adapter.CustomEventListener;
 import com.tapumandal.ecommerce.Adapter.ProductListAdapter;
 import com.tapumandal.ecommerce.Base.BaseFragment;
@@ -68,7 +70,7 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("On Resume On Resume On Resume On Resume On Resume On Resume ");
+        ((ProductActivity) getActivity()).setActionBarTitle("My Cart");
         adapter.notifyDataSetChanged();
         getData();
     }
@@ -76,7 +78,6 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
     @Override
     public void onPause() {
         super.onPause();
-        System.out.println("On Pause On Pause On Pause On Pause On Pause On Pause On Pause ");
         adapter.notifyDataSetChanged();
         getData();
     }
@@ -102,17 +103,20 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
         myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
 
         if(myCart.getDefaultDiscountBtn().equals("radioOnProduct")){
-            Log.d("MYCART", "Auto Click radioOnProduct");
             radioOnProduct();
 
         }else if(myCart.getDefaultDiscountBtn().equals("radioSpecialOffer")){
-            Log.d("MYCART", "Auto Click radioSpecialOffer");
             radioSpecialOffer();
         }
 
 //        myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
 
         if(myCart != null) {
+
+            if(myCart.getDiscountBanner() != null && !myCart.getDiscountBanner().isEmpty()) {
+                b.discountBanner.setVisibility(View.VISIBLE);
+                Picasso.get().load(myCart.getDiscountBanner()).into(b.discountBanner);
+            }
 
             myProducts = myCart.getProducts();
 
@@ -153,7 +157,6 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
                     }
                 }
 //                OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
-                Log.d("MYCART", new Gson().toJson(myCart));
                 getData();
             }
         });
@@ -162,6 +165,7 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Checkout Clicked", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(context, CheckoutActivity.class));
             }
         });
 
@@ -170,7 +174,6 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
 
     private void radioOnProduct(){
         myCart.setDefaultDiscountBtn("radioOnProduct");
-        Log.d("MYCART", "radioOnProduct:"+myCart.getTotalProductDiscount());
         myCart.setTotalDiscount( myCart.getTotalProductDiscount() );
         OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
     }
@@ -185,7 +188,6 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
                 }
             }
         }
-        Log.d("MYCART", "calculativeAmount:"+calculativeAmount);
 
         if(myCart.getDiscountType().equals("TotalPercentage")){
             myCart.setTotalDiscount( (myCart.getTotalProductPrice()*calculativeAmount)/100 );

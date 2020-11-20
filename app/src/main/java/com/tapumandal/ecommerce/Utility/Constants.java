@@ -25,6 +25,7 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.tapumandal.ecommerce.Model.Cart;
+import com.tapumandal.ecommerce.Model.DiscountTypeCondition;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
 
@@ -358,19 +359,18 @@ public class Constants {
         context.startActivity(sendIntent);
     }
 
-    private Cart myCart;
+//    private Cart myCart;
     private List<Product> myProducts;
     public Product cartMatchProduct(Product item){
 
-        myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
-
+        Cart myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
 
         if(myCart != null) {
             myProducts = myCart.getProducts();
+            Log.d("MYCART","Constants cartMatchProduct myCart IS NOT NULL:"+new Gson().toJson(myCart));
         }
 
         if(myProducts == null){
-            System.out.println("myProducts IS NULL");
             myProducts = new ArrayList<Product>();
         }
 
@@ -384,9 +384,13 @@ public class Constants {
     }
 
     public Product addProduct(Product item){
+        Cart myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
+
         if(myCart == null) {
+            Log.d("MYCART","Constants addProduct myCart IS NULL");
             myCart = new Cart();
         }
+
         if(item.getOrderQuantity()<item.getMaximumOrderQuantity()){
 
             myCart.setTotalProductQuantity( myCart.getTotalProductQuantity() + 1 );
@@ -401,13 +405,13 @@ public class Constants {
             boolean matched = false;
             for (int i = 0; i < myProducts.size(); i++) {
                 if (myProducts.get(i).getId() == item.getId()) {
-                    System.out.println("MATCHED "+myProducts.get(i).getId() +"=="+ item.getId());
+                    Log.d("MYCART","Constants MATCHED "+myProducts.get(i).getId() +"=="+ item.getId());
                     myProducts.get(i).setOrderQuantity(item.getOrderQuantity());
                     matched = true;
                 }
             }
             if(!matched){
-                System.out.println("NOT MATCHED");
+                Log.d("MYCART","Constants NOT MATCHED");
                 myProducts.add(item);
             }
 
@@ -420,6 +424,7 @@ public class Constants {
 
     public Product removeProduct(Product item){
 
+        Cart myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
         item.setOrderQuantity(item.getOrderQuantity()-1);
 
         myCart.setTotalProductQuantity( myCart.getTotalProductQuantity() - 1 );
@@ -443,5 +448,4 @@ public class Constants {
 
         return item;
     }
-
 }

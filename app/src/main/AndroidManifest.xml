@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true" >
-        
+        <activity android:name=".Activity.Order.CheckoutActivity" >
+        </activity>
         <activity android:name=".Activity.Product.ProductDetailsActivity" />
         <activity
             android:name=".Activity.Product.ProductActivity"

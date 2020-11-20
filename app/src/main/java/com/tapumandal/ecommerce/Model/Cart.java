@@ -18,20 +18,20 @@ public class Cart implements Serializable {
     protected int deliveryCharge = 0;
 
     @SerializedName("defaultDiscountBtn")
-    protected String defaultDiscountBtn = "radioOnProduct"; // radioOnProduct/radioSpecialOffer
+    protected String defaultDiscountBtn = "radioSpecialOffer"; // radioOnProduct/radioSpecialOffer
 
 //    IF
     @SerializedName("discountName")
     protected String discountName = "Special Offer"; // Special Offer(Eid/Puja/NewYear)
 
     @SerializedName("discountType")
-    protected String discountType = "OverallAmount"; // TotalPercentage/OverallAmount
+    protected String discountType = "TotalPercentage"; // TotalPercentage/OverallAmount
 
     @SerializedName("discountTypeCondition")
     protected List<DiscountTypeCondition> discountTypeCondition;
 
-    @SerializedName("discountValue")
-    protected int discountValue = 0;
+    @SerializedName("discountBanner")
+    protected String discountBanner;
 //    OR
     @SerializedName("totalProductDiscount")
     protected int totalProductDiscount = 0;
@@ -54,7 +54,6 @@ public class Cart implements Serializable {
 
     @SerializedName("productList")
     protected List<Product> products;
-
 
     public int getId() {
         return id;
@@ -104,12 +103,12 @@ public class Cart implements Serializable {
         this.discountTypeCondition = discountTypeCondition;
     }
 
-    public int getDiscountValue() {
-        return discountValue;
+    public String getDiscountBanner() {
+        return discountBanner;
     }
 
-    public void setDiscountValue(int discountValue) {
-        this.discountValue = discountValue;
+    public void setDiscountBanner(String discountBanner) {
+        this.discountBanner = discountBanner;
     }
 
     public int getTotalProductDiscount() {

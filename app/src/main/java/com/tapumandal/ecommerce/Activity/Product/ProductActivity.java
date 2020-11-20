@@ -18,9 +18,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Adapter.ExpandableListAdapter;
 import com.tapumandal.ecommerce.Base.BaseActivity;
-import com.tapumandal.ecommerce.Model.Cart;
-import com.tapumandal.ecommerce.Model.MenuModel;
-import com.tapumandal.ecommerce.Model.MyMenu;
+import com.tapumandal.ecommerce.Model.*;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
@@ -87,8 +85,8 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
         binding.navView.setNavigationItemSelectedListener(this);
+
 
         fragment = new ProductListFragment();
         Bundle bundle = new Bundle();
@@ -175,13 +173,10 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-            System.out.println("nav_home");
         } else if (id == R.id.nav_gallery) {
 
-            System.out.println("nav_gallery");
         } else if (id == R.id.nav_slideshow) {
 
-            System.out.println("nav_slideshow");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -284,5 +279,6 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         fragment.setArguments(bundle);
         replaceFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG", null);
     }
+
 
 }

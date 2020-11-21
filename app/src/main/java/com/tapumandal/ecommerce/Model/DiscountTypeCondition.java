@@ -3,15 +3,18 @@ package com.tapumandal.ecommerce.Model;
 import java.io.Serializable;
 
 public class DiscountTypeCondition implements Serializable {
-    private int minimumAmount = 0;
+    private int minimumPurchaseLimit = 0;
     private int discountedAmount = 0;
+    private int maximumDiscountedAmount = 0;
 
-    public int getMinimumAmount() {
-        return minimumAmount;
+
+
+    public int getMinimumPurchaseLimit() {
+        return minimumPurchaseLimit;
     }
 
-    public void setMinimumAmount(int minimumAmount) {
-        this.minimumAmount = minimumAmount;
+    public void setMinimumPurchaseLimit(int minimumPurchaseLimit) {
+        this.minimumPurchaseLimit = minimumPurchaseLimit;
     }
 
     public int getDiscountedAmount() {
@@ -20,5 +23,13 @@ public class DiscountTypeCondition implements Serializable {
 
     public void setDiscountedAmount(int discountedAmount) {
         this.discountedAmount = discountedAmount;
+    }
+
+    public int getMaximumDiscountedAmount() {
+        return maximumDiscountedAmount;
+    }
+
+    public void setMaximumDiscountedAmount(int maximumDiscountedAmount) {
+        this.maximumDiscountedAmount = maximumDiscountedAmount;
     }
 }

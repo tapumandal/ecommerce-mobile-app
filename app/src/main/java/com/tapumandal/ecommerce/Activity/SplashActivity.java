@@ -62,13 +62,52 @@ public class SplashActivity extends BaseActivity {
         if(myCart == null) {
             myCart = new Cart();
             Log.d("MYCART","ProductActivity setMyCart myCart IS NULL");
+
+            myCart.setDeliveryCharge(30);
+            myCart.setDefaultDiscountBtn("radioOnProduct");
+
+
+//            SPECIAL DISCOUNT
             List<DiscountTypeCondition> discountTypeConditionList = new ArrayList<DiscountTypeCondition>();
             DiscountTypeCondition discountTypeCondition = new DiscountTypeCondition();
-            discountTypeCondition.setMinimumAmount(100);
+            discountTypeCondition.setMinimumPurchaseLimit(100);
             discountTypeCondition.setDiscountedAmount(50);
+            discountTypeCondition.setMaximumDiscountedAmount(200);
             discountTypeConditionList.add(discountTypeCondition);
             myCart.setDiscountTypeCondition(discountTypeConditionList);
+//            SPECIAL DISCOUNT END
 
+
+//            PAYMENT
+            myCart.setPaymentDiscountMessage("Surprising Offer! 50% off on Card Payment. Or 50 taka off on Bkash payment.");
+
+//            CARD PAYMENT
+            List<DiscountTypeCondition> cardPaymentdiscountTypeConditionList = new ArrayList<DiscountTypeCondition>();
+
+            DiscountTypeCondition cardPaymentdiscountTypeCondition = new DiscountTypeCondition();
+            cardPaymentdiscountTypeCondition.setMinimumPurchaseLimit(100);
+            cardPaymentdiscountTypeCondition.setDiscountedAmount(50);
+            cardPaymentdiscountTypeCondition.setMaximumDiscountedAmount(200);
+
+            cardPaymentdiscountTypeConditionList.add(discountTypeCondition);
+            myCart.setCardPaymentCondition(cardPaymentdiscountTypeConditionList);
+            myCart.setCardPaymentDiscountName("Card Payment");
+            myCart.setCardPaymentDiscountType("TotalPercentage");
+//            CARD PAYMENT END
+
+//            MOBILE PAYMENT
+            List<DiscountTypeCondition> mobilePaymentDiscountTypeConditionList = new ArrayList<DiscountTypeCondition>();
+
+            DiscountTypeCondition mobilePaymentDiscountTypeCondition = new DiscountTypeCondition();
+            mobilePaymentDiscountTypeCondition.setMinimumPurchaseLimit(100);
+            mobilePaymentDiscountTypeCondition.setDiscountedAmount(50);
+            mobilePaymentDiscountTypeCondition.setMaximumDiscountedAmount(200);
+
+            mobilePaymentDiscountTypeConditionList.add(discountTypeCondition);
+            myCart.setMobilePaymentCondition(mobilePaymentDiscountTypeConditionList);
+            myCart.setMobilePaymentDiscountName("Mobile Payment");
+            myCart.setMobilePaymentDiscountType("OverallAmount");
+//            MOBILE PAYMENT END
 
             myCart.setProducts(new ArrayList<Product>());
 

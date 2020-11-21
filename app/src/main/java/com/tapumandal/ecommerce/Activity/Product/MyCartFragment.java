@@ -24,6 +24,7 @@ import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.DiscountTypeCondition;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.Constants;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
@@ -62,9 +63,11 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
 
         myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
 
-        initRecycleView();
-
         selectedDiscountOption = "ONPRODUCT";
+
+        initRecycleView();
+        getData();
+        onClickEvent();
     }
 
     @Override
@@ -94,8 +97,6 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
         adapter = new ProductListAdapter(context , myProducts, "MY_CART", this);
         b.recycleView.setAdapter(adapter);
 
-        getData();
-        onClickEvent();
     }
 
     public void getData() {
@@ -179,22 +180,11 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
     }
     private void radioSpecialOffer(){
         myCart.setDefaultDiscountBtn("radioSpecialOffer");
-        List<DiscountTypeCondition> discountTypeCondition = myCart.getDiscountTypeCondition();
-        int calculativeAmount = 0;
-        if(discountTypeCondition != null) {
-            for (int i = 0; i < discountTypeCondition.size(); i++) {
-                if (discountTypeCondition.get(i).getMinimumAmount() < myCart.getTotalProductPrice()) {
-                    calculativeAmount = discountTypeCondition.get(i).getDiscountedAmount();
-                }
-            }
-        }
 
-        if(myCart.getDiscountType().equals("TotalPercentage")){
-            myCart.setTotalDiscount( (myCart.getTotalProductPrice()*calculativeAmount)/100 );
-        }else if(myCart.getDiscountType().equals("OverallAmount")){
-            myCart.setTotalDiscount( calculativeAmount );
-        }
-        OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
+        Constants myConstants = new Constants();
+        Cart tmpCart = myConstants.conditionalDiscountCalculation(myCart);
+
+        OfflineCache.saveOffline(OfflineCache.MY_CART, tmpCart);
     }
 
     @Override

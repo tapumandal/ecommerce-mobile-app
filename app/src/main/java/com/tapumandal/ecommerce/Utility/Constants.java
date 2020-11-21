@@ -448,4 +448,35 @@ public class Constants {
 
         return item;
     }
+
+
+    public Cart conditionalDiscountCalculation(Cart cart){
+        List<DiscountTypeCondition> discountTypeCondition = cart.getDiscountTypeCondition();
+        int calculativeAmount = 0;
+        int maximumDiscountedAmount = 0;
+        if(discountTypeCondition != null) {
+            for (int i = 0; i < discountTypeCondition.size(); i++) {
+                if (discountTypeCondition.get(i).getMinimumPurchaseLimit() < cart.getTotalProductPrice()) {
+                    calculativeAmount = discountTypeCondition.get(i).getDiscountedAmount();
+                    maximumDiscountedAmount = discountTypeCondition.get(i).getMaximumDiscountedAmount();
+                }
+            }
+        }
+
+        if(cart.getDiscountType().equals("TotalPercentage")){
+            int tmpDiscountedAmount = (cart.getTotalProductPrice()*calculativeAmount)/100;
+            if(tmpDiscountedAmount>maximumDiscountedAmount){
+                tmpDiscountedAmount = maximumDiscountedAmount;
+            }
+            cart.setTotalDiscount( tmpDiscountedAmount );
+        }else if(cart.getDiscountType().equals("OverallAmount")){
+            int tmpDiscountedAmount = calculativeAmount;
+            if(tmpDiscountedAmount>maximumDiscountedAmount){
+                tmpDiscountedAmount = maximumDiscountedAmount;
+            }
+            cart.setTotalDiscount( tmpDiscountedAmount );
+        }
+
+        return cart;
+    }
 }

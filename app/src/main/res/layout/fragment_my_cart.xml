@@ -208,7 +208,7 @@
                     android:layout_marginTop="@dimen/_10ssdp"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:background="@color/colorPrimaryRed">
+                    android:background="@drawable/round_shape_5dp_corner_red_button">
                     <ImageView
                             android:layout_width="@dimen/_30ssdp"
                             android:layout_height="@dimen/_30ssdp"

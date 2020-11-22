@@ -547,7 +547,7 @@
 			</androidx.cardview.widget.CardView>
 
 			<LinearLayout
-					android:id="@+id/checkoutBtnLayout"
+					android:id="@+id/checkoutConfirmBtn"
 					android:visibility="visible"
 					android:layout_width="match_parent"
 					android:layout_height="@dimen/_50ssdp"

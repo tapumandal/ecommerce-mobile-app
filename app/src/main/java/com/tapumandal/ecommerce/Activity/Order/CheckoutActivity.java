@@ -50,7 +50,7 @@ public class CheckoutActivity extends BaseActivity {
 
         userProfile = OfflineCache.getOfflineSingle(OfflineCache.MY_PROFILE);
         myCart = OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
-        
+
         if(myCart != null) {
             setCartDetails();
         }
@@ -60,6 +60,20 @@ public class CheckoutActivity extends BaseActivity {
         clickEvent();
     }
 
+    private void addressLayout(){
+
+        if(userProfile == null){
+            b.addressEditLayout.setVisibility(View.VISIBLE);
+            b.addressEditBtn.setVisibility(View.GONE);
+        }else{
+            if(userProfile.getAddress() == null){
+                b.addressEditLayout.setVisibility(View.VISIBLE);
+            }else{
+                b.existingAddressLayout.setVisibility(View.VISIBLE);
+            }
+        }
+
+    }
     private void setCartDetails() {
         b.subTotal.setText(String.valueOf(myCart.getTotalProductPrice()));
         b.shipping.setText(String.valueOf(myCart.getDeliveryCharge()));
@@ -76,13 +90,56 @@ public class CheckoutActivity extends BaseActivity {
     }
 
     private void clickEvent() {
+        b.checkoutConfirmBtn.setOnClickListener(v->{
+            userDetailsManagement();
+        });
     }
+
+    private void userDetailsManagement() {
+
+        if(userProfile == null){
+            userProfile = new UserProfile();
+            userProfile.setName(b.name.getText().toString());
+            userProfile.setMobileNo(b.phone.getText().toString());
+
+            if(userProfile.getAddress() == null){
+                Toast.makeText(context, "Address is NULL", Toast.LENGTH_SHORT).show();
+            }
+
+        }else{
+
+        }
+    }
+
+
+    private void initAreaSpinner() {
+        ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.area_array));
+        b.areaSpinner.setAdapter(filterAdapter);
+        b.areaSpinner.setSelection(-1);
+        b.areaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
+                String s = b.areaSpinner.getSelectedItem().toString();
+                System.out.println(i+"--"+s);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
 
     public void radioOnDelivery(View view){
         b.radioOnDelivery.setChecked(true);
 
         b.radioCardPayment.setChecked(false);
         b.radioMobilePayment.setChecked(false);
+
+        b.totalDiscount.setPaintFlags(0);
+        b.cardPaymentDiscount.setVisibility(View.GONE);
+        b.mobilePaymentDiscount.setVisibility(View.GONE);
         Toast.makeText(context, "radioOnDelivery", Toast.LENGTH_SHORT).show();
     }
     public void radioCardPayment(View view){
@@ -121,6 +178,8 @@ public class CheckoutActivity extends BaseActivity {
         }
         Log.d("CHECKOUT_DISCOUNT", "getCardPaymentDiscountType:"+myCart.getCardPaymentDiscountType()+" tmpDiscountedAmount:"+tmpDiscountedAmount);
 
+
+        b.mobilePaymentDiscount.setVisibility(View.GONE);
         if( tmpDiscountedAmount >= myCart.getTotalDiscount() ){
             b.cardPaymentDiscount.setVisibility(View.VISIBLE);
             b.cardPaymentDiscount.setText("৳ "+tmpDiscountedAmount);
@@ -133,6 +192,7 @@ public class CheckoutActivity extends BaseActivity {
             b.cardPaymentDiscount.setText("৳ "+tmpDiscountedAmount);
 
             b.cardPaymentDiscount.setPaintFlags(b.cardPaymentDiscount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            b.totalDiscount.setPaintFlags(0);
             paymentDiscount = myCart.getTotalDiscount();
         }
 
@@ -171,6 +231,7 @@ public class CheckoutActivity extends BaseActivity {
         }
         Log.d("CHECKOUT_DISCOUNT", "getMobilePaymentDiscountType:"+myCart.getMobilePaymentDiscountType()+" tmpDiscountedAmount:"+tmpDiscountedAmount);
 
+        b.cardPaymentDiscount.setVisibility(View.GONE);
         if( tmpDiscountedAmount >= myCart.getTotalDiscount() ){
             b.mobilePaymentDiscount.setVisibility(View.VISIBLE);
             b.mobilePaymentDiscount.setText("৳ "+tmpDiscountedAmount);
@@ -183,39 +244,11 @@ public class CheckoutActivity extends BaseActivity {
             b.mobilePaymentDiscount.setText("৳ "+tmpDiscountedAmount);
 
             b.mobilePaymentDiscount.setPaintFlags(b.mobilePaymentDiscount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            b.totalDiscount.setPaintFlags(0);
             paymentDiscount = myCart.getTotalDiscount();
         }
 
 //        OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
     }
 
-    private void addressLayout() {
-        if(userProfile == null){
-            b.addressEditLayout.setVisibility(View.VISIBLE);
-        }else{
-            if(userProfile.getAddress() == null){
-                b.addressEditLayout.setVisibility(View.VISIBLE);
-            }else{
-                b.existingAddressLayout.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    private void initAreaSpinner() {
-        ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.area_array));
-        b.areaSpinner.setAdapter(filterAdapter);
-        b.areaSpinner.setSelection(-1);
-        b.areaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
-                String s = b.areaSpinner.getSelectedItem().toString();
-                System.out.println(i+"--"+s);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
 }

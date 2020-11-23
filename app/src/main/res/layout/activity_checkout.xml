@@ -244,7 +244,7 @@
 									android:layout_height="wrap_content"
 									android:layout_marginTop="5dp"
 									android:textColor="@color/black_Text_Color"
-									android:text="status"
+									android:text="Phone"
 									android:textSize="@dimen/_14ssp" />
 
 							<TextView
@@ -253,7 +253,7 @@
 									android:layout_height="wrap_content"
 									android:layout_marginTop="5dp"
 									android:textColor="@color/black_Text_Color"
-									android:text="Note"
+									android:text="Address"
 									android:textSize="@dimen/_14ssp" />
 
 						</LinearLayout>

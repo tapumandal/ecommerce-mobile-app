@@ -99,6 +99,12 @@ public class CheckoutActivity extends BaseActivity {
                 return;
             }
         });
+
+        b.addressEditBtn.setOnClickListener(v -> {
+            b.existingAddressLayout.setVisibility(View.GONE);
+            b.addressEditLayout.setVisibility(View.VISIBLE);
+            userProfile.setMobileNoIsValid(false);
+        });
     }
 
     private void addressLayout(){
@@ -114,6 +120,21 @@ public class CheckoutActivity extends BaseActivity {
             }else{
                 b.existingAddressLayout.setVisibility(View.VISIBLE);
             }
+
+            b.name.setText(userProfile.getName());
+            b.phone.setText(userProfile.getMobileNo());
+            b.name.setText(userProfile.getAddress().get(0).getName());
+            b.phone.setText(userProfile.getAddress().get(0).getMobileNo());
+            b.block.setText(userProfile.getAddress().get(0).getBlock());
+            b.road.setText(userProfile.getAddress().get(0).getRoad());
+            b.house.setText(userProfile.getAddress().get(0).getHouse());
+            b.flat.setText(userProfile.getAddress().get(0).getFlat());
+            b.details.setText(userProfile.getAddress().get(0).getDetails());
+
+            b.existingName.setText(userProfile.getName());
+            b.existingPhone.setText(userProfile.getMobileNo());
+            b.existingAddressDetails.setText(address());
+
         }
 
     }
@@ -165,6 +186,11 @@ public class CheckoutActivity extends BaseActivity {
         startActivity(new Intent(context, ProductActivity.class));
     }
 
+    private boolean validateMobileNo(){
+        Toast.makeText(context, "Validate Mobile Number. Now It's Default", Toast.LENGTH_SHORT).show();
+        showAlertDialog("Validate", "Valid");
+        return true;
+    }
 
     private UserProfile setProfileData() {
         UserProfile uProfile = new UserProfile();
@@ -208,7 +234,6 @@ public class CheckoutActivity extends BaseActivity {
             }
         });
     }
-
 
     public void radioOnDelivery(View view){
         b.radioOnDelivery.setChecked(true);
@@ -329,7 +354,6 @@ public class CheckoutActivity extends BaseActivity {
         selectedPaymentMethod = "MobilePayment";
     }
 
-
     private boolean validateFields(UserProfile uProfile) {
 
         if (uProfile.getName().equals("")) {
@@ -355,9 +379,29 @@ public class CheckoutActivity extends BaseActivity {
         return true;
     }
 
-    private boolean validateMobileNo(){
-        Toast.makeText(context, "Validate Mobile Number. Now It's Default", Toast.LENGTH_SHORT).show();
-        return true;
+    private String address() {
+        String address = "";
+        if(!userProfile.getAddress().get(0).getFlat().equals("")){
+            address = address+"Flat: "+userProfile.getAddress().get(0).getFlat()+", ";
+        }
+        if(!userProfile.getAddress().get(0).getHouse().equals("")){
+            address = address+"House: "+userProfile.getAddress().get(0).getHouse()+", ";
+        }
+        if(!userProfile.getAddress().get(0).getRoad().equals("")){
+            address = address+"Road: "+userProfile.getAddress().get(0).getRoad()+", ";
+        }
+        if(!userProfile.getAddress().get(0).getBlock().equals("")){
+            address = address+"Block: "+userProfile.getAddress().get(0).getBlock()+", ";
+        }
+        if(!userProfile.getAddress().get(0).getArea().equals("")){
+            address = address+" "+userProfile.getAddress().get(0).getArea()+".";
+        }
+
+        if(!userProfile.getAddress().get(0).getDetails().equals("")) {
+            address = address + "\n" + userProfile.getAddress().get(0).getDetails() + ".";
+        }
+
+        return address;
     }
 
 }

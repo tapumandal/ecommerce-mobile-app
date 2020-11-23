@@ -1,48 +1,37 @@
 package com.tapumandal.ecommerce.Model;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by tapumandal on 10/25/2020.
  * For any query ask online.tapu@gmail.com
  */
-public class UserProfile {
+public class UserProfile implements Serializable {
     @SerializedName("id")
-    @Expose
     private String id;
     @SerializedName("name")
-    @Expose
     private String name;
     @SerializedName("createdAt")
-    @Expose
     private String createdAt;
     @SerializedName("updatedAt")
-    @Expose
     private String updatedAt;
     @SerializedName("userName")
-    @Expose
     private String userName;
     @SerializedName("mobileNo")
-    @Expose
     private String mobileNo;
     @SerializedName("mobileNoIsValid")
-    @Expose
     private boolean mobileNoIsValid = false;
     @SerializedName("isActive")
-    @Expose
     private String isActive;
     @SerializedName("picture")
-    @Expose
     private String picture;
     @SerializedName("accessToken")
-    @Expose
     private String accessToken;
 
     @SerializedName("address")
-    @Expose
     private List<Address> address;
 
     public String getId() {

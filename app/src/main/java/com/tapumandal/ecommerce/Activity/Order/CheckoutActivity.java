@@ -1,5 +1,6 @@
 package com.tapumandal.ecommerce.Activity.Order;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.lifecycle.ViewModelProviders;
@@ -35,6 +37,9 @@ public class CheckoutActivity extends BaseActivity {
     public static final String ON_DELIVERY = "OnDelivery";
     public static final String CARD_PAYMENT = "CardPayment";
     public static final String MOBILE_PAYMENT = "MobilePayment";
+
+
+    boolean mobileNoValidationStatus = false;
 
     ActivityCheckoutBinding b;
     ProductControlViewModel viewModel;
@@ -99,6 +104,13 @@ public class CheckoutActivity extends BaseActivity {
                 return;
             }
         });
+
+        b.addressEditBtn.setOnClickListener(v -> {
+            b.existingAddressLayout.setVisibility(View.GONE);
+            b.addressEditLayout.setVisibility(View.VISIBLE);
+            userProfile.setMobileNoIsValid(false);
+            OfflineCache.deleteCacheFile(OfflineCache.MY_PROFILE);
+        });
     }
 
     private void addressLayout(){
@@ -114,6 +126,21 @@ public class CheckoutActivity extends BaseActivity {
             }else{
                 b.existingAddressLayout.setVisibility(View.VISIBLE);
             }
+
+            b.name.setText(userProfile.getName());
+            b.phone.setText(userProfile.getMobileNo());
+            b.name.setText(userProfile.getAddress().get(0).getName());
+            b.phone.setText(userProfile.getAddress().get(0).getMobileNo());
+            b.block.setText(userProfile.getAddress().get(0).getBlock());
+            b.road.setText(userProfile.getAddress().get(0).getRoad());
+            b.house.setText(userProfile.getAddress().get(0).getHouse());
+            b.flat.setText(userProfile.getAddress().get(0).getFlat());
+            b.details.setText(userProfile.getAddress().get(0).getDetails());
+
+            b.existingName.setText(userProfile.getName());
+            b.existingPhone.setText(userProfile.getMobileNo());
+            b.existingAddressDetails.setText(address());
+
         }
 
     }
@@ -148,7 +175,6 @@ public class CheckoutActivity extends BaseActivity {
     }
 
     private void postOrder() {
-        Toast.makeText(context, "Order Posted successfully", Toast.LENGTH_SHORT).show();
 
 //        After successful order;
         myCart.setTotalProductDiscount(0);
@@ -165,6 +191,34 @@ public class CheckoutActivity extends BaseActivity {
         startActivity(new Intent(context, ProductActivity.class));
     }
 
+    private boolean validateMobileNo(){
+
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        mobileNoValidationStatus = true;
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        mobileNoValidationStatus = false;
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+
+        Toast.makeText(context, "Mobile Number Validation is: "+mobileNoValidationStatus, Toast.LENGTH_SHORT).show();
+
+        return mobileNoValidationStatus;
+    }
 
     private UserProfile setProfileData() {
         UserProfile uProfile = new UserProfile();
@@ -209,7 +263,6 @@ public class CheckoutActivity extends BaseActivity {
         });
     }
 
-
     public void radioOnDelivery(View view){
         b.radioOnDelivery.setChecked(true);
 
@@ -221,7 +274,6 @@ public class CheckoutActivity extends BaseActivity {
         b.mobilePaymentDiscount.setVisibility(View.GONE);
 
         selectedPaymentMethod = "OnDelivery";
-        Toast.makeText(context, "radioOnDelivery", Toast.LENGTH_SHORT).show();
     }
     public void radioCardPayment(View view){
         b.radioCardPayment.setChecked(true);
@@ -229,7 +281,6 @@ public class CheckoutActivity extends BaseActivity {
         b.radioOnDelivery.setChecked(false);
         b.radioMobilePayment.setChecked(false);
 
-        Toast.makeText(context, "radioMobilePayment", Toast.LENGTH_SHORT).show();
 
         List<DiscountTypeCondition> cardDiscountCondition = myCart.getCardPaymentCondition();
         int calculativeAmount = 0;
@@ -281,7 +332,6 @@ public class CheckoutActivity extends BaseActivity {
 
         b.radioOnDelivery.setChecked(false);
         b.radioCardPayment.setChecked(false);
-        Toast.makeText(context, "radioMobilePayment", Toast.LENGTH_SHORT).show();
 
         List<DiscountTypeCondition> mobileDiscountCondition = myCart.getMobilePaymentCondition();
         int calculativeAmount = 0;
@@ -329,7 +379,6 @@ public class CheckoutActivity extends BaseActivity {
         selectedPaymentMethod = "MobilePayment";
     }
 
-
     private boolean validateFields(UserProfile uProfile) {
 
         if (uProfile.getName().equals("")) {
@@ -355,9 +404,31 @@ public class CheckoutActivity extends BaseActivity {
         return true;
     }
 
-    private boolean validateMobileNo(){
-        Toast.makeText(context, "Validate Mobile Number. Now It's Default", Toast.LENGTH_SHORT).show();
-        return true;
+    private String address() {
+        String address = "";
+        if(!userProfile.getAddress().get(0).getFlat().equals("")){
+            address = address+"Flat: "+userProfile.getAddress().get(0).getFlat()+", ";
+        }
+        if(!userProfile.getAddress().get(0).getHouse().equals("")){
+            address = address+"House: "+userProfile.getAddress().get(0).getHouse()+", ";
+        }
+        if(!userProfile.getAddress().get(0).getRoad().equals("")){
+            address = address+"Road: "+userProfile.getAddress().get(0).getRoad()+", ";
+        }
+        if(!userProfile.getAddress().get(0).getBlock().equals("")){
+            address = address+"Block: "+userProfile.getAddress().get(0).getBlock()+", ";
+        }
+        if(!userProfile.getAddress().get(0).getArea().equals("")){
+            address = address+" "+userProfile.getAddress().get(0).getArea()+".";
+        }
+
+        if(!userProfile.getAddress().get(0).getDetails().equals("")) {
+            address = address + "\n" + userProfile.getAddress().get(0).getDetails() + ".";
+        }
+
+        return address;
     }
+
+
 
 }

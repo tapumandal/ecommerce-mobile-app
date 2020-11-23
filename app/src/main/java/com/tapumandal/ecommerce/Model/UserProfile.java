@@ -24,6 +24,8 @@ public class UserProfile implements Serializable {
     private String mobileNo;
     @SerializedName("mobileNoIsValid")
     private boolean mobileNoIsValid = false;
+    @SerializedName("isLoggedIn")
+    private boolean isLoggedIn = false;
     @SerializedName("isActive")
     private String isActive;
     @SerializedName("picture")

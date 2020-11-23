@@ -1,5 +1,6 @@
 package com.tapumandal.ecommerce.Activity.Order;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.View;
@@ -10,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.lifecycle.ViewModelProviders;
 import com.google.gson.Gson;
+import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
+import com.tapumandal.ecommerce.Model.Address;
 import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.DiscountTypeCondition;
 import com.tapumandal.ecommerce.Model.UserProfile;
@@ -19,6 +22,7 @@ import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivityCheckoutBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,13 +32,19 @@ import java.util.List;
 
 public class CheckoutActivity extends BaseActivity {
 
+    public static final String ON_DELIVERY = "OnDelivery";
+    public static final String CARD_PAYMENT = "CardPayment";
+    public static final String MOBILE_PAYMENT = "MobilePayment";
+
     ActivityCheckoutBinding b;
     ProductControlViewModel viewModel;
 
     private UserProfile userProfile;
     private Cart myCart;
+    private String selectedPaymentMethod = "";
 
     int paymentDiscount = 0;
+    String area = "";
 
     @Override
     protected int getLayoutResourceFile() {
@@ -49,8 +59,9 @@ public class CheckoutActivity extends BaseActivity {
         setToolbar("Checkout", true);
 
         userProfile = OfflineCache.getOfflineSingle(OfflineCache.MY_PROFILE);
+        Log.d("USER_PROFILE", "initComponent : "+userProfile);
         myCart = OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
-        
+
         if(myCart != null) {
             setCartDetails();
         }
@@ -58,6 +69,53 @@ public class CheckoutActivity extends BaseActivity {
         addressLayout();
         initAreaSpinner();
         clickEvent();
+    }
+
+    private void clickEvent() {
+        b.checkoutConfirmBtn.setOnClickListener(v->{
+            if(userProfile == null){
+                UserProfile uProfile = setProfileData();
+                if(!validateFields(uProfile)){
+//                Checked every field and payment method
+                    return;
+                }else{
+                    userProfile = uProfile;
+                }
+            }else{
+                if(!validateFields(userProfile)){
+//                Checked every field and payment method
+                    return;
+                }
+            }
+            Log.d("USER_PROFILE", "OnCLICK CONFIRM: "+new Gson().toJson(userProfile));
+            if(userProfile.isMobileNoIsValid()){
+//                Further Process according to payment method.
+                checkPaymentStatusAndPostOrder();
+            }else if(validateMobileNo()){
+                userProfile.setMobileNoIsValid(true);
+//                Further Process according to payment method.
+                checkPaymentStatusAndPostOrder();
+            }else{
+                return;
+            }
+        });
+    }
+
+    private void addressLayout(){
+
+        Log.d("USER_PROFILE", "addressLayout: "+new Gson().toJson(userProfile));
+
+        if(userProfile == null){
+            b.addressEditLayout.setVisibility(View.VISIBLE);
+            b.addressEditBtn.setVisibility(View.GONE);
+        }else{
+            if(userProfile.getAddress() == null){
+                b.addressEditLayout.setVisibility(View.VISIBLE);
+            }else{
+                b.existingAddressLayout.setVisibility(View.VISIBLE);
+            }
+        }
+
     }
 
     private void setCartDetails() {
@@ -75,14 +133,94 @@ public class CheckoutActivity extends BaseActivity {
         }
     }
 
-    private void clickEvent() {
+    private void checkPaymentStatusAndPostOrder() {
+        if(selectedPaymentMethod.equals(ON_DELIVERY)){
+            postOrder();
+        }else{
+            if(selectedPaymentMethod.equals(CARD_PAYMENT)){
+//                hitCardPaymentAPI();
+//                IF success postOrder();
+            }else if(selectedPaymentMethod.equals(MOBILE_PAYMENT)){
+//                hitCardPaymentAPI();
+//                IF success postOrder();
+            }
+        }
     }
+
+    private void postOrder() {
+        Toast.makeText(context, "Order Posted successfully", Toast.LENGTH_SHORT).show();
+
+//        After successful order;
+        myCart.setTotalProductDiscount(0);
+        myCart.setTotalProductQuantity(0);
+        myCart.setTotalProductPrice(0);
+        myCart.setTotalDiscount(0);
+        myCart.setTotalPayable(0);
+        myCart.setProducts(new ArrayList<>());
+
+        Log.d("USER_PROFILE", "POST ORDER : "+new Gson().toJson(userProfile));
+        OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
+        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
+
+        startActivity(new Intent(context, ProductActivity.class));
+    }
+
+
+    private UserProfile setProfileData() {
+        UserProfile uProfile = new UserProfile();
+        uProfile = new UserProfile();
+        uProfile.setName(b.name.getText().toString());
+        uProfile.setMobileNo(b.phone.getText().toString());
+        uProfile.setMobileNoIsValid(false);
+
+        List<Address> addresses = new ArrayList<>();
+        Address address = new Address();
+        address.setName(b.name.getText().toString());
+        address.setMobileNo(b.phone.getText().toString());
+        address.setArea(area);
+        address.setBlock(b.block.getText().toString());
+        address.setRoad(b.road.getText().toString());
+        address.setHouse(b.house.getText().toString());
+        address.setFlat(b.flat.getText().toString());
+        address.setDetails(b.details.getText().toString());
+        addresses.add(address);
+        uProfile.setAddress(addresses);
+
+        return uProfile;
+    }
+
+
+    private void initAreaSpinner() {
+        ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.area_array));
+        b.areaSpinner.setAdapter(filterAdapter);
+        b.areaSpinner.setSelection(-1);
+        b.areaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
+                String s = b.areaSpinner.getSelectedItem().toString();
+                System.out.println(i+"--"+s);
+                area = s;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
 
     public void radioOnDelivery(View view){
         b.radioOnDelivery.setChecked(true);
 
         b.radioCardPayment.setChecked(false);
         b.radioMobilePayment.setChecked(false);
+
+        b.totalDiscount.setPaintFlags(0);
+        b.cardPaymentDiscount.setVisibility(View.GONE);
+        b.mobilePaymentDiscount.setVisibility(View.GONE);
+
+        selectedPaymentMethod = "OnDelivery";
         Toast.makeText(context, "radioOnDelivery", Toast.LENGTH_SHORT).show();
     }
     public void radioCardPayment(View view){
@@ -96,7 +234,6 @@ public class CheckoutActivity extends BaseActivity {
         List<DiscountTypeCondition> cardDiscountCondition = myCart.getCardPaymentCondition();
         int calculativeAmount = 0;
         int maximumDiscountedAmount = 0;
-        Log.d("CHECKOUT_DISCOUNT", "cardDiscountCondition:"+new Gson().toJson(cardDiscountCondition));
         if(cardDiscountCondition != null) {
             for (int i = 0; i < cardDiscountCondition.size(); i++) {
                 if (cardDiscountCondition.get(i).getMinimumPurchaseLimit() < myCart.getTotalProductPrice()) {
@@ -105,7 +242,6 @@ public class CheckoutActivity extends BaseActivity {
                 }
             }
         }
-        Log.d("CHECKOUT_DISCOUNT", "calculativeAmount:"+calculativeAmount+" maximumDiscountedAmount:"+maximumDiscountedAmount);
 
         int tmpDiscountedAmount = 0;
         if(myCart.getCardPaymentDiscountType().equals("TotalPercentage")){
@@ -119,8 +255,9 @@ public class CheckoutActivity extends BaseActivity {
                 tmpDiscountedAmount = maximumDiscountedAmount;
             }
         }
-        Log.d("CHECKOUT_DISCOUNT", "getCardPaymentDiscountType:"+myCart.getCardPaymentDiscountType()+" tmpDiscountedAmount:"+tmpDiscountedAmount);
 
+
+        b.mobilePaymentDiscount.setVisibility(View.GONE);
         if( tmpDiscountedAmount >= myCart.getTotalDiscount() ){
             b.cardPaymentDiscount.setVisibility(View.VISIBLE);
             b.cardPaymentDiscount.setText("৳ "+tmpDiscountedAmount);
@@ -133,9 +270,11 @@ public class CheckoutActivity extends BaseActivity {
             b.cardPaymentDiscount.setText("৳ "+tmpDiscountedAmount);
 
             b.cardPaymentDiscount.setPaintFlags(b.cardPaymentDiscount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            b.totalDiscount.setPaintFlags(0);
             paymentDiscount = myCart.getTotalDiscount();
         }
 
+        selectedPaymentMethod = "CardPayment";
     }
     public void radioMobilePayment(View view){
         b.radioMobilePayment.setChecked(true);
@@ -155,7 +294,6 @@ public class CheckoutActivity extends BaseActivity {
                 }
             }
         }
-        Log.d("CHECKOUT_DISCOUNT", "calculativeAmount:"+calculativeAmount+" maximumDiscountedAmount:"+maximumDiscountedAmount);
 
         int tmpDiscountedAmount = 0;
         if(myCart.getMobilePaymentDiscountType().equals("TotalPercentage")){
@@ -169,8 +307,8 @@ public class CheckoutActivity extends BaseActivity {
                 tmpDiscountedAmount = maximumDiscountedAmount;
             }
         }
-        Log.d("CHECKOUT_DISCOUNT", "getMobilePaymentDiscountType:"+myCart.getMobilePaymentDiscountType()+" tmpDiscountedAmount:"+tmpDiscountedAmount);
 
+        b.cardPaymentDiscount.setVisibility(View.GONE);
         if( tmpDiscountedAmount >= myCart.getTotalDiscount() ){
             b.mobilePaymentDiscount.setVisibility(View.VISIBLE);
             b.mobilePaymentDiscount.setText("৳ "+tmpDiscountedAmount);
@@ -183,39 +321,43 @@ public class CheckoutActivity extends BaseActivity {
             b.mobilePaymentDiscount.setText("৳ "+tmpDiscountedAmount);
 
             b.mobilePaymentDiscount.setPaintFlags(b.mobilePaymentDiscount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            b.totalDiscount.setPaintFlags(0);
             paymentDiscount = myCart.getTotalDiscount();
         }
 
 //        OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
+        selectedPaymentMethod = "MobilePayment";
     }
 
-    private void addressLayout() {
-        if(userProfile == null){
-            b.addressEditLayout.setVisibility(View.VISIBLE);
-        }else{
-            if(userProfile.getAddress() == null){
-                b.addressEditLayout.setVisibility(View.VISIBLE);
-            }else{
-                b.existingAddressLayout.setVisibility(View.VISIBLE);
-            }
+
+    private boolean validateFields(UserProfile uProfile) {
+
+        if (uProfile.getName().equals("")) {
+            showAlertDialog("Required", "Name");
+            return false;
         }
+        if (uProfile.getMobileNo().equals("")) {
+            showAlertDialog("Required", "Phone");
+            return false;
+        }
+        if (uProfile.getAddress().get(0).getArea().equals("")) {
+            showAlertDialog("Required", "Area");
+            return false;
+        }
+        if (uProfile.getAddress().get(0).getBlock().equals("")) {
+            showAlertDialog("Required", "Block");
+            return false;
+        }
+        if (selectedPaymentMethod.equals("")) {
+            showAlertDialog("Required", "Select Payment Method");
+            return false;
+        }
+        return true;
     }
 
-    private void initAreaSpinner() {
-        ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.area_array));
-        b.areaSpinner.setAdapter(filterAdapter);
-        b.areaSpinner.setSelection(-1);
-        b.areaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
-                String s = b.areaSpinner.getSelectedItem().toString();
-                System.out.println(i+"--"+s);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+    private boolean validateMobileNo(){
+        Toast.makeText(context, "Validate Mobile Number. Now It's Default", Toast.LENGTH_SHORT).show();
+        return true;
     }
+
 }

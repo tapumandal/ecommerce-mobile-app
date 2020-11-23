@@ -3,45 +3,38 @@ package com.tapumandal.ecommerce.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by tapumandal on 10/25/2020.
  * For any query ask online.tapu@gmail.com
  */
-public class Address {
+public class Address implements Serializable {
     @SerializedName("id")
-    @Expose
     private String id;
 
     @SerializedName("name")
-    @Expose
     private String name;
 
     @SerializedName("mobileNo")
-    @Expose
     private String mobileNo;
 
     @SerializedName("area")
-    @Expose
     private String area;
 
     @SerializedName("block")
-    @Expose
     private String block;
 
     @SerializedName("road")
-    @Expose
     private String road;
 
     @SerializedName("house")
-    @Expose
     private String house;
 
     @SerializedName("flat")
-    @Expose
     private String flat;
 
     @SerializedName("details")
-    @Expose
     private String details;
 
     public String getId() {
@@ -114,5 +107,19 @@ public class Address {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "name='" + name + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
+                ", area='" + area + '\'' +
+                ", block='" + block + '\'' +
+                ", road='" + road + '\'' +
+                ", house='" + house + '\'' +
+                ", flat='" + flat + '\'' +
+                ", details='" + details + '\'' +
+                '}';
     }
 }

@@ -1,51 +1,41 @@
 package com.tapumandal.ecommerce.Model;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by tapumandal on 10/25/2020.
  * For any query ask online.tapu@gmail.com
  */
-public class UserProfile {
+public class UserProfile implements Serializable {
     @SerializedName("id")
-    @Expose
     private String id;
     @SerializedName("name")
-    @Expose
     private String name;
     @SerializedName("createdAt")
-    @Expose
     private String createdAt;
     @SerializedName("updatedAt")
-    @Expose
     private String updatedAt;
     @SerializedName("userName")
-    @Expose
     private String userName;
     @SerializedName("mobileNo")
-    @Expose
     private String mobileNo;
+    @SerializedName("mobileNoIsValid")
+    private boolean mobileNoIsValid = false;
     @SerializedName("isActive")
-    @Expose
     private String isActive;
     @SerializedName("picture")
-    @Expose
     private String picture;
     @SerializedName("accessToken")
-    @Expose
     private String accessToken;
 
     @SerializedName("address")
-    @Expose
     private List<Address> address;
 
-
-
     public String getId() {
-        return id;
+        return id == null ? "" : id;
     }
 
     public void setId(String id) {
@@ -53,7 +43,7 @@ public class UserProfile {
     }
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public void setName(String name) {
@@ -61,7 +51,7 @@ public class UserProfile {
     }
 
     public String getCreatedAt() {
-        return createdAt;
+        return createdAt == null ? "" : createdAt;
     }
 
     public void setCreatedAt(String createdAt) {
@@ -69,7 +59,7 @@ public class UserProfile {
     }
 
     public String getUpdatedAt() {
-        return updatedAt;
+        return updatedAt == null ? "" : updatedAt;
     }
 
     public void setUpdatedAt(String updatedAt) {
@@ -77,7 +67,7 @@ public class UserProfile {
     }
 
     public String getUserName() {
-        return userName;
+        return userName == null ? "" : userName;
     }
 
     public void setUserName(String userName) {
@@ -85,15 +75,23 @@ public class UserProfile {
     }
 
     public String getMobileNo() {
-        return mobileNo;
+        return mobileNo == null ? "" : mobileNo;
     }
 
     public void setMobileNo(String mobileNo) {
         this.mobileNo = mobileNo;
     }
 
+    public boolean isMobileNoIsValid() {
+        return mobileNoIsValid;
+    }
+
+    public void setMobileNoIsValid(boolean mobileNoIsValid) {
+        this.mobileNoIsValid = mobileNoIsValid;
+    }
+
     public String getIsActive() {
-        return isActive;
+        return isActive == null ? "" : isActive;
     }
 
     public void setIsActive(String isActive) {
@@ -101,7 +99,7 @@ public class UserProfile {
     }
 
     public String getPicture() {
-        return picture;
+        return picture == null ? "" : picture;
     }
 
     public void setPicture(String picture) {
@@ -109,7 +107,7 @@ public class UserProfile {
     }
 
     public String getAccessToken() {
-        return accessToken;
+        return accessToken == null ? "" : accessToken;
     }
 
     public void setAccessToken(String accessToken) {

@@ -20,7 +20,6 @@ public class Cart implements Serializable {
     @SerializedName("defaultDiscountBtn")
     protected String defaultDiscountBtn = ""; // radioOnProduct/radioSpecialOffer
 
-//    IF
     @SerializedName("discountName")
     protected String discountName = "Special Offer"; // Special Offer(Eid/Puja/NewYear)
 
@@ -33,20 +32,11 @@ public class Cart implements Serializable {
     @SerializedName("discountBanner")
     protected String discountBanner;
 
-
     @SerializedName("paymentDiscountMessage")
     protected String paymentDiscountMessage = "If there is any payment discount";
 
-
     @SerializedName("paymentDiscountBanner")
     protected String paymentDiscountBanner;
-
-
-    @SerializedName("totalProductDiscount")
-    protected int totalProductDiscount = 0;
-
-
-
 
     @SerializedName("cardPaymentDiscountName")
     protected String cardPaymentDiscountName = "Debit/Credit Cart";
@@ -68,6 +58,8 @@ public class Cart implements Serializable {
 
 
 
+    @SerializedName("totalProductDiscount")
+    protected int totalProductDiscount = 0;
 
     @SerializedName("totalProductQuantity")
     protected int totalProductQuantity = 0;

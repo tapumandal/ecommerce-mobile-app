@@ -34,6 +34,7 @@ public class OfflineCache {
     public static final String NOTIFICATION_LIST = "NOTIFICATION_LIST";
     public static final String MY_CART = "MY_CART";
     public static final String MY_PROFILE = "MY_PROFILE";
+    public static final String BUSINESS_SETTINGS = "BUSINESS_SETTINGS";
 
     //<editor-fold desc="Handle Cache">
 

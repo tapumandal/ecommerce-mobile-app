@@ -7,10 +7,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
-import com.tapumandal.ecommerce.Model.Cart;
-import com.tapumandal.ecommerce.Model.DiscountTypeCondition;
-import com.tapumandal.ecommerce.Model.Product;
-import com.tapumandal.ecommerce.Model.UserProfile;
+import com.tapumandal.ecommerce.Model.*;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
@@ -26,7 +23,7 @@ import java.util.List;
 public class SplashActivity extends BaseActivity {
 
     ActivitySplashBinding binding;
-
+    BusinessSettings businessSettings;
     @Override
     protected int getLayoutResourceFile() {
         return R.layout.activity_splash;
@@ -36,7 +33,9 @@ public class SplashActivity extends BaseActivity {
     protected void initComponent() {
         context = this;
         binding =  getBinding();
+//        businessSettings = new BusinessSettings();
 
+        setBusinessSettings();
         setMyCart();
         setMyProfile();
         new Handler().postDelayed(() -> {
@@ -49,22 +48,18 @@ public class SplashActivity extends BaseActivity {
         }, 1000);
     }
 
-    private void setMyProfile() {
-//        UserProfile userProfile = new UserProfile();
-//        OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
-    }
+//    All data will be loaded from API
+    private void setBusinessSettings() {
+        Log.d("BusinessSettings","ProductActivity setBusinessSettings()");
 
+//        businessSettings = (BusinessSettings) OfflineCache.getOfflineSingle(OfflineCache.BUSINESS_SETTINGS);
 
-    private void setMyCart() {
-        Log.d("MYCART","ProductActivity setMyCart()");
+        if(businessSettings == null) {
+            businessSettings = new BusinessSettings();
+            Log.d("BusinessSettings","ProductActivity setMyCart businessSettings IS NULL");
 
-        Cart myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
-        if(myCart == null) {
-            myCart = new Cart();
-            Log.d("MYCART","ProductActivity setMyCart myCart IS NULL");
-
-            myCart.setDeliveryCharge(30);
-            myCart.setDefaultDiscountBtn("radioOnProduct");
+            businessSettings.setDeliveryCharge(30);
+            businessSettings.setDefaultDiscountBtn("radioOnProduct");
 
 
 //            SPECIAL DISCOUNT
@@ -72,28 +67,33 @@ public class SplashActivity extends BaseActivity {
             DiscountTypeCondition discountTypeCondition = new DiscountTypeCondition();
             discountTypeCondition.setMinimumPurchaseLimit(100);
             discountTypeCondition.setDiscountedAmount(50);
-            discountTypeCondition.setMaximumDiscountedAmount(200);
+            discountTypeCondition.setMaximumDiscountedAmount(150);
             discountTypeConditionList.add(discountTypeCondition);
-            myCart.setDiscountTypeCondition(discountTypeConditionList);
-//            SPECIAL DISCOUNT END
+
+            discountTypeCondition = new DiscountTypeCondition();
+            discountTypeCondition.setMinimumPurchaseLimit(800);
+            discountTypeCondition.setDiscountedAmount(50);
+            discountTypeCondition.setMaximumDiscountedAmount(350);
+            discountTypeConditionList.add(discountTypeCondition);
+
+            businessSettings.setDiscountTypeCondition(discountTypeConditionList);
 
 
-//            PAYMENT
-            myCart.setPaymentDiscountMessage("Surprising Offer! 50% off on Card Payment. Or 50 taka off on Bkash payment.");
+//            PAYMENT Message
+            businessSettings.setPaymentDiscountMessage("Surprising Offer! 50% off on Card Payment. Or 50 taka off on Bkash payment.");
 
 //            CARD PAYMENT
-            List<DiscountTypeCondition> cardPaymentdiscountTypeConditionList = new ArrayList<DiscountTypeCondition>();
+            List<DiscountTypeCondition> cardPaymentDiscountTypeConditionList = new ArrayList<DiscountTypeCondition>();
 
-            DiscountTypeCondition cardPaymentdiscountTypeCondition = new DiscountTypeCondition();
-            cardPaymentdiscountTypeCondition.setMinimumPurchaseLimit(100);
-            cardPaymentdiscountTypeCondition.setDiscountedAmount(50);
-            cardPaymentdiscountTypeCondition.setMaximumDiscountedAmount(200);
+            DiscountTypeCondition cardPaymentDiscountTypeCondition = new DiscountTypeCondition();
+            cardPaymentDiscountTypeCondition.setMinimumPurchaseLimit(100);
+            cardPaymentDiscountTypeCondition.setDiscountedAmount(50);
+            cardPaymentDiscountTypeCondition.setMaximumDiscountedAmount(200);
 
-            cardPaymentdiscountTypeConditionList.add(discountTypeCondition);
-            myCart.setCardPaymentCondition(cardPaymentdiscountTypeConditionList);
-            myCart.setCardPaymentDiscountName("Card Payment");
-            myCart.setCardPaymentDiscountType("TotalPercentage");
-//            CARD PAYMENT END
+            cardPaymentDiscountTypeConditionList.add(cardPaymentDiscountTypeCondition);
+            businessSettings.setCardPaymentCondition(cardPaymentDiscountTypeConditionList);
+            businessSettings.setCardPaymentDiscountName("Card Payment");
+            businessSettings.setCardPaymentDiscountType("TotalPercentage");
 
 //            MOBILE PAYMENT
             List<DiscountTypeCondition> mobilePaymentDiscountTypeConditionList = new ArrayList<DiscountTypeCondition>();
@@ -101,20 +101,54 @@ public class SplashActivity extends BaseActivity {
             DiscountTypeCondition mobilePaymentDiscountTypeCondition = new DiscountTypeCondition();
             mobilePaymentDiscountTypeCondition.setMinimumPurchaseLimit(100);
             mobilePaymentDiscountTypeCondition.setDiscountedAmount(50);
-            mobilePaymentDiscountTypeCondition.setMaximumDiscountedAmount(200);
+            mobilePaymentDiscountTypeCondition.setMaximumDiscountedAmount(240);
 
             mobilePaymentDiscountTypeConditionList.add(discountTypeCondition);
-            myCart.setMobilePaymentCondition(mobilePaymentDiscountTypeConditionList);
-            myCart.setMobilePaymentDiscountName("Mobile Payment");
-            myCart.setMobilePaymentDiscountType("OverallAmount");
-//            MOBILE PAYMENT END
+            businessSettings.setMobilePaymentCondition(mobilePaymentDiscountTypeConditionList);
+            businessSettings.setMobilePaymentDiscountName("Mobile Payment");
+            businessSettings.setMobilePaymentDiscountType("OverallAmount");
 
-            myCart.setProducts(new ArrayList<Product>());
-
-            OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
+            OfflineCache.saveOffline(OfflineCache.BUSINESS_SETTINGS, businessSettings);
         }else {
-            Log.d("MYCART","ProductActivity setMyCart myCart IS NOT NULL");
+            Log.d("BusinessSettings","ProductActivity setMyCart businessSettings IS NOT NULL");
         }
+    }
+
+//    Data Load From API
+    private void setMyProfile() {
+//        UserProfile userProfile = new UserProfile();
+//        OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
+    }
+
+    //    Data Load From API
+    private void setMyCart() {
+        Log.d("MYCART","ProductActivity setMyCart()");
+
+        Cart myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
+        if(myCart == null) {
+            myCart = new Cart();
+            myCart.setProducts(new ArrayList<>());
+        }
+
+//        myCart.setId(businessSettings.getId());
+        myCart.setDeliveryCharge(businessSettings.getDeliveryCharge());
+        myCart.setDefaultDiscountBtn(businessSettings.getDefaultDiscountBtn());
+        myCart.setDiscountName(businessSettings.getDiscountName());
+        myCart.setDiscountType(businessSettings.getDiscountType());
+        myCart.setDiscountTypeCondition(businessSettings.getDiscountTypeCondition());
+        myCart.setDiscountBanner(businessSettings.getDiscountBanner());
+        myCart.setPaymentDiscountMessage(businessSettings.getPaymentDiscountMessage());
+        myCart.setPaymentDiscountBanner(businessSettings.getPaymentDiscountBanner());
+        myCart.setCardPaymentDiscountName(businessSettings.getCardPaymentDiscountName());
+        myCart.setCardPaymentDiscountType(businessSettings.getCardPaymentDiscountType());
+        myCart.setCardPaymentCondition(businessSettings.getCardPaymentCondition());
+        myCart.setMobilePaymentDiscountName(businessSettings.getMobilePaymentDiscountName());
+        myCart.setMobilePaymentDiscountType(businessSettings.getMobilePaymentDiscountType());
+        myCart.setMobilePaymentCondition(businessSettings.getMobilePaymentCondition());
+
+        Log.d("SPLASH_SCREEN","BUSINESS_SETTINGS:"+new Gson().toJson(businessSettings));
+        Log.d("SPLASH_SCREEN","MY_CART:"+new Gson().toJson(myCart));
+        OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
 
     }
 }

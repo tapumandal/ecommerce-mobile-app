@@ -1,5 +1,6 @@
 package com.tapumandal.ecommerce.Activity.Order;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.lifecycle.ViewModelProviders;
@@ -35,6 +37,9 @@ public class CheckoutActivity extends BaseActivity {
     public static final String ON_DELIVERY = "OnDelivery";
     public static final String CARD_PAYMENT = "CardPayment";
     public static final String MOBILE_PAYMENT = "MobilePayment";
+
+
+    boolean mobileNoValidationStatus = false;
 
     ActivityCheckoutBinding b;
     ProductControlViewModel viewModel;
@@ -104,6 +109,7 @@ public class CheckoutActivity extends BaseActivity {
             b.existingAddressLayout.setVisibility(View.GONE);
             b.addressEditLayout.setVisibility(View.VISIBLE);
             userProfile.setMobileNoIsValid(false);
+            OfflineCache.deleteCacheFile(OfflineCache.MY_PROFILE);
         });
     }
 
@@ -169,7 +175,6 @@ public class CheckoutActivity extends BaseActivity {
     }
 
     private void postOrder() {
-        Toast.makeText(context, "Order Posted successfully", Toast.LENGTH_SHORT).show();
 
 //        After successful order;
         myCart.setTotalProductDiscount(0);
@@ -187,9 +192,32 @@ public class CheckoutActivity extends BaseActivity {
     }
 
     private boolean validateMobileNo(){
-        Toast.makeText(context, "Validate Mobile Number. Now It's Default", Toast.LENGTH_SHORT).show();
-        showAlertDialog("Validate", "Valid");
-        return true;
+
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        mobileNoValidationStatus = true;
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        mobileNoValidationStatus = false;
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+
+        Toast.makeText(context, "Mobile Number Validation is: "+mobileNoValidationStatus, Toast.LENGTH_SHORT).show();
+
+        return mobileNoValidationStatus;
     }
 
     private UserProfile setProfileData() {
@@ -246,7 +274,6 @@ public class CheckoutActivity extends BaseActivity {
         b.mobilePaymentDiscount.setVisibility(View.GONE);
 
         selectedPaymentMethod = "OnDelivery";
-        Toast.makeText(context, "radioOnDelivery", Toast.LENGTH_SHORT).show();
     }
     public void radioCardPayment(View view){
         b.radioCardPayment.setChecked(true);
@@ -254,7 +281,6 @@ public class CheckoutActivity extends BaseActivity {
         b.radioOnDelivery.setChecked(false);
         b.radioMobilePayment.setChecked(false);
 
-        Toast.makeText(context, "radioMobilePayment", Toast.LENGTH_SHORT).show();
 
         List<DiscountTypeCondition> cardDiscountCondition = myCart.getCardPaymentCondition();
         int calculativeAmount = 0;
@@ -306,7 +332,6 @@ public class CheckoutActivity extends BaseActivity {
 
         b.radioOnDelivery.setChecked(false);
         b.radioCardPayment.setChecked(false);
-        Toast.makeText(context, "radioMobilePayment", Toast.LENGTH_SHORT).show();
 
         List<DiscountTypeCondition> mobileDiscountCondition = myCart.getMobilePaymentCondition();
         int calculativeAmount = 0;
@@ -403,5 +428,7 @@ public class CheckoutActivity extends BaseActivity {
 
         return address;
     }
+
+
 
 }

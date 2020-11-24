@@ -76,6 +76,7 @@ public class Cart implements Serializable {
     @SerializedName("productList")
     protected List<Product> products;
 
+
     public int getId() {
         return id;
     }
@@ -93,7 +94,7 @@ public class Cart implements Serializable {
     }
 
     public String getDefaultDiscountBtn() {
-        return defaultDiscountBtn;
+        return defaultDiscountBtn == null ? "" : defaultDiscountBtn;
     }
 
     public void setDefaultDiscountBtn(String defaultDiscountBtn) {
@@ -101,7 +102,7 @@ public class Cart implements Serializable {
     }
 
     public String getDiscountName() {
-        return discountName;
+        return discountName == null ? "" : discountName;
     }
 
     public void setDiscountName(String discountName) {
@@ -109,7 +110,7 @@ public class Cart implements Serializable {
     }
 
     public String getDiscountType() {
-        return discountType;
+        return discountType == null ? "" : discountType;
     }
 
     public void setDiscountType(String discountType) {
@@ -125,11 +126,75 @@ public class Cart implements Serializable {
     }
 
     public String getDiscountBanner() {
-        return discountBanner;
+        return discountBanner == null ? "" : discountBanner;
     }
 
     public void setDiscountBanner(String discountBanner) {
         this.discountBanner = discountBanner;
+    }
+
+    public String getPaymentDiscountMessage() {
+        return paymentDiscountMessage == null ? "" : paymentDiscountMessage;
+    }
+
+    public void setPaymentDiscountMessage(String paymentDiscountMessage) {
+        this.paymentDiscountMessage = paymentDiscountMessage;
+    }
+
+    public String getPaymentDiscountBanner() {
+        return paymentDiscountBanner == null ? "" : paymentDiscountBanner;
+    }
+
+    public void setPaymentDiscountBanner(String paymentDiscountBanner) {
+        this.paymentDiscountBanner = paymentDiscountBanner;
+    }
+
+    public String getCardPaymentDiscountName() {
+        return cardPaymentDiscountName == null ? "" : cardPaymentDiscountName;
+    }
+
+    public void setCardPaymentDiscountName(String cardPaymentDiscountName) {
+        this.cardPaymentDiscountName = cardPaymentDiscountName;
+    }
+
+    public String getCardPaymentDiscountType() {
+        return cardPaymentDiscountType == null ? "" : cardPaymentDiscountType;
+    }
+
+    public void setCardPaymentDiscountType(String cardPaymentDiscountType) {
+        this.cardPaymentDiscountType = cardPaymentDiscountType;
+    }
+
+    public List<DiscountTypeCondition> getCardPaymentCondition() {
+        return cardPaymentCondition;
+    }
+
+    public void setCardPaymentCondition(List<DiscountTypeCondition> cardPaymentCondition) {
+        this.cardPaymentCondition = cardPaymentCondition;
+    }
+
+    public String getMobilePaymentDiscountName() {
+        return mobilePaymentDiscountName == null ? "" : mobilePaymentDiscountName;
+    }
+
+    public void setMobilePaymentDiscountName(String mobilePaymentDiscountName) {
+        this.mobilePaymentDiscountName = mobilePaymentDiscountName;
+    }
+
+    public String getMobilePaymentDiscountType() {
+        return mobilePaymentDiscountType == null ? "" : mobilePaymentDiscountType;
+    }
+
+    public void setMobilePaymentDiscountType(String mobilePaymentDiscountType) {
+        this.mobilePaymentDiscountType = mobilePaymentDiscountType;
+    }
+
+    public List<DiscountTypeCondition> getMobilePaymentCondition() {
+        return mobilePaymentCondition;
+    }
+
+    public void setMobilePaymentCondition(List<DiscountTypeCondition> mobilePaymentCondition) {
+        this.mobilePaymentCondition = mobilePaymentCondition;
     }
 
     public int getTotalProductDiscount() {
@@ -178,71 +243,6 @@ public class Cart implements Serializable {
 
     public void setProducts(List<Product> products) {
         this.products = products;
-    }
-
-    public String getPaymentDiscountMessage() {
-        return paymentDiscountMessage;
-    }
-
-    public void setPaymentDiscountMessage(String paymentDiscountMessage) {
-        this.paymentDiscountMessage = paymentDiscountMessage;
-    }
-
-    public String getPaymentDiscountBanner() {
-        return paymentDiscountBanner;
-    }
-
-    public void setPaymentDiscountBanner(String paymentDiscountBanner) {
-        this.paymentDiscountBanner = paymentDiscountBanner;
-    }
-
-    public String getCardPaymentDiscountName() {
-        return cardPaymentDiscountName;
-    }
-
-    public void setCardPaymentDiscountName(String cardPaymentDiscountName) {
-        this.cardPaymentDiscountName = cardPaymentDiscountName;
-    }
-
-    public List<DiscountTypeCondition> getCardPaymentCondition() {
-        return cardPaymentCondition;
-    }
-
-    public void setCardPaymentCondition(List<DiscountTypeCondition> cardPaymentCondition) {
-        this.cardPaymentCondition = cardPaymentCondition;
-    }
-
-    public String getMobilePaymentDiscountName() {
-        return mobilePaymentDiscountName;
-    }
-
-    public void setMobilePaymentDiscountName(String mobilePaymentDiscountName) {
-        this.mobilePaymentDiscountName = mobilePaymentDiscountName;
-    }
-
-
-    public List<DiscountTypeCondition> getMobilePaymentCondition() {
-        return mobilePaymentCondition;
-    }
-
-    public void setMobilePaymentCondition(List<DiscountTypeCondition> mobilePaymentCondition) {
-        this.mobilePaymentCondition = mobilePaymentCondition;
-    }
-
-    public String getCardPaymentDiscountType() {
-        return cardPaymentDiscountType;
-    }
-
-    public void setCardPaymentDiscountType(String cardPaymentDiscountType) {
-        this.cardPaymentDiscountType = cardPaymentDiscountType;
-    }
-
-    public String getMobilePaymentDiscountType() {
-        return mobilePaymentDiscountType;
-    }
-
-    public void setMobilePaymentDiscountType(String mobilePaymentDiscountType) {
-        this.mobilePaymentDiscountType = mobilePaymentDiscountType;
     }
 }
 

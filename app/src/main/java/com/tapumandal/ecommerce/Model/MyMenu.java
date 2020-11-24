@@ -1,12 +1,13 @@
 package com.tapumandal.ecommerce.Model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by TapuMandal on 10/27/2020.
  * For any query ask online.tapu@gmail.com
  */
-public class MyMenu {
+public class MyMenu implements Serializable {
      String menuName;
      String icon;
      boolean isGroup;

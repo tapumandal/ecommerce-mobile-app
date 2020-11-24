@@ -187,7 +187,16 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 //        check local data exist or not;
 //        IF FOUDN call populateExpandableList();
 //        If not load from API
-        getMenuListFromLive();
+        ArrayList<MyMenu> menuList = OfflineCache.getOfflineSingle(OfflineCache.MY_MENU);
+        Log.d("MENU", new Gson().toJson(menuList));
+        if(menuList == null) {
+            Toast.makeText(context, "Menu Loaded From LIVE", Toast.LENGTH_SHORT).show();
+            getMenuListFromLive();
+        }else{
+            Toast.makeText(context, "Menu Loaded From Cache", Toast.LENGTH_SHORT).show();
+            preparedMenu(menuList);
+            populateExpandableList();
+        }
 
     }
     public ArrayList<MyMenu> getMenuListFromLive() {
@@ -199,7 +208,7 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
             if (response != null) {
                 if (response.isSuccess() && response.getData() != null) {
                     menuList.addAll(response.getData());
-
+                    OfflineCache.saveOffline(OfflineCache.MY_MENU, menuList);
                     preparedMenu(menuList);
                     populateExpandableList();
                 } else {

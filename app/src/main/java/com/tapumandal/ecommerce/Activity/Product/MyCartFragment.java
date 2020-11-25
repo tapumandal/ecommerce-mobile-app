@@ -157,7 +157,6 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
                         break;
                     }
                 }
-//                OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
                 getData();
             }
         });

@@ -15,7 +15,7 @@ public class CommonResponseSingle<Item> {
     @SerializedName("reported")
     @Expose
     private boolean reported;
-    @SerializedName("success")
+    @SerializedName("action")
     @Expose
     private boolean success;
     @SerializedName("data")

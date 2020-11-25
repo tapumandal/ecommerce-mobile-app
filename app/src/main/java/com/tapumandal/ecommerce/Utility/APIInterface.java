@@ -1,9 +1,7 @@
 package com.tapumandal.ecommerce.Utility;
 
 
-import com.tapumandal.ecommerce.Model.CommonResponseArray;
-import com.tapumandal.ecommerce.Model.MyMenu;
-import com.tapumandal.ecommerce.Model.Product;
+import com.tapumandal.ecommerce.Model.*;
 
 import java.util.HashMap;
 
@@ -15,6 +13,9 @@ import retrofit2.http.QueryMap;
 
 public interface APIInterface {
 
+
+    @GET("business_settings/get")
+    Single<CommonResponseSingle<BusinessSettings>> getBusinessSettings();
 
     @GET("navigation/get")
     Single<CommonResponseArray<MyMenu>> getMenuList();

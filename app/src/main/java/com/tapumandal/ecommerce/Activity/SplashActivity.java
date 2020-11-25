@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 
 import android.util.Log;
+import androidx.lifecycle.ViewModelProviders;
 import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
@@ -11,6 +12,8 @@ import com.tapumandal.ecommerce.Model.*;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
+import com.tapumandal.ecommerce.ViewModel.ApplicationControlViewModel;
+import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivitySplashBinding;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ public class SplashActivity extends BaseActivity {
 
     ActivitySplashBinding binding;
     BusinessSettings businessSettings;
+    ApplicationControlViewModel viewModel;
     @Override
     protected int getLayoutResourceFile() {
         return R.layout.activity_splash;
@@ -33,9 +37,9 @@ public class SplashActivity extends BaseActivity {
     protected void initComponent() {
         context = this;
         binding =  getBinding();
-//        businessSettings = new BusinessSettings();
-
-        setBusinessSettings();
+        viewModel = ViewModelProviders.of(this).get(ApplicationControlViewModel.class);
+        getBusinessSettingsFromLive();
+//        setBusinessSettings();
         setMyCart();
         setMyProfile();
         new Handler().postDelayed(() -> {
@@ -46,6 +50,23 @@ public class SplashActivity extends BaseActivity {
             }
             finish();
         }, 1000);
+    }
+
+    public void getBusinessSettingsFromLive() {
+
+        viewModel.getBusinessSettings().observe(this, response -> {
+            hideProgressDialog();
+            if (response != null) {
+                if (response.isSuccess() && response.getData() != null) {
+                    businessSettings = (BusinessSettings) response.getData();
+                    OfflineCache.saveOffline(OfflineCache.BUSINESS_SETTINGS, businessSettings);
+                } else {
+                    showFailedToast(response.getMessage());
+                }
+            } else {
+                showFailedToast(getString(R.string.something_went_wrong));
+            }
+        });
     }
 
 //    All data will be loaded from API
@@ -132,19 +153,20 @@ public class SplashActivity extends BaseActivity {
 
 //        myCart.setId(businessSettings.getId());
         myCart.setDeliveryCharge(businessSettings.getDeliveryCharge());
-        myCart.setDefaultDiscountBtn(businessSettings.getDefaultDiscountBtn());
-        myCart.setDiscountName(businessSettings.getDiscountName());
-        myCart.setDiscountType(businessSettings.getDiscountType());
-        myCart.setDiscountTypeCondition(businessSettings.getDiscountTypeCondition());
-        myCart.setDiscountBanner(businessSettings.getDiscountBanner());
-        myCart.setPaymentDiscountMessage(businessSettings.getPaymentDiscountMessage());
-        myCart.setPaymentDiscountBanner(businessSettings.getPaymentDiscountBanner());
-        myCart.setCardPaymentDiscountName(businessSettings.getCardPaymentDiscountName());
-        myCart.setCardPaymentDiscountType(businessSettings.getCardPaymentDiscountType());
-        myCart.setCardPaymentCondition(businessSettings.getCardPaymentCondition());
-        myCart.setMobilePaymentDiscountName(businessSettings.getMobilePaymentDiscountName());
-        myCart.setMobilePaymentDiscountType(businessSettings.getMobilePaymentDiscountType());
-        myCart.setMobilePaymentCondition(businessSettings.getMobilePaymentCondition());
+
+//        myCart.setDefaultDiscountBtn(businessSettings.getDefaultDiscountBtn());
+//        myCart.setDiscountName(businessSettings.getDiscountName());
+//        myCart.setDiscountType(businessSettings.getDiscountType());
+//        myCart.setDiscountTypeCondition(businessSettings.getDiscountTypeCondition());
+//        myCart.setDiscountBanner(businessSettings.getDiscountBanner());
+//        myCart.setPaymentDiscountMessage(businessSettings.getPaymentDiscountMessage());
+//        myCart.setPaymentDiscountBanner(businessSettings.getPaymentDiscountBanner());
+//        myCart.setCardPaymentDiscountName(businessSettings.getCardPaymentDiscountName());
+//        myCart.setCardPaymentDiscountType(businessSettings.getCardPaymentDiscountType());
+//        myCart.setCardPaymentCondition(businessSettings.getCardPaymentCondition());
+//        myCart.setMobilePaymentDiscountName(businessSettings.getMobilePaymentDiscountName());
+//        myCart.setMobilePaymentDiscountType(businessSettings.getMobilePaymentDiscountType());
+//        myCart.setMobilePaymentCondition(businessSettings.getMobilePaymentCondition());
 
         Log.d("SPLASH_SCREEN","BUSINESS_SETTINGS:"+new Gson().toJson(businessSettings));
         Log.d("SPLASH_SCREEN","MY_CART:"+new Gson().toJson(myCart));

@@ -1,11 +1,20 @@
 package com.tapumandal.ecommerce.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class DiscountTypeCondition implements Serializable {
+
+    @SerializedName("minimumPurchaseLimit")
     private int minimumPurchaseLimit = 0;
+
+    @SerializedName("discountedAmount")
     private int discountedAmount = 0;
+
+    @SerializedName("maximumDiscountedAmount")
     private int maximumDiscountedAmount = 0;
+
 
 
 

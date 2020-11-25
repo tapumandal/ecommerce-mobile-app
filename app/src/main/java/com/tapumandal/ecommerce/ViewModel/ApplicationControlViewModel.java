@@ -33,7 +33,6 @@ public class ApplicationControlViewModel extends AndroidViewModel {
     }
 
 
-
     public MutableLiveData<CommonResponseSingle> getBusinessSettings() {
 
         MutableLiveData<CommonResponseSingle> liveData = new MutableLiveData<>();
@@ -58,11 +57,6 @@ public class ApplicationControlViewModel extends AndroidViewModel {
                 });
         return liveData;
     }
-
-
-
-
-
 
 
     public MutableLiveData<CommonResponseSingle> getUserProfile() {
@@ -217,7 +211,6 @@ public class ApplicationControlViewModel extends AndroidViewModel {
 //        return liveData;
 
     }
-
 
     public MutableLiveData<CommonResponseSingle> userLogin(JsonObject object) {
 

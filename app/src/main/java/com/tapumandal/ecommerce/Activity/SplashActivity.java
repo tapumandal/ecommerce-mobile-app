@@ -40,7 +40,6 @@ public class SplashActivity extends BaseActivity {
         viewModel = ViewModelProviders.of(this).get(ApplicationControlViewModel.class);
         getBusinessSettingsFromLive();
 //        setBusinessSettings();
-        setMyCart();
         setMyProfile();
         new Handler().postDelayed(() -> {
             if (MySharedPreference.getBoolean(MySharedPreference.Key.IS_LOGIN)) {
@@ -60,6 +59,7 @@ public class SplashActivity extends BaseActivity {
                 if (response.isSuccess() && response.getData() != null) {
                     businessSettings = (BusinessSettings) response.getData();
                     OfflineCache.saveOffline(OfflineCache.BUSINESS_SETTINGS, businessSettings);
+                    setMyCart();
                 } else {
                     showFailedToast(response.getMessage());
                 }
@@ -154,7 +154,7 @@ public class SplashActivity extends BaseActivity {
 //        myCart.setId(businessSettings.getId());
         myCart.setDeliveryCharge(businessSettings.getDeliveryCharge());
 
-//        myCart.setDefaultDiscountBtn(businessSettings.getDefaultDiscountBtn());
+        myCart.setDefaultDiscountBtn(businessSettings.getDefaultDiscountBtn());
 //        myCart.setDiscountName(businessSettings.getDiscountName());
 //        myCart.setDiscountType(businessSettings.getDiscountType());
 //        myCart.setDiscountTypeCondition(businessSettings.getDiscountTypeCondition());

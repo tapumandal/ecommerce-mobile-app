@@ -17,8 +17,8 @@ public class Cart implements Serializable {
     @SerializedName("deliveryCharge")
     protected int deliveryCharge = 0;
 
-//    @SerializedName("defaultDiscountBtn")
-//    protected String defaultDiscountBtn = ""; // radioOnProduct/radioSpecialOffer
+    @SerializedName("defaultDiscountBtn")
+    protected String defaultDiscountBtn = ""; // radioOnProduct/radioSpecialOffer
 
 //    @SerializedName("discountName")
 //    protected String discountName = "Special Offer"; // Special Offer(Eid/Puja/NewYear)
@@ -100,6 +100,14 @@ public class Cart implements Serializable {
 
     public void setDeliveryCharge(int deliveryCharge) {
         this.deliveryCharge = deliveryCharge;
+    }
+
+    public String getDefaultDiscountBtn() {
+        return defaultDiscountBtn == null ? "" : defaultDiscountBtn;
+    }
+
+    public void setDefaultDiscountBtn(String defaultDiscountBtn) {
+        this.defaultDiscountBtn = defaultDiscountBtn;
     }
 
     public String getSelectedDiscountName() {

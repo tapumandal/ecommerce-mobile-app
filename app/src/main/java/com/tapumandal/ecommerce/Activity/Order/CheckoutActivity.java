@@ -81,7 +81,17 @@ public class CheckoutActivity extends BaseActivity {
     private void clickEvent() {
         b.checkoutConfirmBtn.setOnClickListener(v->{
 
-            startActivity(new Intent(context, MobileOTPActivity.class));
+
+            JsonObject object = new JsonObject();
+            object.addProperty("name", "Tapu Mandal");
+            object.addProperty("phone", "01739995117");
+
+            Intent intent = new Intent(context, MobileOTPActivity.class);
+            intent.putExtra("obj", object.toString());
+            startActivity(intent);
+
+//            startActivity(new Intent(context, MobileOTPActivity.class));
+
 
             if(userProfile == null){
                 UserProfile uProfile = setProfileData();

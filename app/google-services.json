@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "123858744143",
+    "firebase_url": "https://grocery-ecommerce-eaf79.firebaseio.com",
+    "project_id": "grocery-ecommerce-eaf79",
+    "storage_bucket": "grocery-ecommerce-eaf79.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123858744143:android:1f1a813ccf0192cfc60b3a",
+        "android_client_info": {
+          "package_name": "com.tapumandal.ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123858744143-a9ajfbvatfp8o907lk41scish7bavtsc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7vl_ATpe9Kc9uL47lMEFLy3FcskRGztc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "123858744143-a9ajfbvatfp8o907lk41scish7bavtsc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

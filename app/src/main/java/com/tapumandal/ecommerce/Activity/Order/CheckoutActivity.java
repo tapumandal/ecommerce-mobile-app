@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
+import com.tapumandal.ecommerce.Activity.Security.MobileOTPActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.*;
 import com.tapumandal.ecommerce.R;
@@ -79,6 +80,9 @@ public class CheckoutActivity extends BaseActivity {
 
     private void clickEvent() {
         b.checkoutConfirmBtn.setOnClickListener(v->{
+
+            startActivity(new Intent(context, MobileOTPActivity.class));
+
             if(userProfile == null){
                 UserProfile uProfile = setProfileData();
                 if(!validateFields(uProfile)){

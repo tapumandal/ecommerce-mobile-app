@@ -1,5 +1,12 @@
 <resources>
 
+    <style name="TextLabel" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">@color/textColor</item>
+        <item name="android:textSize">@dimen/_16ssdp</item>
+        <item name="colorControlNormal">@color/colorPrimaryRed</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
     <!-- Base application theme. -->
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">

@@ -27,6 +27,9 @@ public class BusinessSettings implements Serializable {
     @SerializedName("discountName")
     protected String discountName = "Special Offer"; // Special Offer(Eid/Puja/NewYear)
 
+    @SerializedName("discountBanner")
+    protected String discountBanner;
+
     @SerializedName("discountType")
     protected String discountType = "TotalPercentage"; // TotalPercentage/OverallAmount/ProductDiscount
 
@@ -34,8 +37,6 @@ public class BusinessSettings implements Serializable {
     protected List<DiscountTypeCondition> discountTypeCondition;
 
 
-    @SerializedName("discountBanner")
-    protected String discountBanner;
 
     @SerializedName("paymentDiscountMessage")
     protected String paymentDiscountMessage = "If there is any payment discount";

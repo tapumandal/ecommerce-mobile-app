@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+	</data>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<include layout="@layout/toolbar" />
+
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<ImageView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_alignParentBottom="true"
+				android:scaleType="centerCrop" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				android:layout_marginTop="@dimen/_30ssdp"
+				android:paddingLeft="@dimen/_5ssdp"
+				android:paddingRight="@dimen/_5ssdp">
+
+<!--				<ImageView-->
+<!--					android:layout_width="match_parent"-->
+<!--					android:layout_height="@dimen/_120ssdp"-->
+<!--					android:layout_marginTop="@dimen/_10ssdp"-->
+<!--					android:layout_gravity="center"-->
+<!--					app:srcCompat="@drawable/img_phone_code" />-->
+
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="@dimen/_10ssdp"
+					android:paddingStart="@dimen/_30ssdp"
+					android:paddingEnd="@dimen/_30ssdp"
+					android:id="@+id/messageTv"
+					android:gravity="center"
+					android:text="Verify will help to secure\n account more "
+					android:textColor="@color/appColor"
+					android:textSize="@dimen/_14ssp" />
+
+				<com.alimuzaffar.lib.pin.PinEntryEditText
+					android:id="@+id/txt_pin_entry"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/_30ssdp"
+					android:layout_marginEnd="@dimen/_30ssdp"
+					android:layout_marginTop="@dimen/_20ssdp"
+					android:cursorVisible="false"
+					android:digits="1234567890"
+					android:inputType="number"
+					android:maxLength="6"
+					android:layout_marginBottom="@dimen/_15ssdp"
+					android:textIsSelectable="false"
+					android:textSize="@dimen/_22ssp"
+					app:pinAnimationType="popIn" />
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Resend Code"
+					android:gravity="center"
+					android:id="@+id/timeCount"
+					android:onClick="resendCode"
+					android:layout_marginBottom="@dimen/_5ssdp"
+					android:textSize="@dimen/_14ssp"
+					android:textColor="@color/Black_Cow" />
+
+
+				<TextView
+					android:gravity="center"
+					android:insetTop="0dp"
+					android:insetBottom="0dp"
+					android:id="@+id/email_sign_in_button"
+					android:layout_width="match_parent"
+					android:layout_height="@dimen/_40ssdp"
+					android:layout_marginTop="@dimen/_15ssdp"
+					android:layout_marginStart="@dimen/_30ssdp"
+					android:layout_marginEnd="@dimen/_30ssdp"
+					android:background="@drawable/round_shape_5dp_corner_app_color"
+					android:onClick="verifyCode"
+					android:text="Verify Now"
+					android:textAllCaps="false"
+					style="?android:attr/borderlessButtonStyle"
+					android:textColor="#fff"
+					android:textSize="@dimen/_22ssp" />
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Resend Code"
+					android:gravity="center"
+					android:id="@+id/resendCode"
+					android:layout_marginTop="@dimen/_20ssdp"
+					android:onClick="resendCode"
+					android:textSize="@dimen/_18ssp"
+					android:textColor="@color/Ash_Gray" />
+
+
+			</LinearLayout>
+
+		</RelativeLayout>
+
+
+	</LinearLayout>
+</layout>

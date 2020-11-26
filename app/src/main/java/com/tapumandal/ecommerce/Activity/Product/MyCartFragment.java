@@ -20,6 +20,7 @@ import com.tapumandal.ecommerce.Activity.Order.CheckoutActivity;
 import com.tapumandal.ecommerce.Adapter.CustomEventListener;
 import com.tapumandal.ecommerce.Adapter.ProductListAdapter;
 import com.tapumandal.ecommerce.Base.BaseFragment;
+import com.tapumandal.ecommerce.Model.BusinessSettings;
 import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.DiscountTypeCondition;
 import com.tapumandal.ecommerce.Model.Product;
@@ -42,6 +43,7 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
     FragmentMyCartBinding b;
     ProductListAdapter adapter;
     ProductControlViewModel viewModel;
+    BusinessSettings businessSettings;
 
     Context context;
 
@@ -62,6 +64,7 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
         viewModel = ViewModelProviders.of(this).get(ProductControlViewModel.class);
 
         myCart = (Cart) OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
+        businessSettings = (BusinessSettings) OfflineCache.getOfflineSingle(OfflineCache.BUSINESS_SETTINGS);
 
         selectedDiscountOption = "ONPRODUCT";
 
@@ -114,9 +117,9 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
 
         if(myCart != null) {
 
-            if(myCart.getDiscountBanner() != null && !myCart.getDiscountBanner().isEmpty()) {
+            if(businessSettings.getDiscountBanner() != null && !businessSettings.getDiscountBanner().isEmpty()) {
                 b.discountBanner.setVisibility(View.VISIBLE);
-                Picasso.get().load(myCart.getDiscountBanner()).into(b.discountBanner);
+                Picasso.get().load(businessSettings.getDiscountBanner()).into(b.discountBanner);
             }
 
             myProducts = myCart.getProducts();
@@ -157,7 +160,6 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
                         break;
                     }
                 }
-//                OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
                 getData();
             }
         });
@@ -182,7 +184,7 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
         myCart.setDefaultDiscountBtn("radioSpecialOffer");
 
         Constants myConstants = new Constants();
-        Cart tmpCart = myConstants.conditionalDiscountCalculation(myCart);
+        Cart tmpCart = myConstants.conditionalDiscountCalculation(myCart, businessSettings);
 
         OfflineCache.saveOffline(OfflineCache.MY_CART, tmpCart);
     }

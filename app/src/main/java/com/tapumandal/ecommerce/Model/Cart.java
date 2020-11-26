@@ -20,42 +20,51 @@ public class Cart implements Serializable {
     @SerializedName("defaultDiscountBtn")
     protected String defaultDiscountBtn = ""; // radioOnProduct/radioSpecialOffer
 
-    @SerializedName("discountName")
-    protected String discountName = "Special Offer"; // Special Offer(Eid/Puja/NewYear)
+//    @SerializedName("discountName")
+//    protected String discountName = "Special Offer"; // Special Offer(Eid/Puja/NewYear)
 
-    @SerializedName("discountType")
-    protected String discountType = "TotalPercentage"; // TotalPercentage/OverallAmount
+//    @SerializedName("discountType")
+//    protected String discountType = "TotalPercentage"; // TotalPercentage/OverallAmount
 
-    @SerializedName("discountTypeCondition")
-    protected List<DiscountTypeCondition> discountTypeCondition;
+//    @SerializedName("discountTypeCondition")
+//    protected List<DiscountTypeCondition> discountTypeCondition;
 
-    @SerializedName("discountBanner")
-    protected String discountBanner;
+//    @SerializedName("discountBanner")
+//    protected String discountBanner;
 
-    @SerializedName("paymentDiscountMessage")
-    protected String paymentDiscountMessage = "If there is any payment discount";
+//    @SerializedName("paymentDiscountMessage")
+//    protected String paymentDiscountMessage = "If there is any payment discount";
 
-    @SerializedName("paymentDiscountBanner")
-    protected String paymentDiscountBanner;
+//    @SerializedName("paymentDiscountBanner")
+//    protected String paymentDiscountBanner;
 
-    @SerializedName("cardPaymentDiscountName")
-    protected String cardPaymentDiscountName = "Debit/Credit Cart";
+//    @SerializedName("cardPaymentDiscountName")
+//    protected String cardPaymentDiscountName = "Debit/Credit Cart";
 
-    @SerializedName("cardPaymentType")
-    protected String cardPaymentDiscountType = "TotalPercentage"; // TotalPercentage/OverallAmount
+//    @SerializedName("cardPaymentType")
+//    protected String cardPaymentDiscountType = "TotalPercentage"; // TotalPercentage/OverallAmount
 
-    @SerializedName("cardPaymentCondition")
-    protected List<DiscountTypeCondition> cardPaymentCondition;
+//    @SerializedName("cardPaymentCondition")
+//    protected List<DiscountTypeCondition> cardPaymentCondition;
 
-    @SerializedName("mobilePaymentDiscountName")
-    protected String mobilePaymentDiscountName = "BKash/Rocket/Nagad";
+//    @SerializedName("mobilePaymentDiscountName")
+//    protected String mobilePaymentDiscountName = "BKash/Rocket/Nagad";
 
-    @SerializedName("mobilePaymentType")
-    protected String mobilePaymentDiscountType = "TotalPercentage"; // TotalPercentage/OverallAmount
+//    @SerializedName("mobilePaymentType")
+//    protected String mobilePaymentDiscountType = "TotalPercentage"; // TotalPercentage/OverallAmount
 
-    @SerializedName("mobilePaymentCondition")
-    protected List<DiscountTypeCondition> mobilePaymentCondition;
+//    @SerializedName("mobilePaymentCondition")
+//    protected List<DiscountTypeCondition> mobilePaymentCondition;
 
+
+    @SerializedName("selectedDiscountName")
+    protected String selectedDiscountName = "On Product/Special Discount/Mobile Payment/Card Payment";
+
+    @SerializedName("selectedDiscountType")
+    protected String selectedDiscountType = "TotalPercentage"; // TotalPercentage/OverallAmount
+
+    @SerializedName("selectedDiscountDetails")
+    protected String selectedDiscountDetails;
 
 
     @SerializedName("totalProductDiscount")
@@ -101,100 +110,28 @@ public class Cart implements Serializable {
         this.defaultDiscountBtn = defaultDiscountBtn;
     }
 
-    public String getDiscountName() {
-        return discountName == null ? "" : discountName;
+    public String getSelectedDiscountName() {
+        return selectedDiscountName == null ? "" : selectedDiscountName;
     }
 
-    public void setDiscountName(String discountName) {
-        this.discountName = discountName;
+    public void setSelectedDiscountName(String selectedDiscountName) {
+        this.selectedDiscountName = selectedDiscountName;
     }
 
-    public String getDiscountType() {
-        return discountType == null ? "" : discountType;
+    public String getSelectedDiscountType() {
+        return selectedDiscountType == null ? "" : selectedDiscountType;
     }
 
-    public void setDiscountType(String discountType) {
-        this.discountType = discountType;
+    public void setSelectedDiscountType(String selectedDiscountType) {
+        this.selectedDiscountType = selectedDiscountType;
     }
 
-    public List<DiscountTypeCondition> getDiscountTypeCondition() {
-        return discountTypeCondition;
+    public String getSelectedDiscountDetails() {
+        return selectedDiscountDetails == null ? "" : selectedDiscountDetails;
     }
 
-    public void setDiscountTypeCondition(List<DiscountTypeCondition> discountTypeCondition) {
-        this.discountTypeCondition = discountTypeCondition;
-    }
-
-    public String getDiscountBanner() {
-        return discountBanner == null ? "" : discountBanner;
-    }
-
-    public void setDiscountBanner(String discountBanner) {
-        this.discountBanner = discountBanner;
-    }
-
-    public String getPaymentDiscountMessage() {
-        return paymentDiscountMessage == null ? "" : paymentDiscountMessage;
-    }
-
-    public void setPaymentDiscountMessage(String paymentDiscountMessage) {
-        this.paymentDiscountMessage = paymentDiscountMessage;
-    }
-
-    public String getPaymentDiscountBanner() {
-        return paymentDiscountBanner == null ? "" : paymentDiscountBanner;
-    }
-
-    public void setPaymentDiscountBanner(String paymentDiscountBanner) {
-        this.paymentDiscountBanner = paymentDiscountBanner;
-    }
-
-    public String getCardPaymentDiscountName() {
-        return cardPaymentDiscountName == null ? "" : cardPaymentDiscountName;
-    }
-
-    public void setCardPaymentDiscountName(String cardPaymentDiscountName) {
-        this.cardPaymentDiscountName = cardPaymentDiscountName;
-    }
-
-    public String getCardPaymentDiscountType() {
-        return cardPaymentDiscountType == null ? "" : cardPaymentDiscountType;
-    }
-
-    public void setCardPaymentDiscountType(String cardPaymentDiscountType) {
-        this.cardPaymentDiscountType = cardPaymentDiscountType;
-    }
-
-    public List<DiscountTypeCondition> getCardPaymentCondition() {
-        return cardPaymentCondition;
-    }
-
-    public void setCardPaymentCondition(List<DiscountTypeCondition> cardPaymentCondition) {
-        this.cardPaymentCondition = cardPaymentCondition;
-    }
-
-    public String getMobilePaymentDiscountName() {
-        return mobilePaymentDiscountName == null ? "" : mobilePaymentDiscountName;
-    }
-
-    public void setMobilePaymentDiscountName(String mobilePaymentDiscountName) {
-        this.mobilePaymentDiscountName = mobilePaymentDiscountName;
-    }
-
-    public String getMobilePaymentDiscountType() {
-        return mobilePaymentDiscountType == null ? "" : mobilePaymentDiscountType;
-    }
-
-    public void setMobilePaymentDiscountType(String mobilePaymentDiscountType) {
-        this.mobilePaymentDiscountType = mobilePaymentDiscountType;
-    }
-
-    public List<DiscountTypeCondition> getMobilePaymentCondition() {
-        return mobilePaymentCondition;
-    }
-
-    public void setMobilePaymentCondition(List<DiscountTypeCondition> mobilePaymentCondition) {
-        this.mobilePaymentCondition = mobilePaymentCondition;
+    public void setSelectedDiscountDetails(String selectedDiscountDetails) {
+        this.selectedDiscountDetails = selectedDiscountDetails;
     }
 
     public int getTotalProductDiscount() {

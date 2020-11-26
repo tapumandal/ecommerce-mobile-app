@@ -1,20 +1,21 @@
 package com.tapumandal.ecommerce.Utility;
 
 
-import com.tapumandal.ecommerce.Model.CommonResponseArray;
-import com.tapumandal.ecommerce.Model.MyMenu;
-import com.tapumandal.ecommerce.Model.Product;
+import com.google.gson.JsonObject;
+import com.tapumandal.ecommerce.Model.*;
 
 import java.util.HashMap;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
-import retrofit2.http.QueryMap;
+import org.json.JSONObject;
+import retrofit2.http.*;
 
 public interface APIInterface {
 
+
+    @GET("business_settings/get")
+    Single<CommonResponseSingle<BusinessSettings>> getBusinessSettings();
 
     @GET("navigation/get")
     Single<CommonResponseArray<MyMenu>> getMenuList();
@@ -22,6 +23,9 @@ public interface APIInterface {
     @GET("product/list/business/{flag}")
     Single<CommonResponseArray<Product>> getProductList(@Path("flag") String flag);
 
+
+    @POST("cart/create")
+    Single<CommonResponseSingle<Cart>> postCart(@Body JSONObject jsonObject);
 
 
 //    @GET("user")

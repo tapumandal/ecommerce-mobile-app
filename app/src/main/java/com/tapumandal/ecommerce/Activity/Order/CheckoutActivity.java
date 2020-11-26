@@ -13,16 +13,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.lifecycle.ViewModelProviders;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
+import com.tapumandal.ecommerce.Activity.Security.MobileOTPActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
-import com.tapumandal.ecommerce.Model.Address;
-import com.tapumandal.ecommerce.Model.Cart;
-import com.tapumandal.ecommerce.Model.DiscountTypeCondition;
-import com.tapumandal.ecommerce.Model.UserProfile;
+import com.tapumandal.ecommerce.Model.*;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivityCheckoutBinding;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +46,7 @@ public class CheckoutActivity extends BaseActivity {
 
     private UserProfile userProfile;
     private Cart myCart;
+    private BusinessSettings businessSettings;
     private String selectedPaymentMethod = "";
 
     int paymentDiscount = 0;
@@ -66,6 +67,7 @@ public class CheckoutActivity extends BaseActivity {
         userProfile = OfflineCache.getOfflineSingle(OfflineCache.MY_PROFILE);
         Log.d("USER_PROFILE", "initComponent : "+userProfile);
         myCart = OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
+        businessSettings = OfflineCache.getOfflineSingle(OfflineCache.BUSINESS_SETTINGS);
 
         if(myCart != null) {
             setCartDetails();
@@ -78,6 +80,19 @@ public class CheckoutActivity extends BaseActivity {
 
     private void clickEvent() {
         b.checkoutConfirmBtn.setOnClickListener(v->{
+
+
+            JsonObject object = new JsonObject();
+            object.addProperty("name", "Tapu Mandal");
+            object.addProperty("phone", "01739995117");
+
+            Intent intent = new Intent(context, MobileOTPActivity.class);
+            intent.putExtra("obj", object.toString());
+            startActivity(intent);
+
+//            startActivity(new Intent(context, MobileOTPActivity.class));
+
+
             if(userProfile == null){
                 UserProfile uProfile = setProfileData();
                 if(!validateFields(uProfile)){
@@ -93,15 +108,12 @@ public class CheckoutActivity extends BaseActivity {
                 }
             }
             Log.d("USER_PROFILE", "OnCLICK CONFIRM: "+new Gson().toJson(userProfile));
-            if(userProfile.isMobileNoIsValid()){
-//                Further Process according to payment method.
-                checkPaymentStatusAndPostOrder();
-            }else if(validateMobileNo()){
-                userProfile.setMobileNoIsValid(true);
-//                Further Process according to payment method.
-                checkPaymentStatusAndPostOrder();
-            }else{
+
+            if(!userProfile.isMobileNoIsValid()){
+                validateMobileNo();
                 return;
+            }else{
+                checkPaymentStatusAndPostOrder();
             }
         });
 
@@ -154,41 +166,72 @@ public class CheckoutActivity extends BaseActivity {
         myCart.setTotalPayable( (myCart.getTotalProductPrice() - myCart.getTotalDiscount()) + myCart.getDeliveryCharge() );
         b.totalPayable.setText(String.valueOf(myCart.getTotalPayable()));
 
-        if(myCart.getPaymentDiscountMessage() != "") {
+        if(businessSettings.getPaymentDiscountMessage() != "") {
             b.paymentDiscountMessageLayout.setVisibility(View.VISIBLE);
-            b.paymentDiscountMessage.setText(myCart.getPaymentDiscountMessage());
+            b.paymentDiscountMessage.setText(businessSettings.getPaymentDiscountMessage());
         }
     }
 
     private void checkPaymentStatusAndPostOrder() {
         if(selectedPaymentMethod.equals(ON_DELIVERY)){
-            postOrder();
-        }else{
-            if(selectedPaymentMethod.equals(CARD_PAYMENT)){
+            postCart();
+        }else if(selectedPaymentMethod.equals(CARD_PAYMENT)){
 //                hitCardPaymentAPI();
-//                IF success postOrder();
-            }else if(selectedPaymentMethod.equals(MOBILE_PAYMENT)){
+//                IF success postCart();
+        }else if(selectedPaymentMethod.equals(MOBILE_PAYMENT)){
 //                hitCardPaymentAPI();
-//                IF success postOrder();
-            }
+//                IF success postCart();
         }
     }
 
-    private void postOrder() {
+    private void postCart() {
 
-//        After successful order;
-        myCart.setTotalProductDiscount(0);
-        myCart.setTotalProductQuantity(0);
-        myCart.setTotalProductPrice(0);
-        myCart.setTotalDiscount(0);
-        myCart.setTotalPayable(0);
-        myCart.setProducts(new ArrayList<>());
 
-        Log.d("USER_PROFILE", "POST ORDER : "+new Gson().toJson(userProfile));
-        OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
-        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
+//        JsonObject object = new JsonObject();
 
-        startActivity(new Intent(context, ProductActivity.class));
+//        object.addProperty("deliveryCharge", "90");
+//        object.addProperty("totalDiscount", "900");
+//        object.addProperty("totalProductPrice", "900");
+//        object.addProperty("totalPayable", "900");
+
+        String objectStr = new Gson().toJson(myCart);
+        JSONObject object = new JSONObject();
+        try {
+
+            object = new JSONObject(objectStr);
+
+            Log.d("USER_PROFILE", "STRING TO JSONObject"+object.toString());
+
+        } catch (Throwable t) {
+            Log.d("USER_PROFILE", "STRING TO JSONObject FAILED");
+        }
+
+        viewModel.postCart(object).observe(this, response -> {
+            hideProgressDialog();
+            if (response != null) {
+                if (response.isSuccess() && response.getData() != null) {
+
+                    myCart.setTotalProductDiscount(0);
+                    myCart.setTotalProductQuantity(0);
+                    myCart.setTotalProductPrice(0);
+                    myCart.setTotalDiscount(0);
+                    myCart.setTotalPayable(0);
+                    myCart.setProducts(new ArrayList<>());
+                    Log.d("USER_PROFILE", "POST ORDER : "+new Gson().toJson(userProfile));
+                    OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
+                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
+                    startActivity(new Intent(context, ProductActivity.class));
+                    Log.d("POSTCART", "SUCCESSFUL POST: "+response.getData());
+                } else {
+                    showFailedToast(response.getMessage());
+                    Log.d("POSTCART", "FAILED POST NULL Data : "+new Gson().toJson(response));
+                }
+            } else {
+                showFailedToast(getString(R.string.something_went_wrong));
+                Log.d("POSTCART", "FAILED POST NULL Response : "+response.getMessage());
+            }
+        });
+
     }
 
     private boolean validateMobileNo(){
@@ -212,7 +255,7 @@ public class CheckoutActivity extends BaseActivity {
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+        builder.setMessage("Validate Mobile Number?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
 
         Toast.makeText(context, "Mobile Number Validation is: "+mobileNoValidationStatus, Toast.LENGTH_SHORT).show();
@@ -282,7 +325,7 @@ public class CheckoutActivity extends BaseActivity {
         b.radioMobilePayment.setChecked(false);
 
 
-        List<DiscountTypeCondition> cardDiscountCondition = myCart.getCardPaymentCondition();
+        List<DiscountTypeCondition> cardDiscountCondition = businessSettings.getCardPaymentCondition();
         int calculativeAmount = 0;
         int maximumDiscountedAmount = 0;
         if(cardDiscountCondition != null) {
@@ -295,12 +338,12 @@ public class CheckoutActivity extends BaseActivity {
         }
 
         int tmpDiscountedAmount = 0;
-        if(myCart.getCardPaymentDiscountType().equals("TotalPercentage")){
+        if(businessSettings.getCardPaymentDiscountType().equals("TotalPercentage")){
             tmpDiscountedAmount = (myCart.getTotalProductPrice()*calculativeAmount)/100;
             if(tmpDiscountedAmount>maximumDiscountedAmount){
                 tmpDiscountedAmount = maximumDiscountedAmount;
             }
-        }else if(myCart.getCardPaymentDiscountType().equals("OverallAmount")){
+        }else if(businessSettings.getCardPaymentDiscountType().equals("OverallAmount")){
             tmpDiscountedAmount = calculativeAmount;
             if(tmpDiscountedAmount>maximumDiscountedAmount){
                 tmpDiscountedAmount = maximumDiscountedAmount;
@@ -333,7 +376,7 @@ public class CheckoutActivity extends BaseActivity {
         b.radioOnDelivery.setChecked(false);
         b.radioCardPayment.setChecked(false);
 
-        List<DiscountTypeCondition> mobileDiscountCondition = myCart.getMobilePaymentCondition();
+        List<DiscountTypeCondition> mobileDiscountCondition = businessSettings.getMobilePaymentCondition();
         int calculativeAmount = 0;
         int maximumDiscountedAmount = 0;
         if(mobileDiscountCondition != null) {
@@ -346,12 +389,12 @@ public class CheckoutActivity extends BaseActivity {
         }
 
         int tmpDiscountedAmount = 0;
-        if(myCart.getMobilePaymentDiscountType().equals("TotalPercentage")){
+        if(businessSettings.getMobilePaymentDiscountType().equals("TotalPercentage")){
             tmpDiscountedAmount = (myCart.getTotalProductPrice()*calculativeAmount)/100;
             if(tmpDiscountedAmount>maximumDiscountedAmount){
                 tmpDiscountedAmount = maximumDiscountedAmount;
             }
-        }else if(myCart.getMobilePaymentDiscountType().equals("OverallAmount")){
+        }else if(businessSettings.getMobilePaymentDiscountType().equals("OverallAmount")){
             tmpDiscountedAmount = calculativeAmount;
             if(tmpDiscountedAmount>maximumDiscountedAmount){
                 tmpDiscountedAmount = maximumDiscountedAmount;

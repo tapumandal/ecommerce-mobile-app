@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class CommonResponseArray<Item> {
 
 
-    @SerializedName("errors")
+    @SerializedName("message")
     @Expose
     private String message;
     @SerializedName("data")

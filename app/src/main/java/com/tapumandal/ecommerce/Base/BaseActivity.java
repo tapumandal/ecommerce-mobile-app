@@ -44,7 +44,7 @@ import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.ApiClient;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
-import com.tapumandal.ecommerce.ViewModel.UserControlViewModel;
+import com.tapumandal.ecommerce.ViewModel.ApplicationControlViewModel;
 import com.tapumandal.ecommerce.databinding.AdminMessageDialogBinding;
 
 import java.util.Calendar;
@@ -65,14 +65,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     ShimmerFrameLayout shimmerFrameLayout;
     private View loadingView, noDataView;
 
-    UserControlViewModel viewModel;
+    ApplicationControlViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         context = this;
-        viewModel = ViewModelProviders.of(this).get(UserControlViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(ApplicationControlViewModel.class);
 
         initVariable();
 

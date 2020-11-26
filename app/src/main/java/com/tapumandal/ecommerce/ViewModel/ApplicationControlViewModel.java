@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.gson.JsonObject;
 import com.tapumandal.ecommerce.Model.CommonResponseArray;
 import com.tapumandal.ecommerce.Model.CommonResponseSingle;
-import com.tapumandal.ecommerce.Model.MyMenu;
+import com.tapumandal.ecommerce.Model.BusinessSettings;
 import com.tapumandal.ecommerce.Utility.ApiClient;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 
@@ -18,6 +18,7 @@ import java.util.HashMap;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -25,20 +26,37 @@ import io.reactivex.schedulers.Schedulers;
  * Created by tapumandal on 10/24/2020.
  * For any query ask online.tapu@gmail.com
  */
-public class UserControlViewModel extends AndroidViewModel {
+public class ApplicationControlViewModel extends AndroidViewModel {
 
-    public UserControlViewModel(@NonNull Application application) {
+    public ApplicationControlViewModel(@NonNull Application application) {
         super(application);
     }
 
 
+    public MutableLiveData<CommonResponseSingle> getBusinessSettings() {
 
+        MutableLiveData<CommonResponseSingle> liveData = new MutableLiveData<>();
 
-
-
-
-
-
+        ApiClient.getApiClient().getBusinessSettings().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<CommonResponseSingle<BusinessSettings>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+                    @Override
+                    public void onSuccess(CommonResponseSingle<BusinessSettings> commentCommonResponseArray) {
+                        liveData.postValue(commentCommonResponseArray);
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        CommonResponseSingle response = new CommonResponseSingle<>();
+                        response.setSuccess(false);
+                        response.setMessage(e.getLocalizedMessage());
+                        liveData.postValue(response);
+                    }
+                });
+        return liveData;
+    }
 
 
     public MutableLiveData<CommonResponseSingle> getUserProfile() {
@@ -193,7 +211,6 @@ public class UserControlViewModel extends AndroidViewModel {
 //        return liveData;
 
     }
-
 
     public MutableLiveData<CommonResponseSingle> userLogin(JsonObject object) {
 

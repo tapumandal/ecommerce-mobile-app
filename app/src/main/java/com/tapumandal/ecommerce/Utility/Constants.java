@@ -24,6 +24,7 @@ import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+import com.tapumandal.ecommerce.Model.BusinessSettings;
 import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.DiscountTypeCondition;
 import com.tapumandal.ecommerce.Model.Product;
@@ -450,8 +451,8 @@ public class Constants {
     }
 
 
-    public Cart conditionalDiscountCalculation(Cart cart){
-        List<DiscountTypeCondition> discountTypeCondition = cart.getDiscountTypeCondition();
+    public Cart conditionalDiscountCalculation(Cart cart, BusinessSettings businessSettings){
+        List<DiscountTypeCondition> discountTypeCondition = businessSettings.getDiscountTypeCondition();
         int calculativeAmount = 0;
         int maximumDiscountedAmount = 0;
         if(discountTypeCondition != null) {
@@ -463,13 +464,13 @@ public class Constants {
             }
         }
 
-        if(cart.getDiscountType().equals("TotalPercentage")){
+        if(businessSettings.getDiscountType().equals("TotalPercentage")){
             int tmpDiscountedAmount = (cart.getTotalProductPrice()*calculativeAmount)/100;
             if(tmpDiscountedAmount>maximumDiscountedAmount){
                 tmpDiscountedAmount = maximumDiscountedAmount;
             }
             cart.setTotalDiscount( tmpDiscountedAmount );
-        }else if(cart.getDiscountType().equals("OverallAmount")){
+        }else if(businessSettings.getDiscountType().equals("OverallAmount")){
             int tmpDiscountedAmount = calculativeAmount;
             if(tmpDiscountedAmount>maximumDiscountedAmount){
                 tmpDiscountedAmount = maximumDiscountedAmount;

@@ -40,12 +40,13 @@ public class CheckoutActivity extends BaseActivity {
     public static final String MOBILE_PAYMENT = "MobilePayment";
     int LAUNCH_OTP_ACTIVITY = 701;
 
-    boolean mobileNoValidationStatus = false;
+    boolean checkPaymentStatus = false;
 
     ActivityCheckoutBinding b;
     ProductControlViewModel viewModel;
 
     private UserProfile userProfile;
+    private UserProfile newProfile;
     private Cart myCart;
     private BusinessSettings businessSettings;
     private String selectedPaymentMethod = "";
@@ -93,27 +94,34 @@ public class CheckoutActivity extends BaseActivity {
     }
 
     private void checkout() {
-        UserProfile uProfile = new UserProfile();
-        if(userProfile == null){
-            uProfile = setProfileData();
-            if(!validateFields(uProfile)){
-//                Checked every field and payment method
+
+        if(userProfile == null) {
+            newProfile = newProfileData();
+
+            if(!validateFields(newProfile)){
                 return;
             }
+
+            if(!newProfile.isMobileNoIsValid()){
+                validateMobileNo(newProfile.getMobileNo());
+            }
+
         }else{
-            if(!validateFields(userProfile)){
-//                Checked every field and payment method
-                return;
-            }
+            checkPaymentStatusAndPost();
+        }
+    }
+
+    private void checkPaymentStatusAndPost() {
+        if(selectedPaymentMethod.equals(ON_DELIVERY)){
+            Toast.makeText(context, "ON_DELIVERY", Toast.LENGTH_SHORT).show();
+        }else if(selectedPaymentMethod.equals(CARD_PAYMENT)){
+            Toast.makeText(context, "CARD_PAYMENT", Toast.LENGTH_SHORT).show();
+        }else if(selectedPaymentMethod.equals(MOBILE_PAYMENT)){
+            Toast.makeText(context, "MOBILE_PAYMENT", Toast.LENGTH_SHORT).show();
         }
 
-        Log.d("USER_PROFILE", "OnCLICK CONFIRM: "+new Gson().toJson(userProfile));
-
-        if(!userProfile.isMobileNoIsValid()){
-            validateMobileNo();
-            return;
-        }else{
-            checkPaymentStatusAndPostOrder();
+        if(checkPaymentStatus){
+            postCart();
         }
     }
 
@@ -164,36 +172,14 @@ public class CheckoutActivity extends BaseActivity {
         }
     }
 
-    private void checkPaymentStatusAndPostOrder() {
-        if(selectedPaymentMethod.equals(ON_DELIVERY)){
-            postCart();
-        }else if(selectedPaymentMethod.equals(CARD_PAYMENT)){
-//                hitCardPaymentAPI();
-//                IF success postCart();
-        }else if(selectedPaymentMethod.equals(MOBILE_PAYMENT)){
-//                hitCardPaymentAPI();
-//                IF success postCart();
-        }
-    }
 
     private void postCart() {
-
-
-//        JsonObject object = new JsonObject();
-
-//        object.addProperty("deliveryCharge", "90");
-//        object.addProperty("totalDiscount", "900");
-//        object.addProperty("totalProductPrice", "900");
-//        object.addProperty("totalPayable", "900");
 
         String objectStr = new Gson().toJson(myCart);
         JSONObject object = new JSONObject();
         try {
-
             object = new JSONObject(objectStr);
-
             Log.d("USER_PROFILE", "STRING TO JSONObject"+object.toString());
-
         } catch (Throwable t) {
             Log.d("USER_PROFILE", "STRING TO JSONObject FAILED");
         }
@@ -233,8 +219,15 @@ public class CheckoutActivity extends BaseActivity {
 
         if (requestCode == LAUNCH_OTP_ACTIVITY) {
             if(resultCode == Activity.RESULT_OK){
+
                 String phoneVerificationStatus = data.getStringExtra("phoneVerificationStatus");
-                Toast.makeText(context, phoneVerificationStatus, Toast.LENGTH_SHORT).show();
+
+                if(data.getStringExtra("phoneVerificationStatus").equals("VERIFIED")){
+                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, newProfile);
+                    checkPaymentStatusAndPost();
+                }else{
+                    showFailedToast("Phone number is not verified!");
+                }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -242,53 +235,17 @@ public class CheckoutActivity extends BaseActivity {
         }
     }//onActivityResult
 
-    private boolean validateMobileNo(){
+    private void validateMobileNo(String phone){
         JsonObject object = new JsonObject();
-        object.addProperty("phone", userProfile.getMobileNo());
+        object.addProperty("phone", phone);
         Intent intent = new Intent(this, MobileOTPActivity.class);
         intent.putExtra("data", object.toString());
         startActivityForResult(intent, LAUNCH_OTP_ACTIVITY);
-
-//        JsonObject object = new JsonObject();
-//        object.addProperty("name", "Tapu Mandal");
-//        object.addProperty("phone", "01739995117");
-//
-//        Intent intent = new Intent(context, MobileOTPActivity.class);
-//        intent.putExtra("obj", object.toString());
-//        startActivity(intent);
-
-//        startActivity(new Intent(context, MobileOTPActivity.class));
-
-//        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                switch (which){
-//                    case DialogInterface.BUTTON_POSITIVE:
-//                        //Yes button clicked
-//                        mobileNoValidationStatus = true;
-//                        break;
-//
-//                    case DialogInterface.BUTTON_NEGATIVE:
-//                        //No button clicked
-//                        mobileNoValidationStatus = false;
-//                        break;
-//                }
-//            }
-//        };
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//        builder.setMessage("Validate Mobile Number?"+userProfile.getMobileNo()).setPositiveButton("Yes", dialogClickListener)
-//                .setNegativeButton("No", dialogClickListener).show();
-//
-//        Toast.makeText(context, "Mobile Number Validation is: "+mobileNoValidationStatus, Toast.LENGTH_SHORT).show();
-
-        return mobileNoValidationStatus;
     }
 
-    private UserProfile setProfileData() {
-        UserProfile uProfile = new UserProfile();
-        uProfile = new UserProfile();
-        uProfile.setName(b.name.getText().toString());
+    private UserProfile newProfileData() {
+        UserProfile newProfile = new UserProfile();
+        newProfile.setName(b.name.getText().toString());
 
         String tmpMobileNo = b.phone.getText().toString();
         if(tmpMobileNo.length()>10) {
@@ -296,9 +253,9 @@ public class CheckoutActivity extends BaseActivity {
         }else{
             tmpMobileNo = "";
         }
-        uProfile.setMobileNo(tmpMobileNo);
+        newProfile.setMobileNo(tmpMobileNo);
 
-        uProfile.setMobileNoIsValid(false);
+        newProfile.setMobileNoIsValid(false);
 
         List<Address> addresses = new ArrayList<>();
         Address address = new Address();
@@ -311,9 +268,9 @@ public class CheckoutActivity extends BaseActivity {
         address.setFlat(b.flat.getText().toString());
         address.setDetails(b.details.getText().toString());
         addresses.add(address);
-        uProfile.setAddress(addresses);
+        newProfile.setAddress(addresses);
 
-        return uProfile;
+        return newProfile;
     }
 
 
@@ -452,21 +409,21 @@ public class CheckoutActivity extends BaseActivity {
         selectedPaymentMethod = "MobilePayment";
     }
 
-    private boolean validateFields(UserProfile uProfile) {
+    private boolean validateFields(UserProfile newProfile) {
 
-        if (uProfile.getName().equals("")) {
+        if (newProfile.getName().equals("")) {
             showAlertDialog("Required", "Name");
             return false;
         }
-        if (uProfile.getMobileNo().equals("")) {
+        if (newProfile.getMobileNo().equals("")) {
             showAlertDialog("Required", "Phone \n Example 017 12345678");
             return false;
         }
-        if (uProfile.getAddress().get(0).getArea().equals("")) {
+        if (newProfile.getAddress().get(0).getArea().equals("")) {
             showAlertDialog("Required", "Area");
             return false;
         }
-        if (uProfile.getAddress().get(0).getBlock().equals("")) {
+        if (newProfile.getAddress().get(0).getBlock().equals("")) {
             showAlertDialog("Required", "Block");
             return false;
         }

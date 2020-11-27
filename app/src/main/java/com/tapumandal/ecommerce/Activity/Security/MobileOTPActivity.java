@@ -78,8 +78,6 @@ public class MobileOTPActivity extends BaseActivity {
 
         mVerificationId = "";
 
-        Toast.makeText(context, "initComponent", Toast.LENGTH_SHORT).show();
-
         try {
             params = new JsonParser().parse(getIntent().getStringExtra("data")).getAsJsonObject();
             phone = params.get("phone").getAsString();
@@ -136,7 +134,8 @@ public class MobileOTPActivity extends BaseActivity {
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                showFailedToast(e.getLocalizedMessage());
             }
 
             @Override
@@ -144,7 +143,8 @@ public class MobileOTPActivity extends BaseActivity {
                                    PhoneAuthProvider.ForceResendingToken token) {
                 mVerificationId = verificationId;
                 mResendToken = token;
-                Toast.makeText(context, "Code send successfully ", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Code send successfully ", Toast.LENGTH_SHORT).show();
+                showSuccessToast("Code send successfully!");
 
             }
         };
@@ -161,7 +161,6 @@ public class MobileOTPActivity extends BaseActivity {
         super.onStart();
         //phn verify
 //        phoneVerified = true;
-        Toast.makeText(context, "ON START", Toast.LENGTH_SHORT).show();
     }
 
     public void resendCode(View view) {
@@ -193,7 +192,6 @@ public class MobileOTPActivity extends BaseActivity {
     }
 
     private void sendCodeToNumber(String phoneNumber) {
-        Toast.makeText(context, phoneNumber, Toast.LENGTH_SHORT).show();
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
                         .setPhoneNumber(phoneNumber)       // Phone number to verify
@@ -210,7 +208,6 @@ public class MobileOTPActivity extends BaseActivity {
 
             return;
         }
-        Toast.makeText(context, "CODE:"+code, Toast.LENGTH_SHORT).show();
         if (!code.isEmpty()) {
             if (!mVerificationId.isEmpty()) {
 
@@ -218,10 +215,12 @@ public class MobileOTPActivity extends BaseActivity {
                 signInWithPhoneAuthCredential(credential);
 
             } else {
-                Toast.makeText(context, "Something went wrong, Try resending the code", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Something went wrong, Try resending the code", Toast.LENGTH_SHORT).show();
+                showFailedToast("Something went wrong, Try resending the code");
             }
         } else {
-            Toast.makeText(context, "Insert code", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Insert code", Toast.LENGTH_SHORT).show();
+            showFailedToast("Insert code");
         }
     }
 
@@ -243,7 +242,8 @@ public class MobileOTPActivity extends BaseActivity {
                             Constants.dissmissProcess();
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 b.txtPinEntry.setText(null);
-                                Toast.makeText(context, "Invalid pin, Insert correct pin", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(context, "Invalid pin, Insert correct pin", Toast.LENGTH_LONG).show();
+                                showFailedToast("Invalid pin, Insert correct pin");
                             }
                             phoneVerified = false;
 //                            createAccountWithMobileAndPassword();

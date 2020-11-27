@@ -81,29 +81,7 @@ public class CheckoutActivity extends BaseActivity {
 
     private void clickEvent() {
         b.checkoutConfirmBtn.setOnClickListener(v->{
-
-            if(userProfile == null){
-                UserProfile uProfile = setProfileData();
-                if(!validateFields(uProfile)){
-//                Checked every field and payment method
-                    return;
-                }else{
-                    userProfile = uProfile;
-                }
-            }else{
-                if(!validateFields(userProfile)){
-//                Checked every field and payment method
-                    return;
-                }
-            }
-            Log.d("USER_PROFILE", "OnCLICK CONFIRM: "+new Gson().toJson(userProfile));
-
-            if(!userProfile.isMobileNoIsValid()){
-                validateMobileNo();
-                return;
-            }else{
-                checkPaymentStatusAndPostOrder();
-            }
+            checkout();
         });
 
         b.addressEditBtn.setOnClickListener(v -> {
@@ -112,6 +90,31 @@ public class CheckoutActivity extends BaseActivity {
             userProfile.setMobileNoIsValid(false);
             OfflineCache.deleteCacheFile(OfflineCache.MY_PROFILE);
         });
+    }
+
+    private void checkout() {
+        UserProfile uProfile = new UserProfile();
+        if(userProfile == null){
+            uProfile = setProfileData();
+            if(!validateFields(uProfile)){
+//                Checked every field and payment method
+                return;
+            }
+        }else{
+            if(!validateFields(userProfile)){
+//                Checked every field and payment method
+                return;
+            }
+        }
+
+        Log.d("USER_PROFILE", "OnCLICK CONFIRM: "+new Gson().toJson(userProfile));
+
+        if(!userProfile.isMobileNoIsValid()){
+            validateMobileNo();
+            return;
+        }else{
+            checkPaymentStatusAndPostOrder();
+        }
     }
 
     private void addressLayout(){
@@ -451,26 +454,26 @@ public class CheckoutActivity extends BaseActivity {
 
     private boolean validateFields(UserProfile uProfile) {
 
-//        if (uProfile.getName().equals("")) {
-//            showAlertDialog("Required", "Name");
-//            return false;
-//        }
-        if (uProfile.getMobileNo().equals("")) {
-            showAlertDialog("Required", "Phone, Start with 01");
+        if (uProfile.getName().equals("")) {
+            showAlertDialog("Required", "Name");
             return false;
         }
-//        if (uProfile.getAddress().get(0).getArea().equals("")) {
-//            showAlertDialog("Required", "Area");
-//            return false;
-//        }
-//        if (uProfile.getAddress().get(0).getBlock().equals("")) {
-//            showAlertDialog("Required", "Block");
-//            return false;
-//        }
-//        if (selectedPaymentMethod.equals("")) {
-//            showAlertDialog("Required", "Select Payment Method");
-//            return false;
-//        }
+        if (uProfile.getMobileNo().equals("")) {
+            showAlertDialog("Required", "Phone \n Example 017 12345678");
+            return false;
+        }
+        if (uProfile.getAddress().get(0).getArea().equals("")) {
+            showAlertDialog("Required", "Area");
+            return false;
+        }
+        if (uProfile.getAddress().get(0).getBlock().equals("")) {
+            showAlertDialog("Required", "Block");
+            return false;
+        }
+        if (selectedPaymentMethod.equals("")) {
+            showAlertDialog("Required", "Select Payment Method");
+            return false;
+        }
         return true;
     }
 

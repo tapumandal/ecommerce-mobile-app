@@ -164,38 +164,6 @@ public class MobileOTPActivity extends BaseActivity {
         Toast.makeText(context, "ON START", Toast.LENGTH_SHORT).show();
     }
 
-    private void sendCodeToNumber(String phoneNumber) {
-        Toast.makeText(context, phoneNumber, Toast.LENGTH_SHORT).show();
-        PhoneAuthOptions options =
-                PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber(phoneNumber)       // Phone number to verify
-                        .setTimeout(30L, TimeUnit.SECONDS) // Timeout and unit
-                        .setActivity(this)                 // Activity (for callback binding)
-                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
-                        .build();
-        PhoneAuthProvider.verifyPhoneNumber(options);
-    }
-
-    public void verifyCode(View view) {
-        if (phoneVerified) {
-//            createAccountWithMobileAndPassword();
-
-            return;
-        }
-        Toast.makeText(context, "CODE:"+code, Toast.LENGTH_SHORT).show();
-        if (!code.isEmpty()) {
-            if (!mVerificationId.isEmpty()) {
-
-                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
-                signInWithPhoneAuthCredential(credential);
-            } else {
-                Toast.makeText(context, "Something went wrong, Try resending the code", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(context, "Insert code", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public void resendCode(View view) {
 
         if (isTimerOn) {
@@ -223,11 +191,42 @@ public class MobileOTPActivity extends BaseActivity {
             }.start();
         }
     }
-    //</editor-fold>
+
+    private void sendCodeToNumber(String phoneNumber) {
+        Toast.makeText(context, phoneNumber, Toast.LENGTH_SHORT).show();
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber(phoneNumber)       // Phone number to verify
+                        .setTimeout(30L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // Activity (for callback binding)
+                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+    public void verifyCode(View view) {
+        if (phoneVerified) {
+//            createAccountWithMobileAndPassword();
+
+            return;
+        }
+        Toast.makeText(context, "CODE:"+code, Toast.LENGTH_SHORT).show();
+        if (!code.isEmpty()) {
+            if (!mVerificationId.isEmpty()) {
+
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+                signInWithPhoneAuthCredential(credential);
+
+            } else {
+                Toast.makeText(context, "Something went wrong, Try resending the code", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(context, "Insert code", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        Toast.makeText(context, "OTP MATCHED", Toast.LENGTH_SHORT).show();
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -235,7 +234,6 @@ public class MobileOTPActivity extends BaseActivity {
                         if (task.isSuccessful()) {
 
                             phoneVerified = true;
-//                            createAccountWithMobileAndPassword();
                             Intent returnIntent = new Intent();
                             returnIntent.putExtra("phoneVerificationStatus","VERIFIED");
                             setResult(Activity.RESULT_OK, returnIntent);
@@ -247,6 +245,13 @@ public class MobileOTPActivity extends BaseActivity {
                                 b.txtPinEntry.setText(null);
                                 Toast.makeText(context, "Invalid pin, Insert correct pin", Toast.LENGTH_LONG).show();
                             }
+                            phoneVerified = false;
+//                            createAccountWithMobileAndPassword();
+                            Intent returnIntent = new Intent();
+//                            returnIntent.putExtra("phoneVerificationStatus","NOT_VERIFIED");
+                            returnIntent.putExtra("phoneVerificationStatus","VERIFIED");
+                            setResult(Activity.RESULT_OK, returnIntent);
+                            finish();
 
                         }
                     }

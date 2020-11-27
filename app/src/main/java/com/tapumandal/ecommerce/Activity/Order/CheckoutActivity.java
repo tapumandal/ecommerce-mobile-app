@@ -1,5 +1,6 @@
 package com.tapumandal.ecommerce.Activity.Order;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -37,7 +38,7 @@ public class CheckoutActivity extends BaseActivity {
     public static final String ON_DELIVERY = "OnDelivery";
     public static final String CARD_PAYMENT = "CardPayment";
     public static final String MOBILE_PAYMENT = "MobilePayment";
-
+    int LAUNCH_OTP_ACTIVITY = 701;
 
     boolean mobileNoValidationStatus = false;
 
@@ -80,18 +81,6 @@ public class CheckoutActivity extends BaseActivity {
 
     private void clickEvent() {
         b.checkoutConfirmBtn.setOnClickListener(v->{
-
-
-            JsonObject object = new JsonObject();
-            object.addProperty("name", "Tapu Mandal");
-            object.addProperty("phone", "01739995117");
-
-            Intent intent = new Intent(context, MobileOTPActivity.class);
-            intent.putExtra("obj", object.toString());
-            startActivity(intent);
-
-//            startActivity(new Intent(context, MobileOTPActivity.class));
-
 
             if(userProfile == null){
                 UserProfile uProfile = setProfileData();
@@ -234,31 +223,61 @@ public class CheckoutActivity extends BaseActivity {
 
     }
 
-    private boolean validateMobileNo(){
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        //Yes button clicked
-                        mobileNoValidationStatus = true;
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
-                        mobileNoValidationStatus = false;
-                        break;
-                }
+        if (requestCode == LAUNCH_OTP_ACTIVITY) {
+            if(resultCode == Activity.RESULT_OK){
+                String phoneVerificationStatus = data.getStringExtra("phoneVerificationStatus");
+                Toast.makeText(context, phoneVerificationStatus, Toast.LENGTH_SHORT).show();
             }
-        };
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }//onActivityResult
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Validate Mobile Number?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+    private boolean validateMobileNo(){
+        JsonObject object = new JsonObject();
+        object.addProperty("phone", userProfile.getMobileNo());
+        Intent intent = new Intent(this, MobileOTPActivity.class);
+        intent.putExtra("data", object.toString());
+        startActivityForResult(intent, LAUNCH_OTP_ACTIVITY);
 
-        Toast.makeText(context, "Mobile Number Validation is: "+mobileNoValidationStatus, Toast.LENGTH_SHORT).show();
+//        JsonObject object = new JsonObject();
+//        object.addProperty("name", "Tapu Mandal");
+//        object.addProperty("phone", "01739995117");
+//
+//        Intent intent = new Intent(context, MobileOTPActivity.class);
+//        intent.putExtra("obj", object.toString());
+//        startActivity(intent);
+
+//        startActivity(new Intent(context, MobileOTPActivity.class));
+
+//        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                switch (which){
+//                    case DialogInterface.BUTTON_POSITIVE:
+//                        //Yes button clicked
+//                        mobileNoValidationStatus = true;
+//                        break;
+//
+//                    case DialogInterface.BUTTON_NEGATIVE:
+//                        //No button clicked
+//                        mobileNoValidationStatus = false;
+//                        break;
+//                }
+//            }
+//        };
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//        builder.setMessage("Validate Mobile Number?"+userProfile.getMobileNo()).setPositiveButton("Yes", dialogClickListener)
+//                .setNegativeButton("No", dialogClickListener).show();
+//
+//        Toast.makeText(context, "Mobile Number Validation is: "+mobileNoValidationStatus, Toast.LENGTH_SHORT).show();
 
         return mobileNoValidationStatus;
     }
@@ -267,7 +286,15 @@ public class CheckoutActivity extends BaseActivity {
         UserProfile uProfile = new UserProfile();
         uProfile = new UserProfile();
         uProfile.setName(b.name.getText().toString());
-        uProfile.setMobileNo(b.phone.getText().toString());
+
+        String tmpMobileNo = b.phone.getText().toString();
+        if(tmpMobileNo.length()>10) {
+            tmpMobileNo = tmpMobileNo.substring(tmpMobileNo.length() - 11);
+        }else{
+            tmpMobileNo = "";
+        }
+        uProfile.setMobileNo(tmpMobileNo);
+
         uProfile.setMobileNoIsValid(false);
 
         List<Address> addresses = new ArrayList<>();
@@ -424,26 +451,26 @@ public class CheckoutActivity extends BaseActivity {
 
     private boolean validateFields(UserProfile uProfile) {
 
-        if (uProfile.getName().equals("")) {
-            showAlertDialog("Required", "Name");
-            return false;
-        }
+//        if (uProfile.getName().equals("")) {
+//            showAlertDialog("Required", "Name");
+//            return false;
+//        }
         if (uProfile.getMobileNo().equals("")) {
-            showAlertDialog("Required", "Phone");
+            showAlertDialog("Required", "Phone, Start with 01");
             return false;
         }
-        if (uProfile.getAddress().get(0).getArea().equals("")) {
-            showAlertDialog("Required", "Area");
-            return false;
-        }
-        if (uProfile.getAddress().get(0).getBlock().equals("")) {
-            showAlertDialog("Required", "Block");
-            return false;
-        }
-        if (selectedPaymentMethod.equals("")) {
-            showAlertDialog("Required", "Select Payment Method");
-            return false;
-        }
+//        if (uProfile.getAddress().get(0).getArea().equals("")) {
+//            showAlertDialog("Required", "Area");
+//            return false;
+//        }
+//        if (uProfile.getAddress().get(0).getBlock().equals("")) {
+//            showAlertDialog("Required", "Block");
+//            return false;
+//        }
+//        if (selectedPaymentMethod.equals("")) {
+//            showAlertDialog("Required", "Select Payment Method");
+//            return false;
+//        }
         return true;
     }
 

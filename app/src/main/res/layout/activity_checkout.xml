@@ -68,20 +68,21 @@
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							android:orientation="vertical"
-							android:visibility="gone">
+							android:visibility="visible">
 
 
 						<com.google.android.material.textfield.TextInputLayout
 								style="@style/inputBox"
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"
-								android:layout_marginTop="0dp"
 								android:hint="Name">
 
 							<com.google.android.material.textfield.TextInputEditText
 									android:id="@+id/name"
 									android:layout_width="match_parent"
 									android:layout_height="@dimen/_50ssdp"
+									android:paddingTop="0dp"
+									android:paddingBottom="0dp"
 									android:inputType="text" />
 						</com.google.android.material.textfield.TextInputLayout>
 
@@ -95,6 +96,8 @@
 									android:id="@+id/phone"
 									android:layout_width="match_parent"
 									android:layout_height="@dimen/_50ssdp"
+									android:paddingTop="0dp"
+									android:paddingBottom="0dp"
 									android:inputType="number" />
 						</com.google.android.material.textfield.TextInputLayout>
 
@@ -135,6 +138,8 @@
 										android:id="@+id/block"
 										android:layout_width="match_parent"
 										android:layout_height="@dimen/_50ssdp"
+										android:paddingTop="0dp"
+										android:paddingBottom="0dp"
 										android:layout_marginRight="0dp"
 										android:maxLength="400" />
 							</com.google.android.material.textfield.TextInputLayout>
@@ -162,6 +167,8 @@
 										android:id="@+id/road"
 										android:layout_width="match_parent"
 										android:layout_height="@dimen/_50ssdp"
+										android:paddingTop="0dp"
+										android:paddingBottom="0dp"
 										android:maxLength="400" />
 							</com.google.android.material.textfield.TextInputLayout>
 
@@ -178,6 +185,8 @@
 										android:id="@+id/house"
 										android:layout_width="match_parent"
 										android:layout_height="@dimen/_50ssdp"
+										android:paddingTop="0dp"
+										android:paddingBottom="0dp"
 										android:maxLength="400" />
 							</com.google.android.material.textfield.TextInputLayout>
 
@@ -194,6 +203,8 @@
 										android:id="@+id/flat"
 										android:layout_width="match_parent"
 										android:layout_height="@dimen/_50ssdp"
+										android:paddingTop="0dp"
+										android:paddingBottom="0dp"
 										android:maxLength="400" />
 							</com.google.android.material.textfield.TextInputLayout>
 
@@ -209,6 +220,8 @@
 									android:id="@+id/details"
 									android:layout_width="match_parent"
 									android:layout_height="@dimen/_50ssdp"
+									android:paddingTop="0dp"
+									android:paddingBottom="0dp"
 									android:inputType="text" />
 						</com.google.android.material.textfield.TextInputLayout>
 

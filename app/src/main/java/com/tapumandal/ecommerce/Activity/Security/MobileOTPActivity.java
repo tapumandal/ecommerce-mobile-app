@@ -1,5 +1,6 @@
 package com.tapumandal.ecommerce.Activity.Security;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,8 +26,10 @@ import com.google.firebase.auth.*;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tapumandal.ecommerce.Base.BaseActivity;
+import com.tapumandal.ecommerce.Model.UserProfile;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.Constants;
+import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.Utility.URLs;
 import com.tapumandal.ecommerce.ViewModel.ApplicationControlViewModel;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
@@ -66,18 +69,19 @@ public class MobileOTPActivity extends BaseActivity {
 
     @Override
     protected void initComponent() {
-
         b = getBinding();
         viewModel = ViewModelProviders.of(this).get(ApplicationControlViewModel.class);
 
         context = this;
         mAuth = FirebaseAuth.getInstance();
         setToolbar("Verify Phone Number");
+
         mVerificationId = "";
+
+        Toast.makeText(context, "initComponent", Toast.LENGTH_SHORT).show();
+
         try {
-
-            params = new JsonParser().parse(getIntent().getStringExtra("obj")).getAsJsonObject();
-
+            params = new JsonParser().parse(getIntent().getStringExtra("data")).getAsJsonObject();
             phone = params.get("phone").getAsString();
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,12 +124,7 @@ public class MobileOTPActivity extends BaseActivity {
             }
 
         }.start();
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        //phn verify
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             @Override
@@ -149,22 +148,23 @@ public class MobileOTPActivity extends BaseActivity {
 
             }
         };
+
+
         if (phone != null) {
-            sendCodeToNumber(phone);
+//            sendCodeToNumber(phone);
         }
 
-        phoneVerified = true;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        //phn verify
+//        phoneVerified = true;
+        Toast.makeText(context, "ON START", Toast.LENGTH_SHORT).show();
+    }
 
     private void sendCodeToNumber(String phoneNumber) {
-//        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-//                phoneNumber,        // Phone number to verify
-//                30,                 // Timeout duration
-//                TimeUnit.SECONDS,   // Unit of timeout
-//                this,               // Activity (for callback binding)
-//                mCallbacks);        // OnVerificationStateChangedCallbacks
-        phoneNumber = "+8801739995117";
         Toast.makeText(context, phoneNumber, Toast.LENGTH_SHORT).show();
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
@@ -176,40 +176,16 @@ public class MobileOTPActivity extends BaseActivity {
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-
-                            phoneVerified = true;
-                            createAccountWithMobileAndPassword();
-
-                        } else {
-                            Constants.dissmissProcess();
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                b.txtPinEntry.setText(null);
-                                Toast.makeText(context, "Invalid pin, Insert correct pin", Toast.LENGTH_LONG).show();
-                            }
-
-                        }
-                    }
-                });
-    }
-
     public void verifyCode(View view) {
-
-
         if (phoneVerified) {
+//            createAccountWithMobileAndPassword();
 
-            createAccountWithMobileAndPassword();
             return;
-
         }
-
+        Toast.makeText(context, "CODE:"+code, Toast.LENGTH_SHORT).show();
         if (!code.isEmpty()) {
             if (!mVerificationId.isEmpty()) {
+
                 PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
                 signInWithPhoneAuthCredential(credential);
             } else {
@@ -249,6 +225,33 @@ public class MobileOTPActivity extends BaseActivity {
     }
     //</editor-fold>
 
+
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        Toast.makeText(context, "OTP MATCHED", Toast.LENGTH_SHORT).show();
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                            phoneVerified = true;
+//                            createAccountWithMobileAndPassword();
+                            Intent returnIntent = new Intent();
+                            returnIntent.putExtra("phoneVerificationStatus","VERIFIED");
+                            setResult(Activity.RESULT_OK, returnIntent);
+                            finish();
+
+                        } else {
+                            Constants.dissmissProcess();
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                b.txtPinEntry.setText(null);
+                                Toast.makeText(context, "Invalid pin, Insert correct pin", Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    }
+                });
+    }
 
     private void createAccountWithMobileAndPassword() {
 

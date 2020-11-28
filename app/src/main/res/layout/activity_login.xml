@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        android:orientation="vertical"
+        android:paddingStart="22dp"
+        android:paddingTop="@dimen/_50ssdp"
+        android:paddingEnd="22dp"
+        android:gravity="center"
+        android:paddingBottom="@dimen/_50ssdp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:src="@drawable/app_logo"
+            android:layout_marginBottom="@dimen/_10ssdp"
+            android:layout_height="@dimen/_100ssdp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_40ssdp">
+
+            <!--            <com.facebook.login.widget.LoginButton-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:id="@+id/login_button_fb"-->
+            <!--                tools:viewBindingIgnore="true"-->
+            <!--                android:visibility="gone"-->
+            <!--                android:layout_height="wrap_content"/>-->
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50ssdp"
+            android:layout_marginTop="35dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#0000"
+                android:id="@+id/mobileNumber"
+                android:inputType="number"
+                android:gravity="center"
+                android:hint="Mobile Number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line_color" />
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            app:passwordToggleEnabled="true"-->
+<!--            android:layout_height="@dimen/_50ssdp"-->
+<!--            android:layout_marginTop="@dimen/_20ssdp">-->
+
+<!--            <EditText-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:background="#0000"-->
+<!--                android:inputType="textPassword"-->
+<!--                android:id="@+id/password"-->
+<!--                android:gravity="center"-->
+<!--                android:paddingLeft="@dimen/_20sdp"-->
+<!--                android:hint="           Password" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line_color" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/forgetPassword"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="end"-->
+<!--            android:layout_marginTop="@dimen/_5ssdp"-->
+<!--            android:fontFamily="sans-serif-medium"-->
+<!--            android:lineSpacingExtra="4sp"-->
+<!--            android:paddingStart="@dimen/_5ssdp"-->
+<!--            android:paddingTop="@dimen/_5ssdp"-->
+<!--            android:paddingBottom="@dimen/_5ssdp"-->
+<!--            android:text="Forget Password?"-->
+<!--            android:textColor="#a24aff"-->
+<!--            android:textSize="@dimen/_12ssp"-->
+<!--            android:textStyle="normal" />-->
+
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50ssdp"
+            android:layout_gravity="end"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="@dimen/_5ssdp"
+            android:layout_marginEnd="@dimen/_5ssdp"
+            android:background="@drawable/round_shape_3dp_corner_red_button"
+            android:elevation="@dimen/_5ssdp"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingTop="@dimen/_8ssdp"
+            android:paddingBottom="@dimen/_8ssdp"
+            android:text="Login"
+            android:textColor="@color/textTitleColorWhite"
+            android:textSize="@dimen/_16ssp" />
+
+        <TextView
+            android:id="@+id/createAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/_30ssdp"
+            android:fontFamily="sans-serif-medium"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:lineSpacingExtra="4sp"
+            android:paddingTop="@dimen/_5ssdp"
+            android:paddingBottom="@dimen/_5ssdp"
+            android:text="Create new account"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+</layout>

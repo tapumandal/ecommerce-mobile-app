@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.tapumandal.ecommerce">
+    package="com.tapumandal.ecommerce">
     <!-- Internet Permission -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-            android:name=".MyApplication"
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.Security.MobileOTPActivity">
-        </activity>
-        <activity android:name=".Activity.Order.CheckoutActivity">
-        </activity>
-        <activity android:name=".Activity.Product.ProductDetailsActivity"/>
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Activity.Auth.SignupActivity"></activity>
+        <activity android:name=".Activity.Auth.LoginActivity" />
+        <activity android:name=".Activity.Auth.MobileOTPActivity" />
+        <activity android:name=".Activity.Order.CheckoutActivity" />
+        <activity android:name=".Activity.Product.ProductDetailsActivity" />
         <activity
-                android:name=".Activity.Product.ProductActivity"
-                android:label="@string/title_activity_product"
-                android:theme="@style/AppTheme.NoActionBar"/>
+            android:name=".Activity.Product.ProductActivity"
+            android:label="@string/title_activity_product"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

@@ -1,17 +1,14 @@
-package com.tapumandal.ecommerce.Activity.Security;
+package com.tapumandal.ecommerce.Activity.Auth;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
+
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
@@ -19,25 +16,16 @@ import androidx.lifecycle.ViewModelProviders;
 import com.alimuzaffar.lib.pin.PinEntryEditText;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.*;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tapumandal.ecommerce.Base.BaseActivity;
-import com.tapumandal.ecommerce.Model.UserProfile;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.Constants;
-import com.tapumandal.ecommerce.Utility.OfflineCache;
-import com.tapumandal.ecommerce.Utility.URLs;
 import com.tapumandal.ecommerce.ViewModel.ApplicationControlViewModel;
-import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
-import com.tapumandal.ecommerce.databinding.ActivityCheckoutBinding;
 import com.tapumandal.ecommerce.databinding.ActivityMobileOTPBinding;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 

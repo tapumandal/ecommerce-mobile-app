@@ -1,7 +1,6 @@
 package com.tapumandal.ecommerce.Activity.Order;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.util.Log;
@@ -9,14 +8,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
+
 import androidx.lifecycle.ViewModelProviders;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
-import com.tapumandal.ecommerce.Activity.Security.MobileOTPActivity;
+import com.tapumandal.ecommerce.Activity.Auth.MobileOTPActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.*;
 import com.tapumandal.ecommerce.R;
@@ -38,7 +35,7 @@ public class CheckoutActivity extends BaseActivity {
     public static final String ON_DELIVERY = "OnDelivery";
     public static final String CARD_PAYMENT = "CardPayment";
     public static final String MOBILE_PAYMENT = "MobilePayment";
-    public static final int LAUNCH_OTP_ACTIVITY = 701;
+    public static final int LAUNCH_OTP_ACTIVITY = 702;
 
     boolean checkPaymentStatus = false;
 

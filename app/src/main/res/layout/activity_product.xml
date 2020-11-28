@@ -25,17 +25,68 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer">
+        app:headerLayout="@layout/nav_header_main">
+<!--        app:menu="@menu/activity_main_drawer">-->
 
         <ExpandableListView
             android:id="@+id/expandableListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/nav_header_height"
+            android:layout_marginBottom="@dimen/_120ssdp"
             android:background="@android:color/white"
-            android:dividerHeight="0dp"
-            android:groupIndicator="@null" />
+            android:dividerHeight="-1dp"
+            android:groupIndicator="@null"/>
+
+        <LinearLayout
+            android:id="@+id/nav_footer_height"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120ssdp"
+            android:layout_gravity="bottom"
+            android:paddingLeft="@dimen/_40ssdp"
+            android:paddingTop="@dimen/_15ssdp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/orderHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/_6ssdp"
+                    android:textColor="@color/lightGray"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:drawableLeft="@drawable/ic_baseline_shopping_cart_24"
+                    android:drawablePadding="@dimen/_10ssdp"
+                    android:text="Order History"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_16ssdp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/callUs"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/_6ssdp"
+                    android:textColor="@color/lightGray"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:drawableLeft="@drawable/ic_baseline_local_phone_24"
+                    android:drawablePadding="@dimen/_10ssdp"
+                    android:text="Call Us"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_16ssdp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            </LinearLayout>
+
+        </LinearLayout>
+
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

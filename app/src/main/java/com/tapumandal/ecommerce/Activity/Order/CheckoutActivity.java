@@ -35,7 +35,7 @@ public class CheckoutActivity extends BaseActivity {
     public static final String ON_DELIVERY = "OnDelivery";
     public static final String CARD_PAYMENT = "CardPayment";
     public static final String MOBILE_PAYMENT = "MobilePayment";
-    public static final int LAUNCH_OTP_ACTIVITY = 702;
+    public static final int LAUNCH_OTP_ACTIVITY = 703;
 
     boolean checkPaymentStatus = false;
 

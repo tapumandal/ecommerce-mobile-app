@@ -5,6 +5,8 @@
     <color name="colorPrimaryRed">#CB0101</color>
     <color name="colorPrimaryWhite">#ffffff</color>
     <color name="textColor">#FF2E2E2E</color>
+    <color name="lightGray">#3A3A3A</color>
+    <color name="lessLightGray">#2C2C2C</color>
     <color name="textColorRed">#CB0101</color>
     <color name="textTitleColor">#2E2E2E</color>
     <color name="textTitleColorWhite">#FFFFFF</color>

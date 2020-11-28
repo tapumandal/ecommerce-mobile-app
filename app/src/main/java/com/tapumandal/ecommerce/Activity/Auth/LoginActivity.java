@@ -197,18 +197,14 @@ public class LoginActivity extends BaseActivity {
             if (response != null) {
                 if (response.isSuccess() && response.getData() != null) {
 
-                    Log.d("USER_PROFILE", "POST ORDER : "+new Gson().toJson(userProfile));
-                    OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
-                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
+                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, response.getData());
                     startActivity(new Intent(context, ProductActivity.class));
-                    Log.d("POSTCART", "SUCCESSFUL POST: "+response.getData());
                 } else {
                     showFailedToast(response.getMessage());
                     Log.d("POSTCART", "FAILED POST NULL Data : "+new Gson().toJson(response));
                 }
             } else {
                 showFailedToast(getString(R.string.something_went_wrong));
-                Log.d("POSTCART", "FAILED POST NULL Response : "+response.getMessage());
             }
         });
     }

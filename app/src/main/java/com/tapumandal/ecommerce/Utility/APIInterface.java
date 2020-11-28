@@ -30,6 +30,9 @@ public interface APIInterface {
     @POST("consumer/login")
     Single<CommonResponseSingle<UserProfile>> loginUser(@Body JsonObject jsonObject);
 
+    @POST("consumer/registration")
+    Single<CommonResponseSingle<UserProfile>> registration(@Body JsonObject jsonObject);
+
 //    @GET("user")
 //    Single<CommonResponseSingle<UserProfile>> getUserProfile();
 //

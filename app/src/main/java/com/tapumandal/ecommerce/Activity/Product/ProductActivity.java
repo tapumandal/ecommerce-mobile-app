@@ -9,13 +9,17 @@ import android.view.Menu;
 import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
 import android.widget.HeaderViewListAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
+import com.tapumandal.ecommerce.Activity.Auth.LoginActivity;
 import com.tapumandal.ecommerce.Adapter.ExpandableListAdapter;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.*;
@@ -65,6 +69,13 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
     Toolbar toolbar;
     Fragment fragment;
 
+    UserProfile userProfile;
+
+    LinearLayout userDetailsMenuLayout;
+    ImageView profileImageMenuView;
+    LinearLayout loginMenuBtn;
+    TextView name, mobileNumber, logout;
+
     boolean isCartActive = false;
 
     @Override
@@ -88,6 +99,16 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         binding.navView.setNavigationItemSelectedListener(this);
 
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View navHeaderMain = navigationView.getHeaderView(0);
+        userDetailsMenuLayout = (LinearLayout) navHeaderMain.findViewById(R.id.userDetailsMenuLayout);
+        loginMenuBtn = (LinearLayout) navHeaderMain.findViewById(R.id.loginMenuBtn);
+        name = (TextView) navHeaderMain.findViewById(R.id.name);
+        mobileNumber = (TextView) navHeaderMain.findViewById(R.id.mobileNumber);
+        logout = (TextView) navHeaderMain.findViewById(R.id.logout);
+
+        userProfile = OfflineCache.getOfflineSingle(OfflineCache.MY_PROFILE);
+
         fragment = new ProductListFragment();
         Bundle bundle = new Bundle();
         bundle.putString("selectedMenu", "");
@@ -95,8 +116,20 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         addFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG");
 
         getAppActions();
-
+        viewManagement();
         clickEvent();
+    }
+
+    private void viewManagement() {
+
+        Toast.makeText(context, "viewManagement", Toast.LENGTH_SHORT).show();
+
+        if(userProfile == null){
+            loginMenuBtn.setVisibility(View.VISIBLE);
+        }else{
+            userDetailsMenuLayout.setVisibility(View.VISIBLE);
+            profileImageMenuView.setVisibility(View.VISIBLE);
+        }
     }
 
     public void setActionBarTitle(String title) {
@@ -105,6 +138,11 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
     }
 
     private void clickEvent() {
+
+        loginMenuBtn.setOnClickListener(v->{
+            startActivity(LoginActivity.class, false);
+        });
+
 //        FloatingActionButton btnCart = findViewById(R.id.btnCart);
 //
 //        btnCart.setOnClickListener(v->{

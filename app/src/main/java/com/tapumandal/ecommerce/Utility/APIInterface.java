@@ -27,12 +27,13 @@ public interface APIInterface {
     @POST("cart/create")
     Single<CommonResponseSingle<Cart>> postCart(@Body JSONObject jsonObject);
 
+    @POST("consumer/login")
+    Single<CommonResponseSingle<UserProfile>> loginUser(@Body JsonObject jsonObject);
 
 //    @GET("user")
 //    Single<CommonResponseSingle<UserProfile>> getUserProfile();
 //
-//    @POST("login")
-//    Single<CommonResponseSingle<UserProfile>> loginUser(@Body JsonObject jsonObject);
+
 //
 //    @GET("logout")
 //    Single<CommonResponseSingle<UserProfile>> logOut();

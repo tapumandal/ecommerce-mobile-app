@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.maxpro.law4u.Activity.MenuActivity">
+
+        <include layout="@layout/toolbar"/>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:padding="@dimen/_22ssdp">
+
+<!--                <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                    android:id="@+id/profielImage"-->
+<!--                    android:layout_width="@dimen/_100ssdp"-->
+<!--                    android:layout_height="@dimen/_100ssdp"-->
+<!--                    android:src="@drawable/ic_place_image"/>-->
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your Name"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_24ssdp"
+                    android:layout_marginTop="@dimen/_15ssdp"
+                    android:textColor="#0c0f18"/>
+
+
+                <TextView
+                    android:id="@+id/lawyerProfileBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50ssdp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginStart="@dimen/_5ssdp"
+                    android:layout_marginEnd="@dimen/_5ssdp"
+                    android:background="@drawable/round_shape_3dp_corner_red_button"
+                    android:elevation="@dimen/_5ssdp"
+                    android:fontFamily="sans-serif-medium"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/_8ssdp"
+                    android:paddingBottom="@dimen/_8ssdp"
+                    android:text="Visit Profile"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/_30ssdp">
+
+
+<!--                    <com.xw.repo.VectorCompatTextView-->
+<!--                        android:id="@+id/chngPasswordBtn"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:drawablePadding="@dimen/_13ssdp"-->
+<!--                        android:text="Change Password"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        app:drawableTint="#6f6f7e"-->
+<!--                        app:drawableWidth="@dimen/_20ssdp"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/line"-->
+<!--                        android:textSize="@dimen/_18ssdp"-->
+<!--                        android:padding="@dimen/_13ssdp"-->
+<!--                        tools:layout_editor_absoluteX="12dp"/>-->
+
+                    <com.xw.repo.VectorCompatTextView
+                        android:id="@+id/orderHistory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_13ssdp"
+                        android:text="Order History"
+                        android:gravity="center_vertical"
+                        app:drawableTint="#6f6f7e"
+                        app:drawableWidth="@dimen/_20ssdp"
+                        app:layout_constraintTop_toBottomOf="@+id/line"
+                        android:textSize="@dimen/_18ssdp"
+                        android:padding="@dimen/_13ssdp"
+                        tools:layout_editor_absoluteX="12dp"/>
+                    <com.xw.repo.VectorCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_13ssdp"
+                        android:text="Privacy Policy"
+                        android:gravity="center_vertical"
+                        android:id="@+id/privacyPolicy"
+                        app:drawableTint="#6f6f7e"
+                        app:drawableWidth="@dimen/_20ssdp"
+                        app:layout_constraintTop_toBottomOf="@+id/line"
+                        android:textSize="@dimen/_18ssdp"
+                        android:padding="@dimen/_13ssdp"
+                        tools:layout_editor_absoluteX="12dp"/>
+                    <com.xw.repo.VectorCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_13ssdp"
+                        android:text="Terms And Condition"
+                        android:gravity="center_vertical"
+                        android:id="@+id/tramsAndCondition"
+                        app:drawableTint="#6f6f7e"
+                        app:drawableWidth="@dimen/_20ssdp"
+                        app:layout_constraintTop_toBottomOf="@+id/line"
+                        android:textSize="@dimen/_18ssdp"
+                        android:padding="@dimen/_13ssdp"
+                        tools:layout_editor_absoluteX="12dp"/>
+
+                    <com.xw.repo.VectorCompatTextView
+                        android:id="@+id/logoutBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_13ssdp"
+                        android:text="Logout"
+                        android:gravity="center_vertical"
+                        app:drawableTint="#6f6f7e"
+                        app:drawableWidth="@dimen/_13ssdp"
+                        app:layout_constraintTop_toBottomOf="@+id/line"
+                        android:textSize="@dimen/_16ssdp"
+                        android:padding="@dimen/_13ssdp"
+                        android:textColor="#3E3C3C"
+                        tools:layout_editor_absoluteX="12dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </LinearLayout>
+</layout>

@@ -461,11 +461,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         MySharedPreference.clear();
 
 
-        viewModel.logOut().observe(this, new Observer<Object>() {
-            @Override
-            public void onChanged(Object response) {
-            }
-        });
+//        viewModel.logOut().observe(this, new Observer<Object>() {
+//            @Override
+//            public void onChanged(Object response) {
+//            }
+//        });
 
     }
 

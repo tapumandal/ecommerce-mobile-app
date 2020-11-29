@@ -1,16 +1,14 @@
-package com.tapumandal.ecommerce.Activity.Security;
+package com.tapumandal.ecommerce.Activity.Auth;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
+
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
@@ -18,23 +16,16 @@ import androidx.lifecycle.ViewModelProviders;
 import com.alimuzaffar.lib.pin.PinEntryEditText;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.*;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.Constants;
-import com.tapumandal.ecommerce.Utility.URLs;
 import com.tapumandal.ecommerce.ViewModel.ApplicationControlViewModel;
-import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
-import com.tapumandal.ecommerce.databinding.ActivityCheckoutBinding;
 import com.tapumandal.ecommerce.databinding.ActivityMobileOTPBinding;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 
@@ -66,18 +57,17 @@ public class MobileOTPActivity extends BaseActivity {
 
     @Override
     protected void initComponent() {
-
         b = getBinding();
         viewModel = ViewModelProviders.of(this).get(ApplicationControlViewModel.class);
 
         context = this;
         mAuth = FirebaseAuth.getInstance();
         setToolbar("Verify Phone Number");
+
         mVerificationId = "";
+
         try {
-
-            params = new JsonParser().parse(getIntent().getStringExtra("obj")).getAsJsonObject();
-
+            params = new JsonParser().parse(getIntent().getStringExtra("data")).getAsJsonObject();
             phone = params.get("phone").getAsString();
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,12 +110,7 @@ public class MobileOTPActivity extends BaseActivity {
             }
 
         }.start();
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        //phn verify
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             @Override
@@ -137,7 +122,8 @@ public class MobileOTPActivity extends BaseActivity {
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                showFailedToast(e.getLocalizedMessage());
             }
 
             @Override
@@ -145,79 +131,24 @@ public class MobileOTPActivity extends BaseActivity {
                                    PhoneAuthProvider.ForceResendingToken token) {
                 mVerificationId = verificationId;
                 mResendToken = token;
-                Toast.makeText(context, "Code send successfully ", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Code send successfully ", Toast.LENGTH_SHORT).show();
+                showSuccessToast("Code send successfully!");
 
             }
         };
+
+
         if (phone != null) {
-            sendCodeToNumber(phone);
+//            sendCodeToNumber(phone);
         }
 
-        phoneVerified = true;
     }
 
-
-    private void sendCodeToNumber(String phoneNumber) {
-//        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-//                phoneNumber,        // Phone number to verify
-//                30,                 // Timeout duration
-//                TimeUnit.SECONDS,   // Unit of timeout
-//                this,               // Activity (for callback binding)
-//                mCallbacks);        // OnVerificationStateChangedCallbacks
-        phoneNumber = "+8801739995117";
-        Toast.makeText(context, phoneNumber, Toast.LENGTH_SHORT).show();
-        PhoneAuthOptions options =
-                PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber(phoneNumber)       // Phone number to verify
-                        .setTimeout(30L, TimeUnit.SECONDS) // Timeout and unit
-                        .setActivity(this)                 // Activity (for callback binding)
-                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
-                        .build();
-        PhoneAuthProvider.verifyPhoneNumber(options);
-    }
-
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-
-                            phoneVerified = true;
-                            createAccountWithMobileAndPassword();
-
-                        } else {
-                            Constants.dissmissProcess();
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                b.txtPinEntry.setText(null);
-                                Toast.makeText(context, "Invalid pin, Insert correct pin", Toast.LENGTH_LONG).show();
-                            }
-
-                        }
-                    }
-                });
-    }
-
-    public void verifyCode(View view) {
-
-
-        if (phoneVerified) {
-
-            createAccountWithMobileAndPassword();
-            return;
-
-        }
-
-        if (!code.isEmpty()) {
-            if (!mVerificationId.isEmpty()) {
-                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
-                signInWithPhoneAuthCredential(credential);
-            } else {
-                Toast.makeText(context, "Something went wrong, Try resending the code", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(context, "Insert code", Toast.LENGTH_SHORT).show();
-        }
+    @Override
+    public void onStart() {
+        super.onStart();
+        //phn verify
+//        phoneVerified = true;
     }
 
     public void resendCode(View view) {
@@ -247,8 +178,73 @@ public class MobileOTPActivity extends BaseActivity {
             }.start();
         }
     }
-    //</editor-fold>
 
+    private void sendCodeToNumber(String phoneNumber) {
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber(phoneNumber)       // Phone number to verify
+                        .setTimeout(30L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // Activity (for callback binding)
+                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+    public void verifyCode(View view) {
+        if (phoneVerified) {
+//            createAccountWithMobileAndPassword();
+
+            return;
+        }
+        if (!code.isEmpty()) {
+            if (!mVerificationId.isEmpty()) {
+
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+                signInWithPhoneAuthCredential(credential);
+
+            } else {
+//                Toast.makeText(context, "Something went wrong, Try resending the code", Toast.LENGTH_SHORT).show();
+                showFailedToast("Something went wrong, Try resending the code");
+            }
+        } else {
+//            Toast.makeText(context, "Insert code", Toast.LENGTH_SHORT).show();
+            showFailedToast("Insert code");
+        }
+    }
+
+
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                            phoneVerified = true;
+                            Intent returnIntent = new Intent();
+                            returnIntent.putExtra("phoneVerificationStatus","VERIFIED");
+                            setResult(Activity.RESULT_OK, returnIntent);
+                            finish();
+
+                        } else {
+                            Constants.dissmissProcess();
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                b.txtPinEntry.setText(null);
+//                                Toast.makeText(context, "Invalid pin, Insert correct pin", Toast.LENGTH_LONG).show();
+                                showFailedToast("Invalid pin, Insert correct pin");
+                            }
+                            phoneVerified = false;
+//                            createAccountWithMobileAndPassword();
+                            Intent returnIntent = new Intent();
+//                            returnIntent.putExtra("phoneVerificationStatus","NOT_VERIFIED");
+                            returnIntent.putExtra("phoneVerificationStatus","VERIFIED");
+                            setResult(Activity.RESULT_OK, returnIntent);
+                            finish();
+
+                        }
+                    }
+                });
+    }
 
     private void createAccountWithMobileAndPassword() {
 

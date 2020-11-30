@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
+        android:background="@color/appColorPrimaryBackground"
         android:orientation="vertical"
         android:padding="@dimen/_16ssdp"
         android:gravity="center"
@@ -20,18 +20,19 @@
             android:layout_height="@dimen/_100ssdp"/>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/CommonTextInputLayoutStyle"
+            android:hint="Mobile Number"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50ssdp"
+            android:layout_height="@dimen/_60ssdp"
             android:layout_marginTop="35dp">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#0000"
                 android:id="@+id/mobileNumber"
                 android:inputType="number"
-                android:gravity="center"
-                android:hint="Mobile Number" />
+                android:gravity="center" />
         </com.google.android.material.textfield.TextInputLayout>
 
 

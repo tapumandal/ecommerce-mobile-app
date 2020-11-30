@@ -59,7 +59,7 @@ public class SignupActivity extends BaseActivity {
         b = getBinding();
         context = this;
         viewModel = ViewModelProviders.of(this).get(UserControlViewModel.class);
-        setToolbar("Registration", true);
+//        setToolbar("Registration", true);
 
         initGender();
 

@@ -4,6 +4,7 @@
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryRed">#CB0101</color>
     <color name="colorPrimaryWhite">#ffffff</color>
+    <color name="appColorPrimaryBackground">#ffffff</color>
     <color name="colorPrimaryLightGrayWhite">#F6EBEB</color>
     <color name="textColor">#FF2E2E2E</color>
     <color name="lightGray">#676666</color>

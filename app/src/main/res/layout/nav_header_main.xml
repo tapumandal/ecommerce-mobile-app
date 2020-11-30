@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/lightGray"
                     android:paddingTop="@dimen/nav_header_vertical_spacing"
-                    android:text="User Name"
+                    android:text=""
                     android:textStyle="bold"
                     android:textSize="@dimen/_18ssdp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
@@ -93,7 +93,7 @@
                     android:paddingTop="2dp"
                     android:layout_height="24dp"
                     android:textColor="@color/lightGray"
-                    android:text="+880 1712 345678" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout

@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
+import com.tapumandal.ecommerce.Model.UserProfile;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.UserControlViewModel;
@@ -72,8 +73,6 @@ public class SignupActivity extends BaseActivity {
 
     private void checkAndRegister() {
 
-
-
         name = b.name.getText().toString();
         phone = b.mobileNumber.getText().toString();
 
@@ -112,6 +111,13 @@ public class SignupActivity extends BaseActivity {
 
 
     private void register() {
+        //        Without API Login
+        UserProfile myProfile = new UserProfile();
+        myProfile.setName(name);
+        myProfile.setGender(selectedGender);
+        myProfile.setMobileNo(b.mobileNumber.getText().toString());
+        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfile);
+        startActivity(ProductActivity.class, true);
 
         JsonObject object = new JsonObject();
         object.addProperty("name", name);

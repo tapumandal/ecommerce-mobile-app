@@ -138,17 +138,22 @@ public class CheckoutActivity extends BaseActivity {
 
             b.name.setText(userProfile.getName());
             b.phone.setText(userProfile.getMobileNo());
-            b.name.setText(userProfile.getAddress().get(0).getName());
-            b.phone.setText(userProfile.getAddress().get(0).getMobileNo());
-            b.block.setText(userProfile.getAddress().get(0).getBlock());
-            b.road.setText(userProfile.getAddress().get(0).getRoad());
-            b.house.setText(userProfile.getAddress().get(0).getHouse());
-            b.flat.setText(userProfile.getAddress().get(0).getFlat());
-            b.details.setText(userProfile.getAddress().get(0).getDetails());
+
+            if(userProfile.getAddress() != null) {
+                b.name.setText(userProfile.getAddress().get(0).getName());
+                b.phone.setText(userProfile.getAddress().get(0).getMobileNo());
+                b.block.setText(userProfile.getAddress().get(0).getBlock());
+                b.road.setText(userProfile.getAddress().get(0).getRoad());
+                b.house.setText(userProfile.getAddress().get(0).getHouse());
+                b.flat.setText(userProfile.getAddress().get(0).getFlat());
+                b.details.setText(userProfile.getAddress().get(0).getDetails());
+            }
 
             b.existingName.setText(userProfile.getName());
             b.existingPhone.setText(userProfile.getMobileNo());
-            b.existingAddressDetails.setText(address());
+            if(userProfile.getAddress() != null) {
+                b.existingAddressDetails.setText(address());
+            }
 
         }
 

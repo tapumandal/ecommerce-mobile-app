@@ -190,6 +190,14 @@ public class LoginActivity extends BaseActivity {
 
     private void callUserProfile() {
 
+//        Without API Login
+        UserProfile myProfile = new UserProfile();
+        myProfile.setName("My Name From Login");
+        myProfile.setGender("Male");
+        myProfile.setMobileNo(b.mobileNumber.getText().toString());
+        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfile);
+        startActivity(ProductActivity.class, true);
+
         JsonObject object = new JsonObject();
         object.addProperty("mobileNumber", mobileNumber);
         viewModel.userLogin(object).observe(this, response -> {
@@ -199,6 +207,7 @@ public class LoginActivity extends BaseActivity {
 
                     OfflineCache.saveOffline(OfflineCache.MY_PROFILE, response.getData());
                     startActivity(new Intent(context, ProductActivity.class));
+
                 } else {
                     showFailedToast(response.getMessage());
                     Log.d("POSTCART", "FAILED POST NULL Data : "+new Gson().toJson(response));

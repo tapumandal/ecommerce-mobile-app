@@ -128,7 +128,8 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
             loginMenuBtn.setVisibility(View.VISIBLE);
         }else{
             userDetailsMenuLayout.setVisibility(View.VISIBLE);
-            profileImageMenuView.setVisibility(View.VISIBLE);
+            name.setText(userProfile.getName());
+            mobileNumber.setText(userProfile.getMobileNo());
         }
     }
 
@@ -141,6 +142,12 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 
         loginMenuBtn.setOnClickListener(v->{
             startActivity(LoginActivity.class, false);
+        });
+
+        logout.setOnClickListener(v->{
+            OfflineCache.deleteCacheFile(OfflineCache.MY_PROFILE);
+            OfflineCache.deleteCacheFile(OfflineCache.MY_CART);
+            startActivity(ProductActivity.class, true);
         });
 
 //        FloatingActionButton btnCart = findViewById(R.id.btnCart);

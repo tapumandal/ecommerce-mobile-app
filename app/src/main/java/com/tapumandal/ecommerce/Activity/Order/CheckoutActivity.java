@@ -98,15 +98,48 @@ public class CheckoutActivity extends BaseActivity {
             if(!validateFields(newProfile)){
                 return;
             }
+            validateMobileNo(newProfile.getMobileNo());
 
-            if(!newProfile.isMobileNoIsValid()){
-                validateMobileNo(newProfile.getMobileNo());
+        }else if(userProfile.getAddress() == null){
+            newProfile = newProfileData();
+
+            userProfile.setAddress(newProfile.getAddress());
+            if(!userProfile.getMobileNo().equals(newProfile.getAddress().get(0).getMobileNo())){
+                validateMobileNo(newProfile.getAddress().get(0).getMobileNo());
+            }else{
+                checkPaymentStatusAndPost();
             }
 
         }else{
             checkPaymentStatusAndPost();
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == LAUNCH_OTP_ACTIVITY) {
+            if(resultCode == Activity.RESULT_OK){
+
+                String phoneVerificationStatus = data.getStringExtra("phoneVerificationStatus");
+
+                if(data.getStringExtra("phoneVerificationStatus").equals("VERIFIED")){
+                    if(userProfile == null) {
+                        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, newProfile);
+                    }else{
+                        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
+                    }
+                    checkPaymentStatusAndPost();
+                }else{
+                    showFailedToast("Phone number is not verified!");
+                }
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }//onActivityResult
 
     private void checkPaymentStatusAndPost() {
         if(selectedPaymentMethod.equals(ON_DELIVERY)){
@@ -127,33 +160,49 @@ public class CheckoutActivity extends BaseActivity {
         Log.d("USER_PROFILE", "addressLayout: "+new Gson().toJson(userProfile));
 
         if(userProfile == null){
+//            NO User Found
             b.addressEditLayout.setVisibility(View.VISIBLE);
-            b.addressEditBtn.setVisibility(View.GONE);
         }else{
+//            User Found
+
             if(userProfile.getAddress() == null){
+//              User Found But Not Address
                 b.addressEditLayout.setVisibility(View.VISIBLE);
+
+                b.name.setText(userProfile.getName());
+                b.phone.setText(userProfile.getMobileNo());
+
             }else{
+//              User and Address both Found
                 b.existingAddressLayout.setVisibility(View.VISIBLE);
-            }
 
-            b.name.setText(userProfile.getName());
-            b.phone.setText(userProfile.getMobileNo());
+                String name = userProfile.getAddress().get(0).getName();
+                String mobileNo = userProfile.getAddress().get(0).getMobileNo();
 
-            if(userProfile.getAddress() != null) {
-                b.name.setText(userProfile.getAddress().get(0).getName());
-                b.phone.setText(userProfile.getAddress().get(0).getMobileNo());
-                b.block.setText(userProfile.getAddress().get(0).getBlock());
-                b.road.setText(userProfile.getAddress().get(0).getRoad());
-                b.house.setText(userProfile.getAddress().get(0).getHouse());
-                b.flat.setText(userProfile.getAddress().get(0).getFlat());
-                b.details.setText(userProfile.getAddress().get(0).getDetails());
-            }
+                if(name.isEmpty()){
+                    name = userProfile.getName();
+                }
+                if(mobileNo.isEmpty()){
+                    mobileNo = userProfile.getName();
+                }
 
-            b.existingName.setText(userProfile.getName());
-            b.existingPhone.setText(userProfile.getMobileNo());
-            if(userProfile.getAddress() != null) {
+                b.existingName.setText(name);
+                b.existingPhone.setText(mobileNo);
                 b.existingAddressDetails.setText(address());
             }
+
+//            if(userProfile.getAddress() != null) {
+//                b.name.setText(userProfile.getAddress().get(0).getName());
+//                b.phone.setText(userProfile.getAddress().get(0).getMobileNo());
+//                b.block.setText(userProfile.getAddress().get(0).getBlock());
+//                b.road.setText(userProfile.getAddress().get(0).getRoad());
+//                b.house.setText(userProfile.getAddress().get(0).getHouse());
+//                b.flat.setText(userProfile.getAddress().get(0).getFlat());
+//                b.details.setText(userProfile.getAddress().get(0).getDetails());
+//            }
+//            if(userProfile.getAddress() != null) {
+//
+//            }
 
         }
 
@@ -214,29 +263,6 @@ public class CheckoutActivity extends BaseActivity {
 
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == LAUNCH_OTP_ACTIVITY) {
-            if(resultCode == Activity.RESULT_OK){
-
-                String phoneVerificationStatus = data.getStringExtra("phoneVerificationStatus");
-
-                if(data.getStringExtra("phoneVerificationStatus").equals("VERIFIED")){
-                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, newProfile);
-                    checkPaymentStatusAndPost();
-                }else{
-                    showFailedToast("Phone number is not verified!");
-                }
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-            }
-        }
-    }//onActivityResult
-
     private void validateMobileNo(String phone){
         JsonObject object = new JsonObject();
         object.addProperty("phone", phone);
@@ -250,8 +276,8 @@ public class CheckoutActivity extends BaseActivity {
         newProfile.setName(b.name.getText().toString());
 
         String tmpMobileNo = b.phone.getText().toString();
-        if(tmpMobileNo.length()>10) {
-            tmpMobileNo = tmpMobileNo.substring(tmpMobileNo.length() - 11);
+        if(tmpMobileNo.length()==11) {
+//            tmpMobileNo = tmpMobileNo.substring(tmpMobileNo.length() - 11);
         }else{
             tmpMobileNo = "";
         }
@@ -262,7 +288,7 @@ public class CheckoutActivity extends BaseActivity {
         List<Address> addresses = new ArrayList<>();
         Address address = new Address();
         address.setName(b.name.getText().toString());
-        address.setMobileNo(b.phone.getText().toString());
+        address.setMobileNo(tmpMobileNo);
         address.setArea(area);
         address.setBlock(b.block.getText().toString());
         address.setRoad(b.road.getText().toString());

@@ -6,14 +6,13 @@ import android.os.Handler;
 import android.util.Log;
 import androidx.lifecycle.ViewModelProviders;
 import com.google.gson.Gson;
-import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
+import com.tapumandal.ecommerce.Activity.Product.MainActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.*;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ApplicationControlViewModel;
-import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivitySplashBinding;
 
 import java.util.ArrayList;
@@ -43,9 +42,9 @@ public class SplashActivity extends BaseActivity {
         setMyProfile();
         new Handler().postDelayed(() -> {
             if (MySharedPreference.getBoolean(MySharedPreference.Key.IS_LOGIN)) {
-                startActivity(new Intent(context, ProductActivity.class));
+                startActivity(new Intent(context, MainActivity.class));
             } else {
-                startActivity(new Intent(context, ProductActivity.class));
+                startActivity(new Intent(context, MainActivity.class));
             }
             finish();
         }, 1000);

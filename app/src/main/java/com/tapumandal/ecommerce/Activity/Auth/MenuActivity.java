@@ -7,11 +7,10 @@ import android.content.Intent;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
+import com.tapumandal.ecommerce.Activity.Product.MainActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.UserProfile;
 import com.tapumandal.ecommerce.R;
-import com.tapumandal.ecommerce.Utility.Constants;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.UserControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivityMenuBinding;
@@ -109,7 +108,7 @@ public class MenuActivity extends BaseActivity {
 
     public void logout() {
         removeUserProfile();
-        Intent intent = new Intent(context, ProductActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();

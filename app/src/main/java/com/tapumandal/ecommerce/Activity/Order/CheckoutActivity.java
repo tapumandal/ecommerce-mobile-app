@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.lifecycle.ViewModelProviders;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
+import com.tapumandal.ecommerce.Activity.Product.MainActivity;
 import com.tapumandal.ecommerce.Activity.Auth.MobileOTPActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.*;
@@ -280,7 +280,7 @@ public class CheckoutActivity extends BaseActivity {
                     Log.d("USER_PROFILE", "POST ORDER : "+new Gson().toJson(userProfile));
                     OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
                     OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
-                    startActivity(new Intent(context, ProductActivity.class));
+                    startActivity(new Intent(context, MainActivity.class));
                     Log.d("POSTCART", "SUCCESSFUL POST: "+response.getData());
                 } else {
                     showFailedToast(response.getMessage());

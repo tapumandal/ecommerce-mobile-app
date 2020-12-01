@@ -1,18 +1,10 @@
 package com.tapumandal.ecommerce.Activity.Auth;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.net.Uri;
-import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +12,7 @@ import android.widget.ArrayAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
+import com.tapumandal.ecommerce.Activity.Product.MainActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.UserProfile;
 import com.tapumandal.ecommerce.R;
@@ -29,10 +21,7 @@ import com.tapumandal.ecommerce.ViewModel.UserControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivitySignupBinding;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
-
-import okhttp3.MultipartBody;
 
 public class SignupActivity extends BaseActivity {
 
@@ -117,7 +106,7 @@ public class SignupActivity extends BaseActivity {
         myProfile.setGender(selectedGender);
         myProfile.setMobileNo(b.mobileNumber.getText().toString());
         OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfile);
-        startActivity(ProductActivity.class, true);
+        startActivity(MainActivity.class, true);
 
         JsonObject object = new JsonObject();
         object.addProperty("name", name);
@@ -135,7 +124,7 @@ public class SignupActivity extends BaseActivity {
                         if (response.isSuccess() && response.getData() != null) {
 
                             OfflineCache.saveOffline(OfflineCache.MY_PROFILE, response.getData());
-                            startActivity(new Intent(context, ProductActivity.class));
+                            startActivity(new Intent(context, MainActivity.class));
                         } else {
                             showFailedToast(response.getMessage());
                             Log.d("POSTCART", "FAILED POST NULL Data : "+new Gson().toJson(response));

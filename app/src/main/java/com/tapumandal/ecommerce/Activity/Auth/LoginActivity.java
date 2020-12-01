@@ -1,32 +1,19 @@
 package com.tapumandal.ecommerce.Activity.Auth;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.Scopes;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
+import com.tapumandal.ecommerce.Activity.Product.MainActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.Model.UserProfile;
@@ -36,12 +23,8 @@ import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.UserControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivityLoginBinding;
 
-import org.json.JSONObject;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class LoginActivity extends BaseActivity {
 
@@ -196,7 +179,7 @@ public class LoginActivity extends BaseActivity {
         myProfile.setGender("Male");
         myProfile.setMobileNo(b.mobileNumber.getText().toString());
         OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfile);
-        startActivity(ProductActivity.class, true);
+        startActivity(MainActivity.class, true);
 
         JsonObject object = new JsonObject();
         object.addProperty("mobileNumber", mobileNumber);
@@ -206,7 +189,7 @@ public class LoginActivity extends BaseActivity {
                 if (response.isSuccess() && response.getData() != null) {
 
                     OfflineCache.saveOffline(OfflineCache.MY_PROFILE, response.getData());
-                    startActivity(new Intent(context, ProductActivity.class));
+                    startActivity(new Intent(context, MainActivity.class));
 
                 } else {
                     showFailedToast(response.getMessage());

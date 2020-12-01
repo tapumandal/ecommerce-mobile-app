@@ -3,63 +3,46 @@ package com.tapumandal.ecommerce.Activity.Product;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.Menu;
-import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
-import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Activity.Auth.LoginActivity;
+import com.tapumandal.ecommerce.Activity.Order.OrderHistoryActivity;
 import com.tapumandal.ecommerce.Adapter.ExpandableListAdapter;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.*;
 import com.tapumandal.ecommerce.R;
-import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
-import com.tapumandal.ecommerce.databinding.ActivityProductBinding;
+import com.tapumandal.ecommerce.databinding.ActivityMainBinding;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by tapumandal on 10/26/2020.
  * For any query ask online.tapu@gmail.com
  */
 
-public class ProductActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    ActivityProductBinding binding;
+    ActivityMainBinding binding;
     ProductControlViewModel viewModel;
 
     ExpandableListAdapter expandableListAdapter;
@@ -80,7 +63,7 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
 
     @Override
     protected int getLayoutResourceFile() {
-        return R.layout.activity_product;
+        return R.layout.activity_main;
     }
 
     @Override
@@ -147,7 +130,15 @@ public class ProductActivity extends BaseActivity implements NavigationView.OnNa
         logout.setOnClickListener(v->{
             OfflineCache.deleteCacheFile(OfflineCache.MY_PROFILE);
             OfflineCache.deleteCacheFile(OfflineCache.MY_CART);
-            startActivity(ProductActivity.class, true);
+            startActivity(MainActivity.class, true);
+        });
+
+        binding.orderHistory.setOnClickListener(v->{
+            if(userProfile == null){
+                startActivity(LoginActivity.class, false);
+            }else {
+                startActivity(OrderHistoryActivity.class, false);
+            }
         });
 
 //        FloatingActionButton btnCart = findViewById(R.id.btnCart);

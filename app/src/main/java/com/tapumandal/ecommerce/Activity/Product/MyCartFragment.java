@@ -2,19 +2,14 @@ package com.tapumandal.ecommerce.Activity.Product;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
 import com.squareup.picasso.Picasso;
 import com.tapumandal.ecommerce.Activity.Order.CheckoutActivity;
 import com.tapumandal.ecommerce.Adapter.CustomEventListener;
@@ -22,19 +17,14 @@ import com.tapumandal.ecommerce.Adapter.ProductListAdapter;
 import com.tapumandal.ecommerce.Base.BaseFragment;
 import com.tapumandal.ecommerce.Model.BusinessSettings;
 import com.tapumandal.ecommerce.Model.Cart;
-import com.tapumandal.ecommerce.Model.DiscountTypeCondition;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.Constants;
-import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.FragmentMyCartBinding;
-import com.tapumandal.ecommerce.databinding.FragmentProductListBinding;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -76,7 +66,7 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
     @Override
     public void onResume() {
         super.onResume();
-        ((ProductActivity) getActivity()).setActionBarTitle("My Cart");
+        ((MainActivity) getActivity()).setActionBarTitle("My Cart");
         adapter.notifyDataSetChanged();
         getData();
     }

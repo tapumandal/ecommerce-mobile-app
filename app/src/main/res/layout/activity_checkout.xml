@@ -283,6 +283,90 @@
 					style="@style/cardView"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:padding="@dimen/_16ssdp"
+					app:cardCornerRadius="@dimen/_5ssdp">
+
+				<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+					android:padding="@dimen/_16ssdp"
+						android:orientation="vertical"
+						android:paddingBottom="@dimen/_20ssdp">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:textColor="@color/textColor"
+						android:textSize="@dimen/_16ssdp"
+						android:text="Have any PromoCode?"/>
+
+					<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:weightSum="100"
+							android:orientation="horizontal">
+
+						<com.google.android.material.textfield.TextInputLayout
+								style="@style/inputBox"
+								android:layout_marginTop="0dp"
+								android:layout_width="0dp"
+								android:layout_weight="49"
+								android:layout_height="wrap_content"
+								android:hint="Name">
+
+							<com.google.android.material.textfield.TextInputEditText
+									android:id="@+id/promoCode"
+									android:layout_width="match_parent"
+									android:layout_height="@dimen/_50ssdp"
+									android:paddingTop="0dp"
+									android:paddingBottom="0dp"
+									android:inputType="text" />
+						</com.google.android.material.textfield.TextInputLayout>
+
+						<LinearLayout
+							android:visibility="visible"
+							android:layout_width="0dp"
+							android:layout_weight="2"
+							android:layout_height="@dimen/_50ssdp"
+							android:orientation="horizontal">
+						</LinearLayout>
+
+						<LinearLayout
+							android:id="@+id/promoCodeBtn"
+							android:visibility="visible"
+							android:layout_width="0dp"
+							android:layout_weight="49"
+							android:layout_height="@dimen/_50ssdp"
+							android:layout_marginTop="@dimen/_5ssdp"
+							android:layout_marginLeft="@dimen/_16ssdp"
+							android:gravity="center"
+							android:orientation="horizontal"
+							android:background="@drawable/round_shape_3dp_corner_red_button">
+<!--							<ImageView-->
+<!--								android:layout_width="@dimen/_30ssdp"-->
+<!--								android:layout_height="@dimen/_30ssdp"-->
+<!--								android:layout_gravity="center"-->
+<!--								android:foregroundGravity="right"-->
+<!--								android:src="@drawable/ic_baseline_shopping_cart_white_24"/>-->
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:textColor="@color/white"
+								android:layout_gravity="center"
+								android:textSize="@dimen/_18ssdp"
+								android:text="Apply"/>
+						</LinearLayout>
+
+					</LinearLayout>
+
+				</LinearLayout>
+
+			</androidx.cardview.widget.CardView>
+
+			<androidx.cardview.widget.CardView
+					style="@style/cardView"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
 					app:cardCornerRadius="@dimen/_5ssdp">
 
 				<LinearLayout

@@ -1,5 +1,7 @@
 package com.tapumandal.ecommerce.Activity.Product;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,6 +21,7 @@ import com.tapumandal.ecommerce.Adapter.ExpandableListAdapter;
 import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.*;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.Constants;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivityMainBinding;
@@ -141,15 +144,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
-//        FloatingActionButton btnCart = findViewById(R.id.btnCart);
+//        binding.callUs.setOnClickListener(v->{
+//            Intent intent = new Intent(Intent.ACTION_CALL);
 //
-//        btnCart.setOnClickListener(v->{
-//            isCartActive = true;
-//            Toast.makeText(context, "Cart BTN Clicked", Toast.LENGTH_SHORT).show();
-//            toolbar.setTitle("My Cart");
-//            fragment = new MyCartFragment();
-//            replaceFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG", null);
+//            intent.setData(Uri.parse("tel:" + "+8801519500400"));
+//            context.startActivity(intent);
 //        });
+
+        binding.callUs.setOnClickListener(v -> Constants.callNumber(context, "+8801519500400"));
+
     }
 
     private void getAppActions() {

@@ -85,32 +85,53 @@ public class CheckoutActivity extends BaseActivity {
         b.addressEditBtn.setOnClickListener(v -> {
             b.existingAddressLayout.setVisibility(View.GONE);
             b.addressEditLayout.setVisibility(View.VISIBLE);
-            userProfile.setMobileNoIsValid(false);
-            OfflineCache.deleteCacheFile(OfflineCache.MY_PROFILE);
+
+            b.name.setText(userProfile.getName());
+            b.phone.setText(userProfile.getMobileNo());
+            b.name.setText(userProfile.getAddress().get(0).getName());
+            b.phone.setText(userProfile.getAddress().get(0).getMobileNo());
+            b.block.setText(userProfile.getAddress().get(0).getBlock());
+            b.road.setText(userProfile.getAddress().get(0).getRoad());
+            b.house.setText(userProfile.getAddress().get(0).getHouse());
+            b.flat.setText(userProfile.getAddress().get(0).getFlat());
+            b.details.setText(userProfile.getAddress().get(0).getDetails());
+
+            userProfile.setAddress(null);
+            OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
         });
     }
 
     private void checkout() {
 
         if(userProfile == null) {
+            Log.d("CHECKOUT_BTN", "1");
             newProfile = newProfileData();
 
             if(!validateFields(newProfile)){
+                Log.d("CHECKOUT_BTN", "2");
                 return;
             }
             validateMobileNo(newProfile.getMobileNo());
 
         }else if(userProfile.getAddress() == null){
+            Log.d("CHECKOUT_BTN", "3");
             newProfile = newProfileData();
+            if(!validateFields(newProfile)){
+                Log.d("CHECKOUT_BTN", "4");
+                return;
+            }
 
-            userProfile.setAddress(newProfile.getAddress());
             if(!userProfile.getMobileNo().equals(newProfile.getAddress().get(0).getMobileNo())){
+                Log.d("CHECKOUT_BTN", "5");
                 validateMobileNo(newProfile.getAddress().get(0).getMobileNo());
             }else{
+                Log.d("CHECKOUT_BTN", "6");
+                userProfile.setAddress(newProfile.getAddress());
                 checkPaymentStatusAndPost();
             }
 
         }else{
+            Log.d("CHECKOUT_BTN", "7");
             checkPaymentStatusAndPost();
         }
     }
@@ -126,8 +147,14 @@ public class CheckoutActivity extends BaseActivity {
 
                 if(data.getStringExtra("phoneVerificationStatus").equals("VERIFIED")){
                     if(userProfile == null) {
+                        Log.d("CHECKOUT_BTN", "8");
                         OfflineCache.saveOffline(OfflineCache.MY_PROFILE, newProfile);
+                    }else if(userProfile.getAddress() == null){
+                        Log.d("CHECKOUT_BTN", "9");
+                        userProfile.setAddress(newProfile.getAddress());
+                        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
                     }else{
+                        Log.d("CHECKOUT_BTN", "10");
                         OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
                     }
                     checkPaymentStatusAndPost();
@@ -143,10 +170,13 @@ public class CheckoutActivity extends BaseActivity {
 
     private void checkPaymentStatusAndPost() {
         if(selectedPaymentMethod.equals(ON_DELIVERY)){
+                    checkPaymentStatus = true;
             Toast.makeText(context, "ON_DELIVERY", Toast.LENGTH_SHORT).show();
         }else if(selectedPaymentMethod.equals(CARD_PAYMENT)){
+                    checkPaymentStatus = true;
             Toast.makeText(context, "CARD_PAYMENT", Toast.LENGTH_SHORT).show();
         }else if(selectedPaymentMethod.equals(MOBILE_PAYMENT)){
+                    checkPaymentStatus = true;
             Toast.makeText(context, "MOBILE_PAYMENT", Toast.LENGTH_SHORT).show();
         }
 
@@ -175,6 +205,7 @@ public class CheckoutActivity extends BaseActivity {
             }else{
 //              User and Address both Found
                 b.existingAddressLayout.setVisibility(View.VISIBLE);
+                b.addressEditBtn.setVisibility(View.VISIBLE);
 
                 String name = userProfile.getAddress().get(0).getName();
                 String mobileNo = userProfile.getAddress().get(0).getMobileNo();

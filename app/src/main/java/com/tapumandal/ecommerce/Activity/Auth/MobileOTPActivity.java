@@ -191,12 +191,20 @@ public class MobileOTPActivity extends BaseActivity {
     }
 
     public void verifyCode(View view) {
+
         if (phoneVerified) {
 //            createAccountWithMobileAndPassword();
 
             return;
         }
         if (!code.isEmpty()) {
+//            TestCode
+            Intent returnIntentX = new Intent();
+            returnIntentX.putExtra("phoneVerificationStatus","VERIFIED");
+            setResult(Activity.RESULT_OK, returnIntentX);
+            finish();
+//            TestCode END
+
             if (!mVerificationId.isEmpty()) {
 
                 PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
@@ -210,6 +218,12 @@ public class MobileOTPActivity extends BaseActivity {
 //            Toast.makeText(context, "Insert code", Toast.LENGTH_SHORT).show();
             showFailedToast("Insert code");
         }
+//            TestCode
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("phoneVerificationStatus","NOT_VERIFIED");
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+//            TestCode END
     }
 
 

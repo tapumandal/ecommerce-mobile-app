@@ -4,13 +4,18 @@
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryRed">#CB0101</color>
     <color name="colorPrimaryWhite">#ffffff</color>
+    <color name="appColorPrimaryBackground">#ffffff</color>
+    <color name="colorPrimaryLightGrayWhite">#F6EBEB</color>
     <color name="textColor">#FF2E2E2E</color>
+    <color name="lightGray">#676666</color>
+    <color name="lightestGray">#D5D5D5</color>
+    <color name="lessLightGray">#2C2C2C</color>
     <color name="textColorRed">#CB0101</color>
     <color name="textTitleColor">#2E2E2E</color>
     <color name="textTitleColorWhite">#FFFFFF</color>
     <color name="highlightTextColor">#151515</color>
     <color name="horizontalLine">#989898</color>
-    <color name="noticeBackground">#FA9D9D</color>
+    <color name="noticeBackground">#FDD0D0</color>
 
 
     <!--<color name="colorPrimary">#2196f3</color>-->
@@ -20,11 +25,12 @@
     <!--<color name="appColor">#2196f3</color>-->
     <color name="toolbarColor">#666bae</color>
     <!--<color name="toolbarColor">#fff</color>-->
-    <color name="toolbarTextAndIconColor">#fff</color>
+<!--    <color name="toolbarTextAndIconColor">#fff</color>-->
+    <color name="toolbarTextAndIconColor">#CD0000</color>
     <!--<color name="toolbarTextAndIconColor">#2196f3</color>-->
     <color name="colorAccent">#666bae</color>
     <!--<color name="colorAccent">#2196f3</color>-->
-    <color name="colorBackground">#F8F8FF</color>
+    <color name="colorBackground">#F2F2FA</color>
     <color name="line_color">#ecf2f2f2</color>
     <color name="gray_app_color">#616770</color>
     <color name="gray_app_color_transpharent">#62616770</color>

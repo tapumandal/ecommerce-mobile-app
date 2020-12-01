@@ -76,7 +76,39 @@ public class UserControlViewModel extends AndroidViewModel {
 
                     @Override
                     public void onSuccess(CommonResponseSingle<UserProfile> response) {
-                        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, response.getData());
+                        liveData.postValue(response);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        CommonResponseSingle response = new CommonResponseSingle();
+                        response.setMessage(e.getLocalizedMessage());
+                        response.setSuccess(false);
+
+                        liveData.postValue(response);
+
+                    }
+                });
+
+        return liveData;
+
+    }
+
+    public MutableLiveData<CommonResponseSingle> registration(JsonObject object) {
+
+        MutableLiveData<CommonResponseSingle> liveData = new MutableLiveData<>();
+
+        ApiClient.getApiClient().registration(object)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<CommonResponseSingle<UserProfile>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onSuccess(CommonResponseSingle<UserProfile> response) {
                         liveData.postValue(response);
                     }
 

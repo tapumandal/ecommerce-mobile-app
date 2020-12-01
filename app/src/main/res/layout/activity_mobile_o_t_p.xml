@@ -91,7 +91,7 @@
 					android:layout_marginTop="@dimen/_15ssdp"
 					android:layout_marginStart="@dimen/_30ssdp"
 					android:layout_marginEnd="@dimen/_30ssdp"
-					android:background="@drawable/round_shape_5dp_corner_app_color"
+					android:background="@drawable/round_shape_3dp_corner_red_button"
 					android:onClick="verifyCode"
 					android:text="Verify Now"
 					android:textAllCaps="false"

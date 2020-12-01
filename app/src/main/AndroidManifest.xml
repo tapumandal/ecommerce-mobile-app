@@ -14,13 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.Auth.SignupActivity"></activity>
+        <activity android:name=".Activity.Order.OrderHistoryActivity"></activity>
+        <activity android:name=".Activity.Auth.SignupActivity" />
         <activity android:name=".Activity.Auth.LoginActivity" />
         <activity android:name=".Activity.Auth.MobileOTPActivity" />
         <activity android:name=".Activity.Order.CheckoutActivity" />
         <activity android:name=".Activity.Product.ProductDetailsActivity" />
         <activity
-            android:name=".Activity.Product.ProductActivity"
+            android:name=".Activity.Product.MainActivity"
             android:label="@string/title_activity_product"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity.SplashActivity">

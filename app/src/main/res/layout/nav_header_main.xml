@@ -3,33 +3,137 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/nav_header_desc"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@mipmap/ic_launcher_round" />
-
-    <TextView
+    <LinearLayout
+        android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="@string/nav_header_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:layout_height="@dimen/nav_header_height"
+        android:gravity="bottom|center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/_42ssdp"
+        android:paddingRight="@dimen/_20ssdp"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/nav_header_subtitle" />
+
+        <ImageView
+            android:id="@+id/appLogoMenuView"
+            android:paddingRight="@dimen/_22ssdp"
+            android:layout_marginBottom="-10dp"
+            android:visibility="visible"
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_80ssdp"
+            android:contentDescription="@string/nav_header_desc"
+            app:srcCompat="@drawable/app_logo" />
+
+
+        <LinearLayout
+            android:id="@+id/loginMenuBtn"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_gravity="right"
+            android:orientation="vertical"
+            android:paddingRight="@dimen/_5ssdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lightGray"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text=""
+                android:textStyle="bold"
+                android:textSize="@dimen/_18ssdp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            <TextView
+                android:visibility="visible"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_baseline_login_24"
+                android:drawablePadding="@dimen/_5ssdp"
+                android:textColor="@color/lightGray"
+                android:text="Login" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/userDetailsMenuLayout"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/lightGray"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_18ssdp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <TextView
+                    android:id="@+id/mobileNumber"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:paddingTop="2dp"
+                    android:layout_height="24dp"
+                    android:textColor="@color/lightGray"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/lightGray"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_18ssdp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <TextView
+                    android:id="@+id/logout"
+                    android:visibility="visible"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_baseline_login_24"
+                    android:drawablePadding="@dimen/_3ssdp"
+                    android:textColor="@color/lightGray"
+                    android:text="Logout" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/_40ssdp"
+        android:background="@color/lightestGray"/>
+
 </LinearLayout>

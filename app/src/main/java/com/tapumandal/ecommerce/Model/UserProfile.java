@@ -20,6 +20,8 @@ public class UserProfile implements Serializable {
     private String updatedAt;
     @SerializedName("userName")
     private String userName;
+    @SerializedName("gender")
+    private String gender;
     @SerializedName("mobileNo")
     private String mobileNo;
     @SerializedName("mobileNoIsValid")
@@ -122,5 +124,21 @@ public class UserProfile implements Serializable {
 
     public void setAddress(List<Address> address) {
         this.address = address;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public boolean isLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        isLoggedIn = loggedIn;
     }
 }

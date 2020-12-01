@@ -2,16 +2,14 @@ package com.tapumandal.ecommerce.Activity.Auth;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.gson.JsonObject;
-import com.tapumandal.ecommerce.Activity.Product.ProductActivity;
+import com.tapumandal.ecommerce.Activity.Product.MainActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
-import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.Model.UserProfile;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.ApiClient;
@@ -172,7 +170,7 @@ public class ForgetPasswordActivity extends BaseActivity {
                     ApiClient.initRetrofit();
 
                     showSuccessToast("Successfully login");
-                    Intent intent = new Intent(context, ProductActivity.class);
+                    Intent intent = new Intent(context, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();

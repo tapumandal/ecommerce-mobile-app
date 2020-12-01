@@ -1,29 +1,20 @@
 package com.tapumandal.ecommerce.Activity.Product;
 
 import android.content.Context;
-import android.os.Bundle;
 
-import android.util.Log;
-import android.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Adapter.CustomEventListener;
 import com.tapumandal.ecommerce.Adapter.ProductListAdapter;
 import com.tapumandal.ecommerce.Base.BaseFragment;
 import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
-import com.tapumandal.ecommerce.Utility.Constants;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.FragmentProductListBinding;
@@ -68,9 +59,9 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
         super.onResume();
         cartBtnLayout(true);
         if(selectedMenu.equals(" ")){
-            ((ProductActivity) getActivity()).setActionBarTitle("Products");
+            ((MainActivity) getActivity()).setActionBarTitle("Products");
         }else{
-            ((ProductActivity) getActivity()).setActionBarTitle(selectedMenu);
+            ((MainActivity) getActivity()).setActionBarTitle(selectedMenu);
         }
 
         adapter.notifyDataSetChanged();

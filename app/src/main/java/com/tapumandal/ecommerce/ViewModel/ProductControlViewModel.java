@@ -113,5 +113,28 @@ public class ProductControlViewModel extends AndroidViewModel {
 
     }
 
+    public MutableLiveData<CommonResponseArray> getOrders(String flag) {
 
+        MutableLiveData<CommonResponseArray> liveData = new MutableLiveData<>();
+
+        ApiClient.getApiClient().getOrders(flag).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<CommonResponseArray<Cart>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+                    @Override
+                    public void onSuccess(CommonResponseArray<Cart> commentCommonResponseArray) {
+                        liveData.postValue(commentCommonResponseArray);
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        CommonResponseArray response = new CommonResponseArray();
+                        response.setSuccess(false);
+                        response.setMessage(e.getLocalizedMessage());
+                        liveData.postValue(response);
+                    }
+                });
+        return liveData;
+    }
 }

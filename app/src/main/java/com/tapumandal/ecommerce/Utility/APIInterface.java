@@ -23,6 +23,9 @@ public interface APIInterface {
     @GET("product/list/business/{flag}")
     Single<CommonResponseArray<Product>> getProductList(@Path("flag") String flag);
 
+    @POST("consumer/promo_code")
+    Single<CommonResponseSingle<PromoCode>> promoCode(@Body JsonObject jsonObject);
+
     @POST("cart/create")
     Single<CommonResponseSingle<Cart>> postCart(@Body JSONObject jsonObject);
 

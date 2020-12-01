@@ -99,6 +99,48 @@ public class CheckoutActivity extends BaseActivity {
             userProfile.setAddress(null);
             OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
         });
+
+        b.promoCodeBtn.setOnClickListener(v->{
+            promoCode(b.promoCode.getText().toString());
+        });
+    }
+
+    private void promoCode(String promoCode){
+        if (promoCode.equals("")) {
+            b.promoCode.setError("Promo Code Empty");
+            showFailedToast("Promo Code Empty");
+            return;
+        }
+
+        showFailedToast("Promo Code is not valid");
+        return;
+
+//        JsonObject object = new JsonObject();
+//        object.addProperty("promoCode", promoCode);
+//        object.addProperty("purchaseAmount", myCart.getTotalProductPrice());
+//        if(userProfile != null) {
+//            object.addProperty("userId", userProfile.getId());
+//        }else{
+//            object.addProperty("userId", "0");
+//        }
+//
+//
+//        viewModel.checkPromoCode(object).observe(this, response -> {
+//            hideProgressDialog();
+//            if (response != null) {
+//                if (response.isSuccess() && response.getData() != null) {
+//
+//                    Log.d("PROMO_CODE", "SUCCESSFUL POST: "+response.getData());
+//                } else {
+//                    showFailedToast(response.getMessage());
+//                    Log.d("PROMO_CODE", "FAILED POST NULL Data : "+new Gson().toJson(response));
+//                }
+//            } else {
+//                showFailedToast(getString(R.string.something_went_wrong));
+//                Log.d("PROMO_CODE", "FAILED POST NULL Response : "+response.getMessage());
+//            }
+//        });
+
     }
 
     private void checkout() {

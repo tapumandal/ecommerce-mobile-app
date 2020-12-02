@@ -298,17 +298,21 @@ public class CheckoutActivity extends BaseActivity {
 
 
     private void postCart() {
-
+        Toast.makeText(context, "POST CART function", Toast.LENGTH_SHORT).show();
         String objectStr = new Gson().toJson(myCart);
         JSONObject object = new JSONObject();
         try {
             object = new JSONObject(objectStr);
-            Log.d("USER_PROFILE", "STRING TO JSONObject"+object.toString());
         } catch (Throwable t) {
             Log.d("USER_PROFILE", "STRING TO JSONObject FAILED");
         }
 
-        viewModel.postCart(object).observe(this, response -> {
+
+        JsonObject jsonObject = (JsonObject) new Gson().toJsonTree(myCart);
+//        Log.d("USER_PROFILE", "STRING TO JSONObject"+object.toString());
+        Log.d("USER_PROFILE", "STRING TO JSONObject"+jsonObject);
+
+        viewModel.postCart(jsonObject).observe(this, response -> {
             hideProgressDialog();
             if (response != null) {
                 if (response.isSuccess() && response.getData() != null) {

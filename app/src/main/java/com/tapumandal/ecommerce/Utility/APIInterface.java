@@ -26,8 +26,8 @@ public interface APIInterface {
     @POST("consumer/promo_code")
     Single<CommonResponseSingle<PromoCode>> promoCode(@Body JsonObject jsonObject);
 
-    @POST("cart/create")
-    Single<CommonResponseSingle<Cart>> postCart(@Body JSONObject jsonObject);
+    @POST("cart/consumer/create")
+    Single<CommonResponseSingle<Cart>> postCart(@Body JsonObject jsonObject);
 
     @POST("consumer/login")
     Single<CommonResponseSingle<UserProfile>> loginUser(@Body JsonObject jsonObject);

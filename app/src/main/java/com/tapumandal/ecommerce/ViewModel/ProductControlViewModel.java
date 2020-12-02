@@ -80,7 +80,7 @@ public class ProductControlViewModel extends AndroidViewModel {
         return liveData;
     }
 
-    public MutableLiveData<CommonResponseSingle> postCart(JSONObject object) {
+    public MutableLiveData<CommonResponseSingle> postCart(JsonObject object) {
 
         MutableLiveData<CommonResponseSingle> liveData = new MutableLiveData<>();
 

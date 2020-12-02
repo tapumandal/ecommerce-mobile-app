@@ -312,6 +312,11 @@ public class CheckoutActivity extends BaseActivity {
 //        Log.d("USER_PROFILE", "STRING TO JSONObject"+object.toString());
         Log.d("USER_PROFILE", "STRING TO JSONObject"+jsonObject);
 
+//        myCart.setName(userProfile.getName());
+//        myCart.setMobileNumber(userProfile.getMobileNo());
+//        myCart.setArea(userProfile.getAddress().get(0).getArea());
+//        myCart.setAddress(address());
+
         viewModel.postCart(jsonObject).observe(this, response -> {
             hideProgressDialog();
             if (response != null) {
@@ -327,6 +332,7 @@ public class CheckoutActivity extends BaseActivity {
                     OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
                     OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
                     startActivity(new Intent(context, MainActivity.class));
+                    startActivity(MainActivity.class, true);
                     Log.d("POSTCART", "SUCCESSFUL POST: "+response.getData());
                 } else {
                     showFailedToast(response.getMessage());

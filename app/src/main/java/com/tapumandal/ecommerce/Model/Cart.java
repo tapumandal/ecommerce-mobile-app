@@ -14,6 +14,18 @@ public class Cart implements Serializable {
     @SerializedName("id")
     protected int id;
 
+    @SerializedName("name")
+    protected String name;
+
+    @SerializedName("mobileNumber")
+    protected String mobileNumber;
+
+    @SerializedName("area")
+    protected String area;
+
+    @SerializedName("address")
+    protected String address;
+
     @SerializedName("deliveryCharge")
     protected int deliveryCharge = 0;
 
@@ -54,6 +66,38 @@ public class Cart implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name == null ? "" : name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber == null ? "" : mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getArea() {
+        return area == null ? "" : area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getAddress() {
+        return address == null ? "" : address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getDeliveryCharge() {

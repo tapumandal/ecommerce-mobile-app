@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.*;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tapumandal.ecommerce.Base.BaseActivity;
@@ -199,10 +200,10 @@ public class MobileOTPActivity extends BaseActivity {
         }
         if (!code.isEmpty()) {
 //            TestCode
-            Intent returnIntentX = new Intent();
-            returnIntentX.putExtra("phoneVerificationStatus","VERIFIED");
-            setResult(Activity.RESULT_OK, returnIntentX);
-            finish();
+//            Intent returnIntentX = new Intent();
+//            returnIntentX.putExtra("phoneVerificationStatus","VERIFIED");
+//            setResult(Activity.RESULT_OK, returnIntentX);
+//            finish();
 //            TestCode END
 
             if (!mVerificationId.isEmpty()) {
@@ -219,10 +220,10 @@ public class MobileOTPActivity extends BaseActivity {
             showFailedToast("Insert code");
         }
 //            TestCode
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("phoneVerificationStatus","NOT_VERIFIED");
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+//        Intent returnIntent = new Intent();
+//        returnIntent.putExtra("phoneVerificationStatus","NOT_VERIFIED");
+//        setResult(Activity.RESULT_OK, returnIntent);
+//        finish();
 //            TestCode END
     }
 
@@ -233,6 +234,11 @@ public class MobileOTPActivity extends BaseActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
+                            Log.d("OTP_CHECK", new Gson().toJson(task.getResult()));
+                            System.out.println("XXXXXXXXXXXX");
+                            System.out.println(new Gson().toJson(task.getResult()));
+
 
                             phoneVerified = true;
                             Intent returnIntent = new Intent();

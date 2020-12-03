@@ -140,7 +140,7 @@ public class MobileOTPActivity extends BaseActivity {
 
 
         if (phone != null) {
-//            sendCodeToNumber(phone);
+            sendCodeToNumber(phone);
         }
 
     }
@@ -227,37 +227,44 @@ public class MobileOTPActivity extends BaseActivity {
 //            TestCode END
     }
 
-
+    String userIdToken;
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+                        if(task.isSuccessful()) {
 
-                            Log.d("OTP_CHECK", new Gson().toJson(task.getResult()));
-                            System.out.println("XXXXXXXXXXXX");
-                            System.out.println(new Gson().toJson(task.getResult()));
+                            FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+                            mUser.getIdToken(true)
+                                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                            if (task.isSuccessful()) {
+                                                userIdToken = task.getResult().getToken();
 
+                                                phoneVerified = true;
+                                                Intent returnIntent = new Intent();
+                                                returnIntent.putExtra("phoneVerificationStatus","VERIFIED");
+                                                returnIntent.putExtra("userIdToken",userIdToken);
+                                                setResult(Activity.RESULT_OK, returnIntent);
+                                                finish();
 
-                            phoneVerified = true;
-                            Intent returnIntent = new Intent();
-                            returnIntent.putExtra("phoneVerificationStatus","VERIFIED");
-                            setResult(Activity.RESULT_OK, returnIntent);
-                            finish();
+                                            } else {
+
+                                            }
+                                        }
+                                    });
 
                         } else {
                             Constants.dissmissProcess();
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 b.txtPinEntry.setText(null);
-//                                Toast.makeText(context, "Invalid pin, Insert correct pin", Toast.LENGTH_LONG).show();
                                 showFailedToast("Invalid pin, Insert correct pin");
                             }
                             phoneVerified = false;
 //                            createAccountWithMobileAndPassword();
                             Intent returnIntent = new Intent();
-//                            returnIntent.putExtra("phoneVerificationStatus","NOT_VERIFIED");
-                            returnIntent.putExtra("phoneVerificationStatus","VERIFIED");
+                            returnIntent.putExtra("phoneVerificationStatus","NOT_VERIFIED");
                             setResult(Activity.RESULT_OK, returnIntent);
                             finish();
 

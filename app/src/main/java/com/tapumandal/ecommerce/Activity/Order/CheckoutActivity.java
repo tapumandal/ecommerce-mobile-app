@@ -191,15 +191,16 @@ public class CheckoutActivity extends BaseActivity {
                     if(userProfile == null) {
                         Log.d("CHECKOUT_BTN", "8");
                         OfflineCache.saveOffline(OfflineCache.MY_PROFILE, newProfile);
+                        checkPaymentStatusAndPost();
                     }else if(userProfile.getAddress() == null){
                         Log.d("CHECKOUT_BTN", "9");
                         userProfile.setAddress(newProfile.getAddress());
                         OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
+                        checkPaymentStatusAndPost();
                     }else{
                         Log.d("CHECKOUT_BTN", "10");
-                        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
+                        userRegistration(userProfile);
                     }
-                    checkPaymentStatusAndPost();
                 }else{
                     showFailedToast("Phone number is not verified!");
                 }
@@ -209,6 +210,11 @@ public class CheckoutActivity extends BaseActivity {
             }
         }
     }//onActivityResult
+
+    private void userRegistration(UserProfile userProfile) {
+        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
+        checkPaymentStatusAndPost();
+    }
 
     private void checkPaymentStatusAndPost() {
         if(selectedPaymentMethod.equals(ON_DELIVERY)){

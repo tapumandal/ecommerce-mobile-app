@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.gson.JsonObject;
 import com.tapumandal.ecommerce.Model.BusinessSettings;
 import com.tapumandal.ecommerce.Model.CommonResponseSingle;
+import com.tapumandal.ecommerce.Model.LoginResponse;
 import com.tapumandal.ecommerce.Model.UserProfile;
 import com.tapumandal.ecommerce.Utility.ApiClient;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
@@ -69,13 +70,13 @@ public class UserControlViewModel extends AndroidViewModel {
         ApiClient.getApiClient().loginUser(object)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<CommonResponseSingle<UserProfile>>() {
+                .subscribe(new SingleObserver<CommonResponseSingle<LoginResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                     }
 
                     @Override
-                    public void onSuccess(CommonResponseSingle<UserProfile> response) {
+                    public void onSuccess(CommonResponseSingle<LoginResponse> response) {
                         liveData.postValue(response);
                     }
 
@@ -102,13 +103,13 @@ public class UserControlViewModel extends AndroidViewModel {
         ApiClient.getApiClient().registration(object)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<CommonResponseSingle<UserProfile>>() {
+                .subscribe(new SingleObserver<CommonResponseSingle<LoginResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                     }
 
                     @Override
-                    public void onSuccess(CommonResponseSingle<UserProfile> response) {
+                    public void onSuccess(CommonResponseSingle<LoginResponse> response) {
                         liveData.postValue(response);
                     }
 

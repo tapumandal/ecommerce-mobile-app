@@ -30,7 +30,7 @@ public class Cart implements Serializable {
     protected int deliveryCharge = 0;
 
     @SerializedName("defaultDiscountBtn")
-    protected String defaultDiscountBtn = ""; // radioOnProduct/radioSpecialOffer
+    protected String defaultDiscountBtn = "radioOnProduct"; // radioOnProduct/radioSpecialOffer
 
     @SerializedName("selectedDiscountName")
     protected String selectedDiscountName = "On Product"; //On Product/Special Discount/Mobile Payment/Card Payment;

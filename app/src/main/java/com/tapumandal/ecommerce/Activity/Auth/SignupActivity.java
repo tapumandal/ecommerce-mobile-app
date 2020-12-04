@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.tapumandal.ecommerce.Activity.Product.MainActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
+import com.tapumandal.ecommerce.Model.LoginResponse;
 import com.tapumandal.ecommerce.Model.UserProfile;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
@@ -122,14 +123,15 @@ public class SignupActivity extends BaseActivity {
 
                     Log.d("REGISTRATION", "SUCCESSFUL : "+new Gson().toJson(response.getData()));
 
-//                    UserProfile myProfile = new UserProfile();
-//                    myProfile.setName(name);
-//                    myProfile.setGender(selectedGender);
-//                    myProfile.setMobileNo(b.mobileNumber.getText().toString());
-//                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfile);
-//                    startActivity(MainActivity.class, true);
+                    LoginResponse loginResponse = (LoginResponse) response.getData();
 
-                    hideProgressDialog();
+                    UserProfile myProfile = new UserProfile();
+                    myProfile = (UserProfile) loginResponse.getUser();
+                    myProfile.setAccessToken(loginResponse.getJwt());
+
+                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfile);
+                    startActivity(MainActivity.class, true);
+
                 } else {
                     showFailedToast(response.getMessage());
                     Log.d("REGISTRATION", "FAILED POST NULL Data : "+new Gson().toJson(response));

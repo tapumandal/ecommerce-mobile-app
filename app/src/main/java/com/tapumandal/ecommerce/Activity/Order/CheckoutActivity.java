@@ -19,6 +19,7 @@ import com.tapumandal.ecommerce.Model.*;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
+import com.tapumandal.ecommerce.ViewModel.UserControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivityCheckoutBinding;
 import org.json.JSONObject;
 
@@ -41,6 +42,7 @@ public class CheckoutActivity extends BaseActivity {
 
     ActivityCheckoutBinding b;
     ProductControlViewModel viewModel;
+    UserControlViewModel userViewModel;
 
     private UserProfile userProfile;
     private UserProfile newProfile;
@@ -61,6 +63,7 @@ public class CheckoutActivity extends BaseActivity {
         context = this;
         b = getBinding();
         viewModel = ViewModelProviders.of(this).get(ProductControlViewModel.class);
+        userViewModel = ViewModelProviders.of(this).get(UserControlViewModel.class);
         setToolbar("Checkout", true);
 
         userProfile = OfflineCache.getOfflineSingle(OfflineCache.MY_PROFILE);
@@ -88,15 +91,15 @@ public class CheckoutActivity extends BaseActivity {
 
             b.name.setText(userProfile.getName());
             b.phone.setText(userProfile.getMobileNo());
-            b.name.setText(userProfile.getAddress().get(0).getName());
-            b.phone.setText(userProfile.getAddress().get(0).getMobileNo());
-            b.block.setText(userProfile.getAddress().get(0).getBlock());
-            b.road.setText(userProfile.getAddress().get(0).getRoad());
-            b.house.setText(userProfile.getAddress().get(0).getHouse());
-            b.flat.setText(userProfile.getAddress().get(0).getFlat());
-            b.details.setText(userProfile.getAddress().get(0).getDetails());
+            b.name.setText(userProfile.getAddresses().get(0).getName());
+            b.phone.setText(userProfile.getAddresses().get(0).getMobileNo());
+            b.block.setText(userProfile.getAddresses().get(0).getBlock());
+            b.road.setText(userProfile.getAddresses().get(0).getRoad());
+            b.house.setText(userProfile.getAddresses().get(0).getHouse());
+            b.flat.setText(userProfile.getAddresses().get(0).getFlat());
+            b.details.setText(userProfile.getAddresses().get(0).getDetails());
 
-            userProfile.setAddress(null);
+            userProfile.setAddresses(null);
             OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
         });
 
@@ -155,7 +158,7 @@ public class CheckoutActivity extends BaseActivity {
             }
             validateMobileNo(newProfile.getMobileNo());
 
-        }else if(userProfile.getAddress() == null){
+        }else if(userProfile.getAddresses() == null){
             Log.d("CHECKOUT_BTN", "3");
             newProfile = newProfileData();
             if(!validateFields(newProfile)){
@@ -163,12 +166,12 @@ public class CheckoutActivity extends BaseActivity {
                 return;
             }
 
-            if(!userProfile.getMobileNo().equals(newProfile.getAddress().get(0).getMobileNo())){
+            if(!userProfile.getMobileNo().equals(newProfile.getAddresses().get(0).getMobileNo())){
                 Log.d("CHECKOUT_BTN", "5");
-                validateMobileNo(newProfile.getAddress().get(0).getMobileNo());
+                validateMobileNo(newProfile.getAddresses().get(0).getMobileNo());
             }else{
                 Log.d("CHECKOUT_BTN", "6");
-                userProfile.setAddress(newProfile.getAddress());
+                userProfile.setAddresses(newProfile.getAddresses());
                 checkPaymentStatusAndPost();
             }
 
@@ -185,21 +188,20 @@ public class CheckoutActivity extends BaseActivity {
         if (requestCode == LAUNCH_OTP_ACTIVITY) {
             if(resultCode == Activity.RESULT_OK){
 
-                String phoneVerificationStatus = data.getStringExtra("phoneVerificationStatus");
-
                 if(data.getStringExtra("phoneVerificationStatus").equals("VERIFIED")){
                     if(userProfile == null) {
                         Log.d("CHECKOUT_BTN", "8");
-                        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, newProfile);
-                        checkPaymentStatusAndPost();
-                    }else if(userProfile.getAddress() == null){
+                        newProfile.setUserTokenId(data.getStringExtra("userIdToken"));
+                        userRegistration(newProfile); //Then checkPaymentStatusAndPost
+                    }else if(userProfile.getAddresses() == null){
                         Log.d("CHECKOUT_BTN", "9");
-                        userProfile.setAddress(newProfile.getAddress());
-                        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
-                        checkPaymentStatusAndPost();
+                        userProfile.setUserTokenId(data.getStringExtra("userIdToken"));
+                        userProfile.setAddresses(newProfile.getAddresses());
+                        updateUserProfile(userProfile); //Then checkPaymentStatusAndPost
                     }else{
                         Log.d("CHECKOUT_BTN", "10");
-                        userRegistration(userProfile);
+                        userProfile.setUserTokenId(data.getStringExtra("userIdToken"));
+                        checkPaymentStatusAndPost();
                     }
                 }else{
                     showFailedToast("Phone number is not verified!");
@@ -211,9 +213,49 @@ public class CheckoutActivity extends BaseActivity {
         }
     }//onActivityResult
 
-    private void userRegistration(UserProfile userProfile) {
+    private void updateUserProfile(UserProfile userProfile) {
         OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
         checkPaymentStatusAndPost();
+    }
+
+    private void userRegistration(UserProfile profile) {
+
+        profile.setUsername(profile.getMobileNo());
+        if(!isNetworkAvailable()){
+            showFailedToast("Internet is not available!");
+            return;
+        }
+
+        Log.d("REGISTRATION", "SUCCESSFUL profile : "+profile);
+        JsonObject object = (JsonObject) new Gson().toJsonTree(profile);
+        Log.d("REGISTRATION", "SUCCESSFUL object : "+new Gson().toJson(object));
+        showProgressDialog("Signing Up..");
+        userViewModel.registration(object).observe(this, response -> {
+            hideProgressDialog();
+            if (response != null) {
+                if (response.isSuccess() && response.getData() != null) {
+
+                    Log.d("REGISTRATION", "SUCCESSFUL : "+new Gson().toJson(response.getData()));
+
+                    LoginResponse loginResponse = (LoginResponse) response.getData();
+
+                    UserProfile myProfile = (UserProfile) loginResponse.getUser();
+                    myProfile.setAccessToken(loginResponse.getJwt());
+
+                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfile);
+                    startActivity(MainActivity.class, true);
+//                    checkPaymentStatusAndPost();
+
+                } else {
+                    showFailedToast(response.getMessage());
+                    Log.d("REGISTRATION", "FAILED POST NULL Data : "+new Gson().toJson(response));
+                }
+            } else {
+                showFailedToast(getString(R.string.something_went_wrong));
+                Log.d("REGISTRATION", "FAILED POST NULL Response : "+response.getMessage());
+            }
+        });
+
     }
 
     private void checkPaymentStatusAndPost() {
@@ -243,7 +285,7 @@ public class CheckoutActivity extends BaseActivity {
         }else{
 //            User Found
 
-            if(userProfile.getAddress() == null){
+            if(userProfile.getAddresses() == null){
 //              User Found But Not Address
                 b.addressEditLayout.setVisibility(View.VISIBLE);
 
@@ -255,8 +297,8 @@ public class CheckoutActivity extends BaseActivity {
                 b.existingAddressLayout.setVisibility(View.VISIBLE);
                 b.addressEditBtn.setVisibility(View.VISIBLE);
 
-                String name = userProfile.getAddress().get(0).getName();
-                String mobileNo = userProfile.getAddress().get(0).getMobileNo();
+                String name = userProfile.getAddresses().get(0).getName();
+                String mobileNo = userProfile.getAddresses().get(0).getMobileNo();
 
                 if(name.isEmpty()){
                     name = userProfile.getName();
@@ -270,16 +312,16 @@ public class CheckoutActivity extends BaseActivity {
                 b.existingAddressDetails.setText(address());
             }
 
-//            if(userProfile.getAddress() != null) {
-//                b.name.setText(userProfile.getAddress().get(0).getName());
-//                b.phone.setText(userProfile.getAddress().get(0).getMobileNo());
-//                b.block.setText(userProfile.getAddress().get(0).getBlock());
-//                b.road.setText(userProfile.getAddress().get(0).getRoad());
-//                b.house.setText(userProfile.getAddress().get(0).getHouse());
-//                b.flat.setText(userProfile.getAddress().get(0).getFlat());
-//                b.details.setText(userProfile.getAddress().get(0).getDetails());
+//            if(userProfile.getAddresses() != null) {
+//                b.name.setText(userProfile.getAddresses().get(0).getName());
+//                b.phone.setText(userProfile.getAddresses().get(0).getMobileNo());
+//                b.block.setText(userProfile.getAddresses().get(0).getBlock());
+//                b.road.setText(userProfile.getAddresses().get(0).getRoad());
+//                b.house.setText(userProfile.getAddresses().get(0).getHouse());
+//                b.flat.setText(userProfile.getAddresses().get(0).getFlat());
+//                b.details.setText(userProfile.getAddresses().get(0).getDetails());
 //            }
-//            if(userProfile.getAddress() != null) {
+//            if(userProfile.getAddresses() != null) {
 //
 //            }
 
@@ -302,7 +344,6 @@ public class CheckoutActivity extends BaseActivity {
         }
     }
 
-
     private void postCart() {
         Toast.makeText(context, "POST CART function", Toast.LENGTH_SHORT).show();
         String objectStr = new Gson().toJson(myCart);
@@ -320,8 +361,8 @@ public class CheckoutActivity extends BaseActivity {
 
 //        myCart.setName(userProfile.getName());
 //        myCart.setMobileNumber(userProfile.getMobileNo());
-//        myCart.setArea(userProfile.getAddress().get(0).getArea());
-//        myCart.setAddress(address());
+//        myCart.setArea(userProfile.getAddresses().get(0).getArea());
+//        myCart.setAddresses(address());
 
         viewModel.postCart(jsonObject).observe(this, response -> {
             hideProgressDialog();
@@ -337,7 +378,6 @@ public class CheckoutActivity extends BaseActivity {
                     Log.d("USER_PROFILE", "POST ORDER : "+new Gson().toJson(userProfile));
                     OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
                     OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
-                    startActivity(new Intent(context, MainActivity.class));
                     startActivity(MainActivity.class, true);
                     Log.d("POSTCART", "SUCCESSFUL POST: "+response.getData());
                 } else {
@@ -385,7 +425,7 @@ public class CheckoutActivity extends BaseActivity {
         address.setFlat(b.flat.getText().toString());
         address.setDetails(b.details.getText().toString());
         addresses.add(address);
-        newProfile.setAddress(addresses);
+        newProfile.setAddresses(addresses);
 
         return newProfile;
     }
@@ -536,11 +576,11 @@ public class CheckoutActivity extends BaseActivity {
             showAlertDialog("Required", "Phone \n Example 017 12345678");
             return false;
         }
-        if (newProfile.getAddress().get(0).getArea().equals("")) {
+        if (newProfile.getAddresses().get(0).getArea().equals("")) {
             showAlertDialog("Required", "Area");
             return false;
         }
-        if (newProfile.getAddress().get(0).getBlock().equals("")) {
+        if (newProfile.getAddresses().get(0).getBlock().equals("")) {
             showAlertDialog("Required", "Block");
             return false;
         }
@@ -553,24 +593,24 @@ public class CheckoutActivity extends BaseActivity {
 
     private String address() {
         String address = "";
-        if(!userProfile.getAddress().get(0).getFlat().equals("")){
-            address = address+"Flat: "+userProfile.getAddress().get(0).getFlat()+", ";
+        if(!userProfile.getAddresses().get(0).getFlat().equals("")){
+            address = address+"Flat: "+userProfile.getAddresses().get(0).getFlat()+", ";
         }
-        if(!userProfile.getAddress().get(0).getHouse().equals("")){
-            address = address+"House: "+userProfile.getAddress().get(0).getHouse()+", ";
+        if(!userProfile.getAddresses().get(0).getHouse().equals("")){
+            address = address+"House: "+userProfile.getAddresses().get(0).getHouse()+", ";
         }
-        if(!userProfile.getAddress().get(0).getRoad().equals("")){
-            address = address+"Road: "+userProfile.getAddress().get(0).getRoad()+", ";
+        if(!userProfile.getAddresses().get(0).getRoad().equals("")){
+            address = address+"Road: "+userProfile.getAddresses().get(0).getRoad()+", ";
         }
-        if(!userProfile.getAddress().get(0).getBlock().equals("")){
-            address = address+"Block: "+userProfile.getAddress().get(0).getBlock()+", ";
+        if(!userProfile.getAddresses().get(0).getBlock().equals("")){
+            address = address+"Block: "+userProfile.getAddresses().get(0).getBlock()+", ";
         }
-        if(!userProfile.getAddress().get(0).getArea().equals("")){
-            address = address+" "+userProfile.getAddress().get(0).getArea()+".";
+        if(!userProfile.getAddresses().get(0).getArea().equals("")){
+            address = address+" "+userProfile.getAddresses().get(0).getArea()+".";
         }
 
-        if(!userProfile.getAddress().get(0).getDetails().equals("")) {
-            address = address + "\n" + userProfile.getAddress().get(0).getDetails() + ".";
+        if(!userProfile.getAddresses().get(0).getDetails().equals("")) {
+            address = address + "\n" + userProfile.getAddresses().get(0).getDetails() + ".";
         }
 
         return address;

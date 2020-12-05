@@ -18,8 +18,8 @@ public class UserProfile implements Serializable {
     private String createdAt;
     @SerializedName("updatedAt")
     private String updatedAt;
-    @SerializedName("userName")
-    private String userName;
+    @SerializedName("username")
+    private String username;
     @SerializedName("gender")
     private String gender;
     @SerializedName("mobileNo")
@@ -34,9 +34,11 @@ public class UserProfile implements Serializable {
     private String picture;
     @SerializedName("accessToken")
     private String accessToken;
+    @SerializedName("userTokenId")
+    private String userTokenId; //Firebase Phone Authentication
 
-    @SerializedName("address")
-    private List<Address> address;
+    @SerializedName("addresses")
+    private List<Address> addresses;
 
     public String getId() {
         return id == null ? "" : id;
@@ -70,12 +72,12 @@ public class UserProfile implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public String getUserName() {
-        return userName == null ? "" : userName;
+    public String getUsername() {
+        return username == null ? "" : username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getMobileNo() {
@@ -118,12 +120,12 @@ public class UserProfile implements Serializable {
         this.accessToken = accessToken;
     }
 
-    public List<Address> getAddress() {
-        return address;
+    public List<Address> getAddresses() {
+        return addresses;
     }
 
-    public void setAddress(List<Address> address) {
-        this.address = address;
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 
     public String getGender() {
@@ -140,5 +142,13 @@ public class UserProfile implements Serializable {
 
     public void setLoggedIn(boolean loggedIn) {
         isLoggedIn = loggedIn;
+    }
+
+    public String getUserTokenId() {
+        return userTokenId == null ? "" : userTokenId;
+    }
+
+    public void setUserTokenId(String userTokenId) {
+        this.userTokenId = userTokenId;
     }
 }

@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.tapumandal.ecommerce.Activity.Product.MainActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
+import com.tapumandal.ecommerce.Model.LoginResponse;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.Model.UserProfile;
 import com.tapumandal.ecommerce.R;
@@ -160,7 +161,7 @@ public class LoginActivity extends BaseActivity {
             if(resultCode == Activity.RESULT_OK){
                 String phoneVerificationStatus = data.getStringExtra("phoneVerificationStatus");
                 if(data.getStringExtra("phoneVerificationStatus").equals("VERIFIED")){
-                    callUserProfile();
+                    callUserProfile(data.getStringExtra("userIdToken"));
                 }else{
                     showFailedToast("Mobile number is not verified!");
                 }
@@ -171,25 +172,27 @@ public class LoginActivity extends BaseActivity {
         }
     }//onActivityResult
 
-    private void callUserProfile() {
-
-//        Without API Login
-        UserProfile myProfile = new UserProfile();
-        myProfile.setName("My Name From Login");
-        myProfile.setGender("Male");
-        myProfile.setMobileNo(b.mobileNumber.getText().toString());
-        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfile);
-        startActivity(MainActivity.class, true);
+    private void callUserProfile(String userTokenId) {
 
         JsonObject object = new JsonObject();
-        object.addProperty("mobileNumber", mobileNumber);
+        object.addProperty("username", mobileNumber);
+        object.addProperty("userTokenId", userTokenId);
+        showProgressDialog("Logging In..");
         viewModel.userLogin(object).observe(this, response -> {
             hideProgressDialog();
             if (response != null) {
                 if (response.isSuccess() && response.getData() != null) {
 
-                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, response.getData());
-                    startActivity(new Intent(context, MainActivity.class));
+                    Log.d("REGISTRATION", "SUCCESSFUL : "+new Gson().toJson(response.getData()));
+
+                    LoginResponse loginResponse = (LoginResponse) response.getData();
+
+                    UserProfile myProfileTmp = new UserProfile();
+                    myProfileTmp = (UserProfile) loginResponse.getUser();
+                    myProfileTmp.setAccessToken(loginResponse.getJwt());
+
+                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfileTmp);
+                    startActivity(MainActivity.class, true);
 
                 } else {
                     showFailedToast(response.getMessage());

@@ -14,58 +14,32 @@ public class Cart implements Serializable {
     @SerializedName("id")
     protected int id;
 
+    @SerializedName("name")
+    protected String name;
+
+    @SerializedName("mobileNumber")
+    protected String mobileNumber;
+
+    @SerializedName("area")
+    protected String area;
+
+    @SerializedName("address")
+    protected String address;
+
     @SerializedName("deliveryCharge")
     protected int deliveryCharge = 0;
 
     @SerializedName("defaultDiscountBtn")
-    protected String defaultDiscountBtn = ""; // radioOnProduct/radioSpecialOffer
-
-//    @SerializedName("discountName")
-//    protected String discountName = "Special Offer"; // Special Offer(Eid/Puja/NewYear)
-
-//    @SerializedName("discountType")
-//    protected String discountType = "TotalPercentage"; // TotalPercentage/OverallAmount
-
-//    @SerializedName("discountTypeCondition")
-//    protected List<DiscountTypeCondition> discountTypeCondition;
-
-//    @SerializedName("discountBanner")
-//    protected String discountBanner;
-
-//    @SerializedName("paymentDiscountMessage")
-//    protected String paymentDiscountMessage = "If there is any payment discount";
-
-//    @SerializedName("paymentDiscountBanner")
-//    protected String paymentDiscountBanner;
-
-//    @SerializedName("cardPaymentDiscountName")
-//    protected String cardPaymentDiscountName = "Debit/Credit Cart";
-
-//    @SerializedName("cardPaymentType")
-//    protected String cardPaymentDiscountType = "TotalPercentage"; // TotalPercentage/OverallAmount
-
-//    @SerializedName("cardPaymentCondition")
-//    protected List<DiscountTypeCondition> cardPaymentCondition;
-
-//    @SerializedName("mobilePaymentDiscountName")
-//    protected String mobilePaymentDiscountName = "BKash/Rocket/Nagad";
-
-//    @SerializedName("mobilePaymentType")
-//    protected String mobilePaymentDiscountType = "TotalPercentage"; // TotalPercentage/OverallAmount
-
-//    @SerializedName("mobilePaymentCondition")
-//    protected List<DiscountTypeCondition> mobilePaymentCondition;
-
+    protected String defaultDiscountBtn = "radioOnProduct"; // radioOnProduct/radioSpecialOffer
 
     @SerializedName("selectedDiscountName")
-    protected String selectedDiscountName = "On Product/Special Discount/Mobile Payment/Card Payment";
+    protected String selectedDiscountName = "On Product"; //On Product/Special Discount/Mobile Payment/Card Payment;
 
     @SerializedName("selectedDiscountType")
     protected String selectedDiscountType = "TotalPercentage"; // TotalPercentage/OverallAmount
 
     @SerializedName("selectedDiscountDetails")
     protected String selectedDiscountDetails;
-
 
     @SerializedName("totalProductDiscount")
     protected int totalProductDiscount = 0;
@@ -92,6 +66,38 @@ public class Cart implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name == null ? "" : name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber == null ? "" : mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getArea() {
+        return area == null ? "" : area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getAddress() {
+        return address == null ? "" : address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getDeliveryCharge() {

@@ -55,10 +55,10 @@ public class Product implements Serializable {
     @SerializedName("deliveryCharge")
     private int deliveryCharge = 0;
 
-    @SerializedName("maximum_order_quantity")
+    @SerializedName("maximumOrderQuantity")
     private int maximumOrderQuantity = 20;
 
-    @SerializedName("order_quantity")
+    @SerializedName("orderQuantity")
     private int orderQuantity = 0;
 
 

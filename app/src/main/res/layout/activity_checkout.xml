@@ -28,6 +28,7 @@
 				<LinearLayout
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
+						android:padding="@dimen/_16ssdp"
 						android:orientation="vertical"
 						android:paddingBottom="@dimen/_20ssdp">
 
@@ -37,8 +38,7 @@
 							android:layout_height="wrap_content"
 							android:weightSum="2"
 							android:orientation="horizontal"
-							android:gravity="bottom"
-							android:padding="@dimen/_16ssdp">
+							android:gravity="bottom">
 
 						<com.xw.repo.VectorCompatTextView
 								android:layout_width="wrap_content"
@@ -283,13 +283,12 @@
 					style="@style/cardView"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:padding="@dimen/_16ssdp"
 					app:cardCornerRadius="@dimen/_5ssdp">
 
 				<LinearLayout
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-					android:padding="@dimen/_16ssdp"
+						android:padding="@dimen/_16ssdp"
 						android:orientation="vertical"
 						android:paddingBottom="@dimen/_20ssdp">
 
@@ -303,16 +302,18 @@
 					<LinearLayout
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
-							android:weightSum="100"
+							android:weightSum="2"
 							android:orientation="horizontal">
 
 						<com.google.android.material.textfield.TextInputLayout
 								style="@style/inputBox"
 								android:layout_marginTop="0dp"
 								android:layout_width="0dp"
-								android:layout_weight="49"
+								android:layout_weight="1"
 								android:layout_height="wrap_content"
-								android:hint="Name">
+								android:layout_marginEnd="@dimen/_8ssdp"
+								android:gravity="center"
+								android:hint="Code">
 
 							<com.google.android.material.textfield.TextInputEditText
 									android:id="@+id/promoCode"
@@ -320,25 +321,17 @@
 									android:layout_height="@dimen/_50ssdp"
 									android:paddingTop="0dp"
 									android:paddingBottom="0dp"
+									android:gravity="center"
 									android:inputType="text" />
 						</com.google.android.material.textfield.TextInputLayout>
-
-						<LinearLayout
-							android:visibility="visible"
-							android:layout_width="0dp"
-							android:layout_weight="2"
-							android:layout_height="@dimen/_50ssdp"
-							android:orientation="horizontal">
-						</LinearLayout>
 
 						<LinearLayout
 							android:id="@+id/promoCodeBtn"
 							android:visibility="visible"
 							android:layout_width="0dp"
-							android:layout_weight="49"
+							android:layout_weight="1"
 							android:layout_height="@dimen/_50ssdp"
 							android:layout_marginTop="@dimen/_5ssdp"
-							android:layout_marginLeft="@dimen/_16ssdp"
 							android:gravity="center"
 							android:orientation="horizontal"
 							android:background="@drawable/round_shape_3dp_corner_red_button">
@@ -373,15 +366,14 @@
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:orientation="vertical"
-						android:paddingBottom="@dimen/_20ssdp">
+						android:padding="@dimen/_16ssdp">
 
 					<LinearLayout
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							android:weightSum="2"
 							android:orientation="horizontal"
-							android:gravity="bottom"
-							android:padding="@dimen/_16ssdp">
+							android:gravity="bottom">
 
 						<com.xw.repo.VectorCompatTextView
 								android:layout_width="wrap_content"
@@ -404,8 +396,6 @@
 							android:visibility="visible"
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
-							android:paddingLeft="@dimen/_16ssdp"
-							android:paddingRight="@dimen/_16ssdp"
 							android:orientation="vertical"
 							android:background="@color/colorPrimaryWhite">
 
@@ -489,8 +479,6 @@
 									android:textColor="@color/highlightTextColor"
 									android:textSize="@dimen/_18ssdp"
 									android:text="Payment Method"/>
-
-
 
 							<LinearLayout
 									android:layout_width="match_parent"

@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class CommonResponseSingle<Item> {
 
-    @SerializedName("errors")
+    @SerializedName("message")
     @Expose
     private String message;
     @SerializedName("reported")

@@ -80,7 +80,7 @@ public class ProductControlViewModel extends AndroidViewModel {
         return liveData;
     }
 
-    public MutableLiveData<CommonResponseSingle> postCart(JSONObject object) {
+    public MutableLiveData<CommonResponseSingle> postCart(JsonObject object) {
 
         MutableLiveData<CommonResponseSingle> liveData = new MutableLiveData<>();
 
@@ -94,6 +94,40 @@ public class ProductControlViewModel extends AndroidViewModel {
 
                     @Override
                     public void onSuccess(CommonResponseSingle<Cart> response) {
+                        liveData.postValue(response);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        CommonResponseSingle response = new CommonResponseSingle();
+                        response.setMessage(e.getLocalizedMessage());
+                        response.setSuccess(false);
+
+                        liveData.postValue(response);
+
+                    }
+                });
+
+        return liveData;
+
+    }
+
+
+    public MutableLiveData<CommonResponseSingle> checkPromoCode(JsonObject object) {
+
+        MutableLiveData<CommonResponseSingle> liveData = new MutableLiveData<>();
+
+        ApiClient.getApiClient().promoCode(object)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<CommonResponseSingle<PromoCode>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onSuccess(CommonResponseSingle<PromoCode> response) {
                         liveData.postValue(response);
                     }
 

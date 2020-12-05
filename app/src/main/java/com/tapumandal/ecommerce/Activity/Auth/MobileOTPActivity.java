@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.*;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tapumandal.ecommerce.Base.BaseActivity;
@@ -139,7 +140,7 @@ public class MobileOTPActivity extends BaseActivity {
 
 
         if (phone != null) {
-//            sendCodeToNumber(phone);
+            sendCodeToNumber(phone);
         }
 
     }
@@ -199,10 +200,10 @@ public class MobileOTPActivity extends BaseActivity {
         }
         if (!code.isEmpty()) {
 //            TestCode
-            Intent returnIntentX = new Intent();
-            returnIntentX.putExtra("phoneVerificationStatus","VERIFIED");
-            setResult(Activity.RESULT_OK, returnIntentX);
-            finish();
+//            Intent returnIntentX = new Intent();
+//            returnIntentX.putExtra("phoneVerificationStatus","VERIFIED");
+//            setResult(Activity.RESULT_OK, returnIntentX);
+//            finish();
 //            TestCode END
 
             if (!mVerificationId.isEmpty()) {
@@ -219,39 +220,51 @@ public class MobileOTPActivity extends BaseActivity {
             showFailedToast("Insert code");
         }
 //            TestCode
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("phoneVerificationStatus","NOT_VERIFIED");
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+//        Intent returnIntent = new Intent();
+//        returnIntent.putExtra("phoneVerificationStatus","NOT_VERIFIED");
+//        setResult(Activity.RESULT_OK, returnIntent);
+//        finish();
 //            TestCode END
     }
 
-
+    String userIdToken;
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+                        if(task.isSuccessful()) {
 
-                            phoneVerified = true;
-                            Intent returnIntent = new Intent();
-                            returnIntent.putExtra("phoneVerificationStatus","VERIFIED");
-                            setResult(Activity.RESULT_OK, returnIntent);
-                            finish();
+                            FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+                            mUser.getIdToken(true)
+                                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                            if (task.isSuccessful()) {
+                                                userIdToken = task.getResult().getToken();
+
+                                                phoneVerified = true;
+                                                Intent returnIntent = new Intent();
+                                                returnIntent.putExtra("phoneVerificationStatus","VERIFIED");
+                                                returnIntent.putExtra("userIdToken",userIdToken);
+                                                setResult(Activity.RESULT_OK, returnIntent);
+                                                finish();
+
+                                            } else {
+
+                                            }
+                                        }
+                                    });
 
                         } else {
                             Constants.dissmissProcess();
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 b.txtPinEntry.setText(null);
-//                                Toast.makeText(context, "Invalid pin, Insert correct pin", Toast.LENGTH_LONG).show();
                                 showFailedToast("Invalid pin, Insert correct pin");
                             }
                             phoneVerified = false;
 //                            createAccountWithMobileAndPassword();
                             Intent returnIntent = new Intent();
-//                            returnIntent.putExtra("phoneVerificationStatus","NOT_VERIFIED");
-                            returnIntent.putExtra("phoneVerificationStatus","VERIFIED");
+                            returnIntent.putExtra("phoneVerificationStatus","NOT_VERIFIED");
                             setResult(Activity.RESULT_OK, returnIntent);
                             finish();
 

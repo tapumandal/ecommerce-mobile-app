@@ -23,14 +23,17 @@ public interface APIInterface {
     @GET("product/list/business/{flag}")
     Single<CommonResponseArray<Product>> getProductList(@Path("flag") String flag);
 
-    @POST("cart/create")
-    Single<CommonResponseSingle<Cart>> postCart(@Body JSONObject jsonObject);
+    @POST("consumer/promo_code")
+    Single<CommonResponseSingle<PromoCode>> promoCode(@Body JsonObject jsonObject);
 
-    @POST("consumer/login")
-    Single<CommonResponseSingle<UserProfile>> loginUser(@Body JsonObject jsonObject);
+    @POST("cart/consumer/create")
+    Single<CommonResponseSingle<Cart>> postCart(@Body JsonObject jsonObject);
+
+    @POST("consumer/authenticate")
+    Single<CommonResponseSingle<LoginResponse>> loginUser(@Body JsonObject jsonObject);
 
     @POST("consumer/registration")
-    Single<CommonResponseSingle<UserProfile>> registration(@Body JsonObject jsonObject);
+    Single<CommonResponseSingle<LoginResponse>> registration(@Body JsonObject jsonObject);
 
     @GET("consumer/orders/{id}")
     Single<CommonResponseArray<Cart>> getOrders(@Path("id") String id);

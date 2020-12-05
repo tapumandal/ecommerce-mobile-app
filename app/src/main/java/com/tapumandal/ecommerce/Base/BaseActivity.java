@@ -195,7 +195,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void showFailedToast(String txt) {
-        FancyToast.makeText(mActivity, "" + txt, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+//        FancyToast.makeText(mActivity, "" + txt, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+        FancyToast.makeText(mActivity, "" + txt, FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
     }
 
     public void datePickerDialog(final EditText editText) {

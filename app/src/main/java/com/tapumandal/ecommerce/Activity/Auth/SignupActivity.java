@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.tapumandal.ecommerce.Activity.Product.MainActivity;
 import com.tapumandal.ecommerce.Base.BaseActivity;
+import com.tapumandal.ecommerce.Model.LoginResponse;
 import com.tapumandal.ecommerce.Model.UserProfile;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
@@ -87,7 +88,7 @@ public class SignupActivity extends BaseActivity {
         if (requestCode == LAUNCH_OTP_ACTIVITY) {
             if(resultCode == Activity.RESULT_OK){
                 if(data.getStringExtra("phoneVerificationStatus").equals("VERIFIED")){
-                    register();
+                    register(data.getStringExtra("userIdToken"));
                 }else{
                     showFailedToast("Mobile number is not verified!");
                 }
@@ -99,47 +100,48 @@ public class SignupActivity extends BaseActivity {
     }//onActivityResult
 
 
-    private void register() {
+    private void register(String userTokenId) {
         //        Without API Login
-        UserProfile myProfile = new UserProfile();
-        myProfile.setName(name);
-        myProfile.setGender(selectedGender);
-        myProfile.setMobileNo(b.mobileNumber.getText().toString());
-        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfile);
-        startActivity(MainActivity.class, true);
+
+        if(!isNetworkAvailable()){
+            showFailedToast("Internet is not available!");
+            return;
+        }
 
         JsonObject object = new JsonObject();
         object.addProperty("name", name);
         object.addProperty("gender", selectedGender);
-        object.addProperty("phone", phone);
+        object.addProperty("phone", b.mobileNumber.getText().toString());
+        object.addProperty("username", b.mobileNumber.getText().toString());
+        object.addProperty("userTokenId", userTokenId);
 
         showProgressDialog("Signing Up..");
         viewModel.registration(object).observe(this, response -> {
             hideProgressDialog();
             if (response != null) {
-                if (response.isSuccess()) {
+                if (response.isSuccess() && response.getData() != null) {
 
-                    hideProgressDialog();
-                    if (response != null) {
-                        if (response.isSuccess() && response.getData() != null) {
+                    Log.d("REGISTRATION", "SUCCESSFUL : "+new Gson().toJson(response.getData()));
 
-                            OfflineCache.saveOffline(OfflineCache.MY_PROFILE, response.getData());
-                            startActivity(new Intent(context, MainActivity.class));
-                        } else {
-                            showFailedToast(response.getMessage());
-                            Log.d("POSTCART", "FAILED POST NULL Data : "+new Gson().toJson(response));
-                        }
-                    } else {
-                        showFailedToast(getString(R.string.something_went_wrong));
-                    }
+                    LoginResponse loginResponse = (LoginResponse) response.getData();
+
+                    UserProfile myProfile = new UserProfile();
+                    myProfile = (UserProfile) loginResponse.getUser();
+                    myProfile.setAccessToken(loginResponse.getJwt());
+
+                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfile);
+                    startActivity(MainActivity.class, true);
 
                 } else {
                     showFailedToast(response.getMessage());
+                    Log.d("REGISTRATION", "FAILED POST NULL Data : "+new Gson().toJson(response));
                 }
             } else {
                 showFailedToast(getString(R.string.something_went_wrong));
+                Log.d("REGISTRATION", "FAILED POST NULL Response : "+response.getMessage());
             }
         });
+
     }
 
     private void setTearmsAndCondition() {

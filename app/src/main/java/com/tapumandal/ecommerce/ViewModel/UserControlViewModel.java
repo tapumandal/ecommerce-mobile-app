@@ -7,10 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.JsonObject;
-import com.tapumandal.ecommerce.Model.BusinessSettings;
-import com.tapumandal.ecommerce.Model.CommonResponseSingle;
-import com.tapumandal.ecommerce.Model.LoginResponse;
-import com.tapumandal.ecommerce.Model.UserProfile;
+import com.tapumandal.ecommerce.Model.*;
 import com.tapumandal.ecommerce.Utility.ApiClient;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 
@@ -110,6 +107,39 @@ public class UserControlViewModel extends AndroidViewModel {
 
                     @Override
                     public void onSuccess(CommonResponseSingle<LoginResponse> response) {
+                        liveData.postValue(response);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        CommonResponseSingle response = new CommonResponseSingle();
+                        response.setMessage(e.getLocalizedMessage());
+                        response.setSuccess(false);
+
+                        liveData.postValue(response);
+
+                    }
+                });
+
+        return liveData;
+
+    }
+
+    public MutableLiveData<CommonResponseSingle> addNewUserAddress(JsonObject object) {
+
+        MutableLiveData<CommonResponseSingle> liveData = new MutableLiveData<>();
+
+        ApiClient.getApiClient().addNewUserAddress(object)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<CommonResponseSingle<Address>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onSuccess(CommonResponseSingle<Address> response) {
                         liveData.postValue(response);
                     }
 

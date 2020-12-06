@@ -133,13 +133,13 @@ public class UserControlViewModel extends AndroidViewModel {
         ApiClient.getApiClient().addNewUserAddress(object)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<CommonResponseSingle<Address>>() {
+                .subscribe(new SingleObserver<CommonResponseSingle<UserProfile>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                     }
 
                     @Override
-                    public void onSuccess(CommonResponseSingle<Address> response) {
+                    public void onSuccess(CommonResponseSingle<UserProfile> response) {
                         liveData.postValue(response);
                     }
 

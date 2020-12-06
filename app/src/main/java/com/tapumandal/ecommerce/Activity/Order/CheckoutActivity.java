@@ -172,7 +172,8 @@ public class CheckoutActivity extends BaseActivity {
             }else{
                 Log.d("CHECKOUT_BTN", "6");
                 userProfile.setAddresses(newProfile.getAddresses());
-                checkPaymentStatusAndPost();
+                addAddress(userProfile); //Then checkPaymentStatusAndPost
+//                checkPaymentStatusAndPost();
             }
 
         }else{
@@ -579,7 +580,7 @@ public class CheckoutActivity extends BaseActivity {
             return;
         }
 
-        JsonObject object = (JsonObject) new Gson().toJsonTree(userProfile.getAddresses());
+        JsonObject object = (JsonObject) new Gson().toJsonTree(userProfile);
         Log.d("REGISTRATION", "SUCCESSFUL object : "+new Gson().toJson(object));
 //        showProgressDialog("Signing Up..");
         userViewModel.addNewUserAddress(object).observe(this, response -> {
@@ -604,9 +605,6 @@ public class CheckoutActivity extends BaseActivity {
                 Log.d("REGISTRATION", "FAILED POST NULL Response : "+response.getMessage());
             }
         });
-
-        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
-        checkPaymentStatusAndPost();
     }
 
     private void userRegistration(UserProfile profile) {

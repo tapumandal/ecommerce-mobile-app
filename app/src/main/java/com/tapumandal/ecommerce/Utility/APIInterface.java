@@ -36,7 +36,7 @@ public interface APIInterface {
     Single<CommonResponseSingle<LoginResponse>> registration(@Body JsonObject jsonObject);
 
     @POST("consumer/address/update")
-    Single<CommonResponseSingle<Address>> addNewUserAddress(@Body JsonObject jsonObject);
+    Single<CommonResponseSingle<UserProfile>> addNewUserAddress(@Body JsonObject jsonObject);
 
     @GET("consumer/orders/{id}")
     Single<CommonResponseArray<Cart>> getOrders(@Path("id") String id);

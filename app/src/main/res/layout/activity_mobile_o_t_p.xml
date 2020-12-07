@@ -12,12 +12,13 @@
 		android:layout_height="match_parent"
 		android:orientation="vertical">
 
-		<include layout="@layout/toolbar" />
+		<include layout="@layout/tool_bar" />
 
 
 		<RelativeLayout
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="match_parent"
+			android:layout_gravity="center">
 
 			<ImageView
 				android:layout_width="match_parent"
@@ -29,7 +30,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:orientation="vertical"
-				android:layout_marginTop="@dimen/_30ssdp"
+				android:gravity="center"
 				android:paddingLeft="@dimen/_5ssdp"
 				android:paddingRight="@dimen/_5ssdp">
 

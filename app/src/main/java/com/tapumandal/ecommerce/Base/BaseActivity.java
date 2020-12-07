@@ -52,7 +52,8 @@ import java.util.Calendar;
 import static android.text.util.Linkify.ALL;
 import static androidx.databinding.DataBindingUtil.inflate;
 import static com.tapumandal.ecommerce.R.style.DialogTheme;
-import static com.tapumandal.ecommerce.Utility.OfflineCache.USER_PROFILE_FILE;
+import static com.tapumandal.ecommerce.Utility.OfflineCache.MY_PROFILE;
+import static com.tapumandal.ecommerce.Utility.OfflineCache.MY_PROFILE;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -180,6 +181,22 @@ public abstract class BaseActivity extends AppCompatActivity {
 //        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
 
         startActivity(intent);
+        if (finishSelf) {
+            finish();
+        }
+    }
+
+    public void startActivity(Class<?> cls, boolean finishSelf, boolean clearPrevious) {
+        Intent intent = new Intent(context, cls);
+
+//        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+
+        if (clearPrevious){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
+
+        startActivity(intent);
+
         if (finishSelf) {
             finish();
         }
@@ -443,18 +460,16 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-
     public void saveUserProfile(UserProfile userProfile) {
         MySharedPreference.put(MySharedPreference.Key.USER_TOKEN, "Bearer " + userProfile.getAccessToken());
         MySharedPreference.put(MySharedPreference.Key.USER_ID, userProfile.getId());
-//        SharedPreferencesEnum.put(SharedPreferencesEnum.Key.USER_TYPE, userProfile.getType());
         MySharedPreference.put(MySharedPreference.Key.IS_LOGIN, true);
 
-        OfflineCache.saveOffline(USER_PROFILE_FILE, userProfile);
+        OfflineCache.saveOffline(MY_PROFILE, userProfile);
 
         ApiClient.initRetrofit();
-
     }
+
 
     public void removeUserProfile() {
 

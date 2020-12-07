@@ -302,6 +302,12 @@ public class CheckoutActivity extends BaseActivity {
 
     private void postCart() {
         Toast.makeText(context, "POST CART function", Toast.LENGTH_SHORT).show();
+        myCart.setUserId(userProfile.getId());
+
+        myCart.setName(userProfile.getAddresses().get(0).getName());
+        myCart.setMobileNumber(userProfile.getAddresses().get(0).getMobileNo());
+        myCart.setArea(userProfile.getAddresses().get(0).getArea());
+        myCart.setAddress(address());
         String objectStr = new Gson().toJson(myCart);
         JSONObject object = new JSONObject();
         try {
@@ -594,7 +600,7 @@ public class CheckoutActivity extends BaseActivity {
 
                     OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile1);
                     startActivity(MainActivity.class, true);
-//                    checkPaymentStatusAndPost();
+                    checkPaymentStatusAndPost();
 
                 } else {
                     showFailedToast(response.getMessage());
@@ -630,10 +636,9 @@ public class CheckoutActivity extends BaseActivity {
 
                     UserProfile myProfile = (UserProfile) loginResponse.getUser();
                     myProfile.setAccessToken(loginResponse.getJwt());
+                    saveUserProfile(myProfile);
 
-                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfile);
-                    startActivity(MainActivity.class, true);
-//                    checkPaymentStatusAndPost();
+                    checkPaymentStatusAndPost();
 
                 } else {
                     showFailedToast(response.getMessage());

@@ -40,7 +40,7 @@ public class UserControlViewModel extends AndroidViewModel {
 //
 //                    @Override
 //                    public void onSuccess(CommonResponseSingle<UserProfile> response) {
-//                        OfflineCache.saveOffline(OfflineCache.USER_PROFILE_FILE, response.getData());
+//                        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, response.getData());
 //                        liveData.postValue(response);
 //                    }
 //

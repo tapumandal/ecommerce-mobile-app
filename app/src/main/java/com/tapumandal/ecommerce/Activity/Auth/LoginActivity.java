@@ -190,9 +190,10 @@ public class LoginActivity extends BaseActivity {
                     UserProfile myProfileTmp = new UserProfile();
                     myProfileTmp = (UserProfile) loginResponse.getUser();
                     myProfileTmp.setAccessToken(loginResponse.getJwt());
+                    saveUserProfile(myProfileTmp);
 
-                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfileTmp);
-                    startActivity(MainActivity.class, true);
+                    showSuccessToast("Successfully login");
+                    startActivity(MainActivity.class, true, true);
 
                 } else {
                     showFailedToast(response.getMessage());

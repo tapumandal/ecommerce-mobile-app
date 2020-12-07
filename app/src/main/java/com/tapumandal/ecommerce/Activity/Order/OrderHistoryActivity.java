@@ -60,7 +60,7 @@ public class OrderHistoryActivity extends BaseActivity {
     }
 
     private void getOrderts() {
-        viewModel.getOrders(userProfile.getId()).observe(this, response -> {
+        viewModel.getOrders(String.valueOf(userProfile.getId())).observe(this, response -> {
             //            hideProgressDialog();
 //            stopShimmer();
             if (response != null) {

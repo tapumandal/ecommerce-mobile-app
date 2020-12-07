@@ -63,7 +63,7 @@ public class MobileOTPActivity extends BaseActivity {
 
         context = this;
         mAuth = FirebaseAuth.getInstance();
-        setToolbar("Verify Phone Number");
+        setToolbar("Verify Phone Number", true);
 
         mVerificationId = "";
 

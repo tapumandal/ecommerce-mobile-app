@@ -14,6 +14,9 @@ public class Cart implements Serializable {
     @SerializedName("id")
     protected int id;
 
+    @SerializedName("userId")
+    protected int userId;
+
     @SerializedName("name")
     protected String name;
 
@@ -66,6 +69,14 @@ public class Cart implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getName() {

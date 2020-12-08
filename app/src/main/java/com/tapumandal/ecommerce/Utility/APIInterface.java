@@ -29,8 +29,8 @@ public interface APIInterface {
     @POST("cart/consumer/create")
     Single<CommonResponseSingle<Cart>> postCart(@Body JsonObject jsonObject);
 
-    @GET("cart/consumer/list")
-    Single<CommonResponseArray<Cart>> getOrders();
+    @GET("cart/consumer/list?size=7")
+    Single<CommonResponseArray<Cart>> getOrders(@Query("page") int page);
 
     @POST("consumer/authenticate")
     Single<CommonResponseSingle<LoginResponse>> loginUser(@Body JsonObject jsonObject);

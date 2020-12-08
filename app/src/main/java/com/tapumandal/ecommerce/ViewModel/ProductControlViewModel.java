@@ -147,11 +147,11 @@ public class ProductControlViewModel extends AndroidViewModel {
 
     }
 
-    public MutableLiveData<CommonResponseArray> getOrders() {
+    public MutableLiveData<CommonResponseArray> getOrders(int page) {
 
         MutableLiveData<CommonResponseArray> liveData = new MutableLiveData<>();
 
-        ApiClient.getApiClient().getOrders().subscribeOn(Schedulers.io())
+        ApiClient.getApiClient().getOrders(page).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<CommonResponseArray<Cart>>() {
                     @Override

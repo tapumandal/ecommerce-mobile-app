@@ -305,7 +305,7 @@ public class CheckoutActivity extends BaseActivity {
         myCart.setUserId(userProfile.getId());
 
         myCart.setName(userProfile.getAddresses().get(0).getName());
-        myCart.setMobileNumber(userProfile.getAddresses().get(0).getMobileNo());
+        myCart.setMobileNo(userProfile.getAddresses().get(0).getMobileNo());
         myCart.setArea(userProfile.getAddresses().get(0).getArea());
         myCart.setAddress(address());
         String objectStr = new Gson().toJson(myCart);

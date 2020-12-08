@@ -132,16 +132,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
 
         logout.setOnClickListener(v->{
-            MySharedPreference.clear();
-            Cart myCart = OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
-            myCart.setTotalProductDiscount(0);
-            myCart.setTotalProductQuantity(0);
-            myCart.setTotalProductPrice(0);
-            myCart.setTotalDiscount(0);
-            myCart.setTotalPayable(0);
-            myCart.setProducts(new ArrayList<>());
-            OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
-            OfflineCache.deleteCacheFile(OfflineCache.MY_PROFILE);
+            logout();
             startActivity(MainActivity.class, true, true);
         });
 

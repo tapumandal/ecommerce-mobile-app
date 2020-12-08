@@ -1,5 +1,6 @@
 package com.tapumandal.ecommerce.Activity.Order;
 
+import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 
+import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Activity.Auth.LoginActivity;
 import com.tapumandal.ecommerce.Adapter.OrderListAdapter;
 import com.tapumandal.ecommerce.Base.BaseActivity;
@@ -56,15 +58,19 @@ public class OrderHistoryActivity extends BaseActivity {
         adapter = new OrderListAdapter(context , cartList, "PRODUCT_LIST");
         binding.recycleView.setAdapter(adapter);
 
-        getOrderts();
+        getOrders();
     }
 
-    private void getOrderts() {
-        viewModel.getOrders(String.valueOf(userProfile.getId())).observe(this, response -> {
+    private void getOrders() {
+        viewModel.getOrders().observe(this, response -> {
             //            hideProgressDialog();
 //            stopShimmer();
             if (response != null) {
                 if (response.isSuccess()) {
+
+                    Log.d("ORDER_HISTORY", "Pagination: "+ new Gson().toJson(response.getMyPagination()));
+                    Log.d("ORDER_HISTORY", "Data: "+new Gson().toJson(response.getMyPagination()));
+
                     adapter.setData(response.getData());
                     adapter.notifyDataSetChanged();
                 } else {

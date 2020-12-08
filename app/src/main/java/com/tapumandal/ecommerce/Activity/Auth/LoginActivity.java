@@ -196,7 +196,10 @@ public class LoginActivity extends BaseActivity {
                     startActivity(MainActivity.class, true, true);
 
                 } else {
-                    showFailedToast(response.getMessage());
+                    if(response.getMessage().equals("HTTP 403 ")){
+                        logout();
+                        showFailedToast("Your authentication is expired. \nPlease login.");
+                    }
                     Log.d("POSTCART", "FAILED POST NULL Data : "+new Gson().toJson(response));
                 }
             } else {

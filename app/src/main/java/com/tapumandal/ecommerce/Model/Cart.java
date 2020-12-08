@@ -20,8 +20,8 @@ public class Cart implements Serializable {
     @SerializedName("name")
     protected String name;
 
-    @SerializedName("mobileNumber")
-    protected String mobileNumber;
+    @SerializedName("mobileNo")
+    protected String mobileNo;
 
     @SerializedName("area")
     protected String area;
@@ -87,12 +87,12 @@ public class Cart implements Serializable {
         this.name = name;
     }
 
-    public String getMobileNumber() {
-        return mobileNumber == null ? "" : mobileNumber;
+    public String getMobileNo() {
+        return mobileNo == null ? "" : mobileNo;
     }
 
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
     }
 
     public String getArea() {

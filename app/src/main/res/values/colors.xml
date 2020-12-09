@@ -3,7 +3,8 @@
 <!--    <color name="colorPrimary">#666bae</color>-->
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryRed">#CB0101</color>
-    <color name="colorPrimaryWhite">#ffffff</color>
+<!--    <color name="colorPrimaryWhite">#ffffff</color>-->
+    <color name="colorPrimaryWhite">#F4F4F4</color>
     <color name="appColorPrimaryBackground">#ffffff</color>
     <color name="colorPrimaryLightGrayWhite">#F6EBEB</color>
     <color name="textColor">#FF2E2E2E</color>

@@ -41,164 +41,163 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
 
-            <LinearLayout
-                    android:id="@+id/paymentOptionLayout"
-                    android:visibility="visible"
+
+
+            <androidx.cardview.widget.CardView
+                    style="@style/cardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@color/colorPrimaryWhite">
-
+                    app:cardCornerRadius="@dimen/_5ssdp">
                 <LinearLayout
+                        android:id="@+id/paymentOptionLayout"
+                        android:visibility="visible"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_1ssdp"
-                        android:background="@color/horizontalLine">
-                </LinearLayout>
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_10ssdp"
-                        android:orientation="horizontal">
-                    <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/highlightTextColor"
-                            android:textSize="@dimen/_18ssdp"
-                            android:text="Subtotal"/>
-                    <TextView
-                            android:id="@+id/subTotal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:gravity="right"
-                            android:textColor="@color/highlightTextColor"
-                            android:textSize="@dimen/_18ssdp"
-                            android:text="৳ 00.0"/>
-                </LinearLayout>
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_10ssdp"
-                        android:orientation="horizontal">
-                    <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_16ssdp"
-                            android:text="Shipping"/>
-                    <TextView
-                            android:id="@+id/shipping"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:gravity="right"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_16ssdp"
-                            android:text="৳ 0"/>
-                </LinearLayout>
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_10ssdp"
-                        android:orientation="vertical">
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_16ssdp"
-                            android:text="Discount"/>
-
-
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_16ssdp">
 
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:gravity="center"
+                            android:layout_marginTop="@dimen/_10ssdp"
                             android:orientation="horizontal">
-
-
-                        <RadioGroup
-                                    android:id="@+id/discountRadioGroup"
-                                    android:layout_width="0dp"
-                                    android:layout_weight="1"
-                                    android:layout_height="wrap_content"
-                                    android:paddingLeft="-5dp"
-                                    android:orientation="horizontal">
-
-                            <RadioButton android:id="@+id/radioOnProduct"
-                                         android:layout_width="wrap_content"
-                                         android:layout_height="wrap_content"
-                                         android:checked="false"
-                                         android:textSize="@dimen/_16ssdp"
-                                         android:text="On Product"/>
-
-                            <RadioButton android:id="@+id/radioSpecialOffer"
-                                         android:layout_width="wrap_content"
-                                         android:layout_height="wrap_content"
-                                         android:checked="false"
-                                         android:textSize="@dimen/_16ssdp"
-                                         android:text="Special Offer"/>
-                        </RadioGroup>
-
                         <TextView
-                                android:id="@+id/totalDiscount"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/highlightTextColor"
+                                android:textSize="@dimen/_18ssdp"
+                                android:text="Subtotal"/>
+                        <TextView
+                                android:id="@+id/subTotal"
                                 android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="right"
-                                android:gravity="right|center"
+                                android:gravity="right"
+                                android:textColor="@color/highlightTextColor"
+                                android:textSize="@dimen/_18ssdp"
+                                android:text="৳ 00.0"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/_10ssdp"
+                            android:orientation="horizontal">
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/textColor"
+                                android:textSize="@dimen/_16ssdp"
+                                android:text="Shipping"/>
+                        <TextView
+                                android:id="@+id/shipping"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:gravity="right"
                                 android:textColor="@color/textColor"
                                 android:textSize="@dimen/_16ssdp"
                                 android:text="৳ 0"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/_10ssdp"
+                            android:orientation="vertical">
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/textColor"
+                                android:textSize="@dimen/_16ssdp"
+                                android:text="Discount"/>
+
+
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+
+                            <RadioGroup
+                                        android:id="@+id/discountRadioGroup"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:paddingLeft="-5dp"
+                                        android:orientation="horizontal">
+
+                                <RadioButton android:id="@+id/radioOnProduct"
+                                             android:layout_width="wrap_content"
+                                             android:layout_height="wrap_content"
+                                             android:checked="false"
+                                             android:textSize="@dimen/_16ssdp"
+                                             android:text="On Product"/>
+
+                                <RadioButton android:id="@+id/radioSpecialOffer"
+                                             android:layout_width="wrap_content"
+                                             android:layout_height="wrap_content"
+                                             android:checked="false"
+                                             android:textSize="@dimen/_16ssdp"
+                                             android:text="Special Offer"/>
+                            </RadioGroup>
+
+                            <TextView
+                                    android:id="@+id/totalDiscount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="right"
+                                    android:gravity="right|center"
+                                    android:textColor="@color/textColor"
+                                    android:textSize="@dimen/_16ssdp"
+                                    android:text="৳ 0"/>
+
+                        </LinearLayout>
+
+                        <ImageView
+                                android:id="@+id/discountBanner"
+                                android:visibility="gone"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_80ssdp"
+                                android:maxHeight="@dimen/_80ssdp" />
 
                     </LinearLayout>
 
-                    <ImageView
-                            android:id="@+id/discountBanner"
-                            android:visibility="gone"
+                    <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_80ssdp"
-                            android:maxHeight="@dimen/_80ssdp" />
+                            android:layout_height="@dimen/_1ssdp"
+                            android:layout_marginTop="@dimen/_10ssdp"
+                            android:background="@color/horizontalLine">
+                    </LinearLayout>
 
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/_10ssdp"
+                            android:orientation="horizontal">
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/highlightTextColor"
+                                android:textSize="@dimen/_18ssdp"
+                                android:text="Total Payable"/>
+                        <TextView
+                                android:id="@+id/totalPayable"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:gravity="right"
+                                android:textColor="@color/highlightTextColor"
+                                android:textSize="@dimen/_18ssdp"
+                                android:text="৳ 00.0"/>
+                    </LinearLayout>
                 </LinearLayout>
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_1ssdp"
-                        android:layout_marginTop="@dimen/_10ssdp"
-                        android:background="@color/horizontalLine">
-                </LinearLayout>
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_10ssdp"
-                        android:orientation="horizontal">
-                    <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/highlightTextColor"
-                            android:textSize="@dimen/_18ssdp"
-                            android:text="Total Payable"/>
-                    <TextView
-                            android:id="@+id/totalPayable"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:gravity="right"
-                            android:textColor="@color/highlightTextColor"
-                            android:textSize="@dimen/_18ssdp"
-                            android:text="৳ 00.0"/>
-                </LinearLayout>
-
-
-            </LinearLayout>
-
+            </androidx.cardview.widget.CardView>
 
             <LinearLayout
                     android:id="@+id/checkoutBtnLayout"

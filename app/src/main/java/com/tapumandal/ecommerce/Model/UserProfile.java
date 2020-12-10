@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class UserProfile implements Serializable {
     @SerializedName("id")
-    private String id;
+    private int id;
     @SerializedName("name")
     private String name;
     @SerializedName("createdAt")
@@ -40,11 +40,11 @@ public class UserProfile implements Serializable {
     @SerializedName("addresses")
     private List<Address> addresses;
 
-    public String getId() {
-        return id == null ? "" : id;
+    public int getId() {
+        return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

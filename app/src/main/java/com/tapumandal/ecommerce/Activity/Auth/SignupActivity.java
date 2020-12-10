@@ -128,9 +128,10 @@ public class SignupActivity extends BaseActivity {
                     UserProfile myProfile = new UserProfile();
                     myProfile = (UserProfile) loginResponse.getUser();
                     myProfile.setAccessToken(loginResponse.getJwt());
+                    saveUserProfile(myProfile);
 
-                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfile);
-                    startActivity(MainActivity.class, true);
+                    showSuccessToast("Successfully Signup");
+                    startActivity(MainActivity.class, true, true);
 
                 } else {
                     showFailedToast(response.getMessage());

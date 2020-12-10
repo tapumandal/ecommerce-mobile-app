@@ -29,6 +29,11 @@ public class CommonResponseArray<Item> {
     @Expose
     private boolean success;
 
+    @SerializedName("myPagenation")
+    @Expose
+    private MyPagination myPagination;
+
+
     public String getMessage() {
         return message;
     }
@@ -67,5 +72,13 @@ public class CommonResponseArray<Item> {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public MyPagination getMyPagination() {
+        return myPagination;
+    }
+
+    public void setMyPagination(MyPagination myPagination) {
+        this.myPagination = myPagination;
     }
 }

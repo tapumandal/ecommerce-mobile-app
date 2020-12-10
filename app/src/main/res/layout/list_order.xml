@@ -1,132 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <LinearLayout
-        android:id="@+id/product_card"
-        android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:paddingLeft="@dimen/_16ssdp"
-        android:paddingRight="@dimen/_16ssdp"
-        android:orientation="vertical">
 
-
-        <LinearLayout
-            android:id="@+id/paymentOptionLayout"
-            android:visibility="visible"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/colorPrimaryWhite">
-
-            <LinearLayout
+        <androidx.cardview.widget.CardView
+                android:id="@+id/product_card"
+                style="@style/cardView"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_1ssdp"
-                android:background="@color/horizontalLine">
-            </LinearLayout>
-
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/_3ssdp">
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_10ssdp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/highlightTextColor"
-                    android:textSize="@dimen/_18ssdp"
-                    android:text="Subtotal"/>
-                <TextView
-                    android:id="@+id/subTotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="right"
-                    android:textColor="@color/highlightTextColor"
-                    android:textSize="@dimen/_18ssdp"
-                    android:text="৳ 00.0"/>
+                    android:padding="@dimen/_16ssdp"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/_20ssdp">
+
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_10ssdp"
+                        android:orientation="horizontal">
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/highlightTextColor"
+                            android:textSize="@dimen/_15ssdp"
+                            android:text="Subtotal"/>
+                    <TextView
+                            android:id="@+id/subTotal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:textColor="@color/highlightTextColor"
+                            android:textSize="@dimen/_15ssdp"
+                            android:text="৳ 00.0"/>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_10ssdp"
+                        android:orientation="horizontal">
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_14ssdp"
+                            android:text="Shipping"/>
+                    <TextView
+                            android:id="@+id/shipping"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_14ssdp"
+                            android:text="৳ 0"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_10ssdp"
+                        android:orientation="horizontal">
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_14ssdp"
+                            android:text="Discount"/>
+                    <TextView
+                            android:id="@+id/discount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_14ssdp"
+                            android:text="৳ 0"/>
+                </LinearLayout>
+
+<!--                <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/_1ssdp"-->
+<!--                        android:layout_marginTop="@dimen/_10ssdp"-->
+<!--                        android:background="@color/horizontalLine">-->
+<!--                </LinearLayout>-->
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5ssdp"
+                        android:orientation="horizontal">
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/highlightTextColor"
+                            android:textSize="@dimen/_16ssdp"
+                            android:text="Purchase Amount"/>
+                    <TextView
+                            android:id="@+id/purchaseAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:textColor="@color/highlightTextColor"
+                            android:textSize="@dimen/_16ssdp"
+                            android:text="৳ 00.0"/>
+                </LinearLayout>
+
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_10ssdp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/_16ssdp"
-                    android:text="Shipping"/>
-                <TextView
-                    android:id="@+id/shipping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="right"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/_16ssdp"
-                    android:text="৳ 0"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_10ssdp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/_16ssdp"
-                    android:text="Discount"/>
-                <TextView
-                    android:id="@+id/discount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="right"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/_16ssdp"
-                    android:text="৳ 0"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1ssdp"
-                android:layout_marginTop="@dimen/_10ssdp"
-                android:background="@color/horizontalLine">
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_10ssdp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/highlightTextColor"
-                    android:textSize="@dimen/_18ssdp"
-                    android:text="Purchase Amount"/>
-                <TextView
-                    android:id="@+id/purchaseAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="right"
-                    android:textColor="@color/highlightTextColor"
-                    android:textSize="@dimen/_18ssdp"
-                    android:text="৳ 00.0"/>
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-    </LinearLayout>
-
+        </androidx.cardview.widget.CardView>
 </layout>

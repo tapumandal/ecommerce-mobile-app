@@ -14,11 +14,14 @@ public class Cart implements Serializable {
     @SerializedName("id")
     protected int id;
 
+    @SerializedName("userId")
+    protected int userId;
+
     @SerializedName("name")
     protected String name;
 
-    @SerializedName("mobileNumber")
-    protected String mobileNumber;
+    @SerializedName("mobileNo")
+    protected String mobileNo;
 
     @SerializedName("area")
     protected String area;
@@ -68,6 +71,14 @@ public class Cart implements Serializable {
         this.id = id;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public String getName() {
         return name == null ? "" : name;
     }
@@ -76,12 +87,12 @@ public class Cart implements Serializable {
         this.name = name;
     }
 
-    public String getMobileNumber() {
-        return mobileNumber == null ? "" : mobileNumber;
+    public String getMobileNo() {
+        return mobileNo == null ? "" : mobileNo;
     }
 
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
     }
 
     public String getArea() {

@@ -172,7 +172,8 @@ public class CheckoutActivity extends BaseActivity {
             }else{
                 Log.d("CHECKOUT_BTN", "6");
                 userProfile.setAddresses(newProfile.getAddresses());
-                checkPaymentStatusAndPost();
+                addAddress(userProfile); //Then checkPaymentStatusAndPost
+//                checkPaymentStatusAndPost();
             }
 
         }else{
@@ -197,7 +198,7 @@ public class CheckoutActivity extends BaseActivity {
                         Log.d("CHECKOUT_BTN", "9");
                         userProfile.setUserTokenId(data.getStringExtra("userIdToken"));
                         userProfile.setAddresses(newProfile.getAddresses());
-                        updateUserProfile(userProfile); //Then checkPaymentStatusAndPost
+                        addAddress(userProfile); //Then checkPaymentStatusAndPost
                     }else{
                         Log.d("CHECKOUT_BTN", "10");
                         userProfile.setUserTokenId(data.getStringExtra("userIdToken"));
@@ -212,51 +213,6 @@ public class CheckoutActivity extends BaseActivity {
             }
         }
     }//onActivityResult
-
-    private void updateUserProfile(UserProfile userProfile) {
-        OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile);
-        checkPaymentStatusAndPost();
-    }
-
-    private void userRegistration(UserProfile profile) {
-
-        profile.setUsername(profile.getMobileNo());
-        if(!isNetworkAvailable()){
-            showFailedToast("Internet is not available!");
-            return;
-        }
-
-        Log.d("REGISTRATION", "SUCCESSFUL profile : "+profile);
-        JsonObject object = (JsonObject) new Gson().toJsonTree(profile);
-        Log.d("REGISTRATION", "SUCCESSFUL object : "+new Gson().toJson(object));
-        showProgressDialog("Signing Up..");
-        userViewModel.registration(object).observe(this, response -> {
-            hideProgressDialog();
-            if (response != null) {
-                if (response.isSuccess() && response.getData() != null) {
-
-                    Log.d("REGISTRATION", "SUCCESSFUL : "+new Gson().toJson(response.getData()));
-
-                    LoginResponse loginResponse = (LoginResponse) response.getData();
-
-                    UserProfile myProfile = (UserProfile) loginResponse.getUser();
-                    myProfile.setAccessToken(loginResponse.getJwt());
-
-                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfile);
-                    startActivity(MainActivity.class, true);
-//                    checkPaymentStatusAndPost();
-
-                } else {
-                    showFailedToast(response.getMessage());
-                    Log.d("REGISTRATION", "FAILED POST NULL Data : "+new Gson().toJson(response));
-                }
-            } else {
-                showFailedToast(getString(R.string.something_went_wrong));
-                Log.d("REGISTRATION", "FAILED POST NULL Response : "+response.getMessage());
-            }
-        });
-
-    }
 
     private void checkPaymentStatusAndPost() {
         if(selectedPaymentMethod.equals(ON_DELIVERY)){
@@ -346,6 +302,12 @@ public class CheckoutActivity extends BaseActivity {
 
     private void postCart() {
         Toast.makeText(context, "POST CART function", Toast.LENGTH_SHORT).show();
+        myCart.setUserId(userProfile.getId());
+
+        myCart.setName(userProfile.getAddresses().get(0).getName());
+        myCart.setMobileNo(userProfile.getAddresses().get(0).getMobileNo());
+        myCart.setArea(userProfile.getAddresses().get(0).getArea());
+        myCart.setAddress(address());
         String objectStr = new Gson().toJson(myCart);
         JSONObject object = new JSONObject();
         try {
@@ -617,5 +579,77 @@ public class CheckoutActivity extends BaseActivity {
     }
 
 
+    private void addAddress(UserProfile userProfile) {
+
+        if(!isNetworkAvailable()){
+            showFailedToast("Internet is not available!");
+            return;
+        }
+
+        JsonObject object = (JsonObject) new Gson().toJsonTree(userProfile);
+        Log.d("REGISTRATION", "SUCCESSFUL object : "+new Gson().toJson(object));
+//        showProgressDialog("Signing Up..");
+        userViewModel.addNewUserAddress(object).observe(this, response -> {
+            hideProgressDialog();
+            if (response != null) {
+                if (response.isSuccess() && response.getData() != null) {
+
+                    Log.d("REGISTRATION", "ADDRESS UPDATE SUCCESSFUL : "+new Gson().toJson(response.getData()));
+
+                    UserProfile userProfile1 = (UserProfile) response.getData();
+
+                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, userProfile1);
+                    startActivity(MainActivity.class, true);
+                    checkPaymentStatusAndPost();
+
+                } else {
+                    showFailedToast(response.getMessage());
+                    Log.d("REGISTRATION", "FAILED POST NULL Data : "+new Gson().toJson(response));
+                }
+            } else {
+                showFailedToast(getString(R.string.something_went_wrong));
+                Log.d("REGISTRATION", "FAILED POST NULL Response : "+response.getMessage());
+            }
+        });
+    }
+
+    private void userRegistration(UserProfile profile) {
+
+        profile.setUsername(profile.getMobileNo());
+        if(!isNetworkAvailable()){
+            showFailedToast("Internet is not available!");
+            return;
+        }
+
+        Log.d("REGISTRATION", "SUCCESSFUL profile : "+profile);
+        JsonObject object = (JsonObject) new Gson().toJsonTree(profile);
+        Log.d("REGISTRATION", "SUCCESSFUL object : "+new Gson().toJson(object));
+        showProgressDialog("Signing Up..");
+        userViewModel.registration(object).observe(this, response -> {
+            hideProgressDialog();
+            if (response != null) {
+                if (response.isSuccess() && response.getData() != null) {
+
+                    Log.d("REGISTRATION", "SUCCESSFUL : "+new Gson().toJson(response.getData()));
+
+                    LoginResponse loginResponse = (LoginResponse) response.getData();
+
+                    UserProfile myProfile = (UserProfile) loginResponse.getUser();
+                    myProfile.setAccessToken(loginResponse.getJwt());
+                    saveUserProfile(myProfile);
+
+                    checkPaymentStatusAndPost();
+
+                } else {
+                    showFailedToast(response.getMessage());
+                    Log.d("REGISTRATION", "FAILED POST NULL Data : "+new Gson().toJson(response));
+                }
+            } else {
+                showFailedToast(getString(R.string.something_went_wrong));
+                Log.d("REGISTRATION", "FAILED POST NULL Response : "+response.getMessage());
+            }
+        });
+
+    }
 
 }

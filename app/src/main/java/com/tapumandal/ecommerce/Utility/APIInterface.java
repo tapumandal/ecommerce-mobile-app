@@ -20,7 +20,7 @@ public interface APIInterface {
     @GET("navigation/get")
     Single<CommonResponseArray<MyMenu>> getMenuList();
 
-    @GET("product/list/business/{flag}")
+    @GET("product/consumer/list/{flag}")
     Single<CommonResponseArray<Product>> getProductList(@Path("flag") String flag);
 
     @POST("consumer/promo_code")
@@ -29,14 +29,18 @@ public interface APIInterface {
     @POST("cart/consumer/create")
     Single<CommonResponseSingle<Cart>> postCart(@Body JsonObject jsonObject);
 
+    @GET("cart/consumer/list?size=7")
+    Single<CommonResponseArray<Cart>> getOrders(@Query("page") int page);
+
     @POST("consumer/authenticate")
     Single<CommonResponseSingle<LoginResponse>> loginUser(@Body JsonObject jsonObject);
 
     @POST("consumer/registration")
     Single<CommonResponseSingle<LoginResponse>> registration(@Body JsonObject jsonObject);
 
-    @GET("consumer/orders/{id}")
-    Single<CommonResponseArray<Cart>> getOrders(@Path("id") String id);
+    @POST("consumer/address/update")
+    Single<CommonResponseSingle<UserProfile>> addNewUserAddress(@Body JsonObject jsonObject);
+
 
 //    @GET("user")
 //    Single<CommonResponseSingle<UserProfile>> getUserProfile();

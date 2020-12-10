@@ -22,6 +22,7 @@ import com.tapumandal.ecommerce.Base.BaseActivity;
 import com.tapumandal.ecommerce.Model.*;
 import com.tapumandal.ecommerce.R;
 import com.tapumandal.ecommerce.Utility.Constants;
+import com.tapumandal.ecommerce.Utility.MySharedPreference;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.ActivityMainBinding;
@@ -131,16 +132,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
 
         logout.setOnClickListener(v->{
-            Cart myCart = OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
-            myCart.setTotalProductDiscount(0);
-            myCart.setTotalProductQuantity(0);
-            myCart.setTotalProductPrice(0);
-            myCart.setTotalDiscount(0);
-            myCart.setTotalPayable(0);
-            myCart.setProducts(new ArrayList<>());
-            OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
-            OfflineCache.deleteCacheFile(OfflineCache.MY_PROFILE);
-            startActivity(MainActivity.class, true);
+            logout();
+            startActivity(MainActivity.class, true, true);
         });
 
         binding.orderHistory.setOnClickListener(v->{

@@ -450,7 +450,6 @@ public class Constants {
         return item;
     }
 
-
     public Cart conditionalDiscountCalculation(Cart cart, BusinessSettings businessSettings){
         List<DiscountTypeCondition> discountTypeCondition = businessSettings.getDiscountTypeCondition();
         int calculativeAmount = 0;
@@ -480,4 +479,6 @@ public class Constants {
 
         return cart;
     }
+
+
 }

@@ -190,12 +190,16 @@ public class LoginActivity extends BaseActivity {
                     UserProfile myProfileTmp = new UserProfile();
                     myProfileTmp = (UserProfile) loginResponse.getUser();
                     myProfileTmp.setAccessToken(loginResponse.getJwt());
+                    saveUserProfile(myProfileTmp);
 
-                    OfflineCache.saveOffline(OfflineCache.MY_PROFILE, myProfileTmp);
-                    startActivity(MainActivity.class, true);
+                    showSuccessToast("Successfully login");
+                    startActivity(MainActivity.class, true, true);
 
                 } else {
-                    showFailedToast(response.getMessage());
+                    if(response.getMessage().equals("HTTP 403 ")){
+                        logout();
+                        showFailedToast("Your authentication is expired. \nPlease login.");
+                    }
                     Log.d("POSTCART", "FAILED POST NULL Data : "+new Gson().toJson(response));
                 }
             } else {

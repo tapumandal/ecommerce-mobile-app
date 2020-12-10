@@ -47,7 +47,7 @@ public class ApiClient {
                         .addHeader("Accept", "application/json")
                         .addHeader("Authorization", tokenId)
                         .addHeader("appVersion", String.valueOf(versionCode))
-                        .addHeader("id", id).build();
+                        .addHeader("id", String.valueOf(id)).build();
                 return chain.proceed(request);
             }
         });

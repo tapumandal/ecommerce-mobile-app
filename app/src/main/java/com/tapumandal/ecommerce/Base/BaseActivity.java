@@ -37,6 +37,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
 import com.tapumandal.ecommerce.BuildConfig;
+import com.tapumandal.ecommerce.Model.Cart;
 import com.tapumandal.ecommerce.Model.CommonResponseSingle;
 import com.tapumandal.ecommerce.Model.UserProfile;
 import com.tapumandal.ecommerce.Model.VersionControlModel;
@@ -47,12 +48,14 @@ import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ApplicationControlViewModel;
 import com.tapumandal.ecommerce.databinding.AdminMessageDialogBinding;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import static android.text.util.Linkify.ALL;
 import static androidx.databinding.DataBindingUtil.inflate;
 import static com.tapumandal.ecommerce.R.style.DialogTheme;
-import static com.tapumandal.ecommerce.Utility.OfflineCache.USER_PROFILE_FILE;
+import static com.tapumandal.ecommerce.Utility.OfflineCache.MY_PROFILE;
+import static com.tapumandal.ecommerce.Utility.OfflineCache.MY_PROFILE;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -180,6 +183,22 @@ public abstract class BaseActivity extends AppCompatActivity {
 //        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
 
         startActivity(intent);
+        if (finishSelf) {
+            finish();
+        }
+    }
+
+    public void startActivity(Class<?> cls, boolean finishSelf, boolean clearPrevious) {
+        Intent intent = new Intent(context, cls);
+
+//        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+
+        if (clearPrevious){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
+
+        startActivity(intent);
+
         if (finishSelf) {
             finish();
         }
@@ -443,18 +462,32 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-
     public void saveUserProfile(UserProfile userProfile) {
         MySharedPreference.put(MySharedPreference.Key.USER_TOKEN, "Bearer " + userProfile.getAccessToken());
-        MySharedPreference.put(MySharedPreference.Key.USER_ID, userProfile.getId());
-//        SharedPreferencesEnum.put(SharedPreferencesEnum.Key.USER_TYPE, userProfile.getType());
+        MySharedPreference.put(MySharedPreference.Key.USER_ID, String.valueOf(userProfile.getId()));
         MySharedPreference.put(MySharedPreference.Key.IS_LOGIN, true);
 
-        OfflineCache.saveOffline(USER_PROFILE_FILE, userProfile);
+        OfflineCache.saveOffline(MY_PROFILE, userProfile);
 
         ApiClient.initRetrofit();
-
     }
+
+    public void logout(){
+        MySharedPreference.clear();
+        Cart myCart = OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
+        myCart.setTotalProductDiscount(0);
+        myCart.setTotalProductQuantity(0);
+        myCart.setTotalProductPrice(0);
+        myCart.setTotalDiscount(0);
+        myCart.setTotalPayable(0);
+        myCart.setProducts(new ArrayList<>());
+        OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
+        OfflineCache.deleteCacheFile(OfflineCache.MY_PROFILE);
+        MySharedPreference.put(MySharedPreference.Key.USER_TOKEN, "");
+        MySharedPreference.put(MySharedPreference.Key.USER_ID, 0);
+        MySharedPreference.put(MySharedPreference.Key.IS_LOGIN, false);
+    }
+
 
     public void removeUserProfile() {
 

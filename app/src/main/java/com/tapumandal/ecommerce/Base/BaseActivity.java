@@ -475,16 +475,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void logout(){
         MySharedPreference.clear();
         Cart myCart = OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
-        myCart.setTotalProductDiscount(0);
-        myCart.setTotalProductQuantity(0);
-        myCart.setTotalProductPrice(0);
-        myCart.setTotalDiscount(0);
-        myCart.setTotalPayable(0);
-        myCart.setProducts(new ArrayList<>());
-        OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
+        if(myCart != null) {
+            myCart.setTotalProductDiscount(0);
+            myCart.setTotalProductQuantity(0);
+            myCart.setTotalProductPrice(0);
+            myCart.setTotalDiscount(0);
+            myCart.setTotalPayable(0);
+            myCart.setProducts(new ArrayList<>());
+            OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
+        }
         OfflineCache.deleteCacheFile(OfflineCache.MY_PROFILE);
         MySharedPreference.put(MySharedPreference.Key.USER_TOKEN, "");
-        MySharedPreference.put(MySharedPreference.Key.USER_ID, 0);
+        MySharedPreference.put(MySharedPreference.Key.USER_ID, "0");
         MySharedPreference.put(MySharedPreference.Key.IS_LOGIN, false);
     }
 

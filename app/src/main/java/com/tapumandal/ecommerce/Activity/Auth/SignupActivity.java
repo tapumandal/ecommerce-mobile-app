@@ -74,7 +74,7 @@ public class SignupActivity extends BaseActivity {
 
     private void validateMobileNo(String phone){
         JsonObject object = new JsonObject();
-        object.addProperty("phone", phone);
+        object.addProperty("mobileNo", phone);
         Intent intent = new Intent(this, MobileOTPActivity.class);
         intent.putExtra("data", object.toString());
         startActivityForResult(intent, LAUNCH_OTP_ACTIVITY);
@@ -111,7 +111,7 @@ public class SignupActivity extends BaseActivity {
         JsonObject object = new JsonObject();
         object.addProperty("name", name);
         object.addProperty("gender", selectedGender);
-        object.addProperty("phone", b.mobileNumber.getText().toString());
+        object.addProperty("mobileNo", b.mobileNumber.getText().toString());
         object.addProperty("username", b.mobileNumber.getText().toString());
         object.addProperty("userTokenId", userTokenId);
 

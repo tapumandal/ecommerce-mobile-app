@@ -57,6 +57,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     Fragment fragment;
 
     UserProfile userProfile;
+    BusinessSettings businessSettings;
 
     LinearLayout userDetailsMenuLayout;
     ImageView profileImageMenuView;
@@ -79,7 +80,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         setActionBarTitle("Products");
 
+        businessSettings = OfflineCache.getOfflineSingle(OfflineCache.BUSINESS_SETTINGS);
         loadMenu();
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -227,8 +230,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //        IF FOUDN call populateExpandableList();
 //        If not load from API
         ArrayList<MyMenu> menuList = OfflineCache.getOfflineSingle(OfflineCache.MY_MENU);
-        Log.d("MENU", new Gson().toJson(menuList));
-        if(menuList == null) {
+        Log.d("MAINACTIVITY", new Gson().toJson(menuList));
+        Log.d("MAINACTIVITY", new Gson().toJson(businessSettings));
+        if(menuList == null || businessSettings.isUpdateMenu()) {
             Toast.makeText(context, "Menu Loaded From LIVE", Toast.LENGTH_SHORT).show();
             getMenuListFromLive();
         }else{

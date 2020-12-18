@@ -69,7 +69,7 @@ public class MobileOTPActivity extends BaseActivity {
 
         try {
             params = new JsonParser().parse(getIntent().getStringExtra("data")).getAsJsonObject();
-            phone = params.get("phone").getAsString();
+            phone = params.get("mobileNo").getAsString();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, "Please try again", Toast.LENGTH_SHORT).show();

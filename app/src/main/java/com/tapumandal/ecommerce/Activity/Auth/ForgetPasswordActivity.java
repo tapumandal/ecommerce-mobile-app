@@ -70,7 +70,7 @@ public class ForgetPasswordActivity extends BaseActivity {
         mobileNumber = b.mobileNumber.getText().toString().trim();
 
         JsonObject params = new JsonObject();
-        params.addProperty("phone", mobileNumber);
+        params.addProperty("mobileNo", mobileNumber);
 
         showProgressDialog("Sending reset code...");
 
@@ -129,7 +129,7 @@ public class ForgetPasswordActivity extends BaseActivity {
 
         JsonObject params = new JsonObject();
         params.addProperty("verification_code", resetCode);
-        params.addProperty("phone", phone);
+        params.addProperty("mobileNo", phone);
         params.addProperty("new_password", newPass);
 
         showProgressDialog("Changing Password...");

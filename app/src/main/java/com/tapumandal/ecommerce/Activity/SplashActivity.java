@@ -40,14 +40,14 @@ public class SplashActivity extends BaseActivity {
         getBusinessSettingsFromLive();
 //        setBusinessSettings();
         setMyProfile();
-        new Handler().postDelayed(() -> {
-            if (MySharedPreference.getBoolean(MySharedPreference.Key.IS_LOGIN)) {
-                startActivity(new Intent(context, MainActivity.class));
-            } else {
-                startActivity(new Intent(context, MainActivity.class));
-            }
-            finish();
-        }, 1000);
+//        new Handler().postDelayed(() -> {
+//            if (MySharedPreference.getBoolean(MySharedPreference.Key.IS_LOGIN)) {
+//                startActivity(new Intent(context, MainActivity.class));
+//            } else {
+//                startActivity(new Intent(context, MainActivity.class));
+//            }
+//            finish();
+//        }, 1000);
     }
 
     public void getBusinessSettingsFromLive() {
@@ -58,6 +58,7 @@ public class SplashActivity extends BaseActivity {
                 if (response.isSuccess() && response.getData() != null) {
                     businessSettings = (BusinessSettings) response.getData();
                     OfflineCache.saveOffline(OfflineCache.BUSINESS_SETTINGS, businessSettings);
+                    Log.d("SPLASH_SCREEN", new Gson().toJson(businessSettings));
                     setMyCart();
                 } else {
                     showFailedToast(response.getMessage());
@@ -171,5 +172,10 @@ public class SplashActivity extends BaseActivity {
         Log.d("SPLASH_SCREEN","MY_CART:"+new Gson().toJson(myCart));
         OfflineCache.saveOffline(OfflineCache.MY_CART, myCart);
 
+        if (MySharedPreference.getBoolean(MySharedPreference.Key.IS_LOGIN)) {
+            startActivity(new Intent(context, MainActivity.class));
+        } else {
+            startActivity(new Intent(context, MainActivity.class));
+        }
     }
 }

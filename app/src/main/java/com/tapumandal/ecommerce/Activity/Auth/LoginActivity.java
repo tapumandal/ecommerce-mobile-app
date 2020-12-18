@@ -147,7 +147,7 @@ public class LoginActivity extends BaseActivity {
 
     private void validateMobileNo(String phone){
         JsonObject object = new JsonObject();
-        object.addProperty("phone", phone);
+        object.addProperty("mobileNo", phone);
         Intent intent = new Intent(this, MobileOTPActivity.class);
         intent.putExtra("data", object.toString());
         startActivityForResult(intent, LAUNCH_OTP_ACTIVITY);

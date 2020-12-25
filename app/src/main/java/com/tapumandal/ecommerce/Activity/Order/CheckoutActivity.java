@@ -158,7 +158,7 @@ public class CheckoutActivity extends BaseActivity {
             }
             validateMobileNo(newProfile.getMobileNo());
 
-        }else if(userProfile.getAddresses() == null){
+        }else if(userProfile.getAddresses() == null || userProfile.getAddresses().isEmpty()){
             Log.d("CHECKOUT_BTN", "3");
             newProfile = newProfileData();
             if(!validateFields(newProfile)){
@@ -241,7 +241,7 @@ public class CheckoutActivity extends BaseActivity {
         }else{
 //            User Found
 
-            if(userProfile.getAddresses() == null){
+            if(userProfile.getAddresses() == null || userProfile.getAddresses().isEmpty()){
 //              User Found But Not Address
                 b.addressEditLayout.setVisibility(View.VISIBLE);
 
@@ -267,22 +267,7 @@ public class CheckoutActivity extends BaseActivity {
                 b.existingPhone.setText(mobileNo);
                 b.existingAddressDetails.setText(address());
             }
-
-//            if(userProfile.getAddresses() != null) {
-//                b.name.setText(userProfile.getAddresses().get(0).getName());
-//                b.phone.setText(userProfile.getAddresses().get(0).getMobileNo());
-//                b.block.setText(userProfile.getAddresses().get(0).getBlock());
-//                b.road.setText(userProfile.getAddresses().get(0).getRoad());
-//                b.house.setText(userProfile.getAddresses().get(0).getHouse());
-//                b.flat.setText(userProfile.getAddresses().get(0).getFlat());
-//                b.details.setText(userProfile.getAddresses().get(0).getDetails());
-//            }
-//            if(userProfile.getAddresses() != null) {
-//
-//            }
-
         }
-
     }
 
     private void setCartDetails() {

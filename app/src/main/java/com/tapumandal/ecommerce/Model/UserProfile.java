@@ -3,6 +3,7 @@ package com.tapumandal.ecommerce.Model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public class UserProfile implements Serializable {
     private String userTokenId; //Firebase Phone Authentication
 
     @SerializedName("addresses")
-    private List<Address> addresses;
+    private List<Address> addresses = new ArrayList<Address>();
 
     public int getId() {
         return id;

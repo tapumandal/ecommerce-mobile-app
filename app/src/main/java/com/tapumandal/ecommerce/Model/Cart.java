@@ -62,6 +62,9 @@ public class Cart implements Serializable {
     @SerializedName("productList")
     protected List<Product> products;
 
+    @SerializedName("status")
+    protected String status = "Processing";
+
 
     public int getId() {
         return id;
@@ -197,6 +200,14 @@ public class Cart implements Serializable {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
 

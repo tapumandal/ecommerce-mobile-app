@@ -15,81 +15,49 @@
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/_20ssdp">
 
-
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_10ssdp"
+                        android:layout_marginTop="@dimen/_5ssdp"
                         android:orientation="horizontal">
+
                     <TextView
+                            android:id="@+id/orderId"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:textColor="@color/highlightTextColor"
-                            android:textSize="@dimen/_15ssdp"
-                            android:text="Subtotal"/>
-                    <TextView
-                            android:id="@+id/subTotal"
+                            android:textSize="@dimen/_18ssdp"
+                            android:text="SH00000"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="right">
+
+                        <TextView
+                            android:id="@+id/orderStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
                             android:gravity="right"
                             android:textColor="@color/highlightTextColor"
-                            android:textSize="@dimen/_15ssdp"
-                            android:text="৳ 00.0"/>
-                </LinearLayout>
+                            android:textSize="@dimen/_12ssdp"
+                            android:text="Pending"/>
 
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_10ssdp"
-                        android:orientation="horizontal">
-                    <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_14ssdp"
-                            android:text="Shipping"/>
-                    <TextView
-                            android:id="@+id/shipping"
+                        <TextView
+                            android:id="@+id/orderDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
                             android:gravity="right"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_14ssdp"
-                            android:text="৳ 0"/>
-                </LinearLayout>
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_10ssdp"
-                        android:orientation="horizontal">
-                    <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_14ssdp"
-                            android:text="Discount"/>
-                    <TextView
-                            android:id="@+id/discount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:gravity="right"
-                            android:textColor="@color/textColor"
-                            android:textSize="@dimen/_14ssdp"
-                            android:text="৳ 0"/>
-                </LinearLayout>
+                            android:textColor="@color/highlightTextColor"
+                            android:textSize="@dimen/_12ssdp"
+                            android:text=" (25 Sep 20, 2:10PM)"/>
 
-<!--                <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="@dimen/_1ssdp"-->
-<!--                        android:layout_marginTop="@dimen/_10ssdp"-->
-<!--                        android:background="@color/horizontalLine">-->
-<!--                </LinearLayout>-->
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -101,8 +69,105 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:textColor="@color/highlightTextColor"
-                            android:textSize="@dimen/_16ssdp"
+                            android:textSize="@dimen/_13ssdp"
+                            android:text="Subtotal"/>
+                    <TextView
+                            android:id="@+id/subTotal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:textColor="@color/highlightTextColor"
+                            android:textSize="@dimen/_13ssdp"
+                            android:text="৳ 00.0"/>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5ssdp"
+                        android:orientation="horizontal">
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_12ssdp"
+                            android:text="Shipping"/>
+                    <TextView
+                            android:id="@+id/shipping"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_12ssdp"
+                            android:text="৳ 0"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5ssdp"
+                        android:orientation="horizontal">
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_12ssdp"
+                            android:text="Saved"/>
+                    <TextView
+                            android:id="@+id/discount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_12ssdp"
+                            android:text="৳ 0"/>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1ssdp"
+                        android:layout_marginTop="@dimen/_5ssdp"
+                        android:background="@color/horizontalLine">
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5ssdp"
+                        android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="right">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:textColor="@color/highlightTextColor"
+                            android:textSize="@dimen/_14ssdp"
                             android:text="Purchase Amount"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:textColor="@color/highlightTextColor"
+                            android:textSize="@dimen/_12ssdp"
+                            android:text=" (OnDelivery)"/>
+
+                    </LinearLayout>
+
                     <TextView
                             android:id="@+id/purchaseAmount"
                             android:layout_width="wrap_content"
@@ -110,9 +175,10 @@
                             android:layout_gravity="right"
                             android:gravity="right"
                             android:textColor="@color/highlightTextColor"
-                            android:textSize="@dimen/_16ssdp"
+                            android:textSize="@dimen/_14ssdp"
                             android:text="৳ 00.0"/>
                 </LinearLayout>
+
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

@@ -22,13 +22,12 @@
         <ImageView
             android:id="@+id/appLogoMenuView"
             android:paddingRight="@dimen/_22ssdp"
-            android:layout_marginBottom="-10dp"
             android:visibility="visible"
             android:layout_gravity="bottom"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_80ssdp"
+            android:layout_height="@dimen/_40ssdp"
             android:contentDescription="@string/nav_header_desc"
-            app:srcCompat="@drawable/app_logo" />
+            app:srcCompat="@drawable/app_logo_large" />
 
 
         <LinearLayout

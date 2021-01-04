@@ -2,6 +2,7 @@ package com.tapumandal.ecommerce.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -84,16 +85,25 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         item = constants.cartMatchProduct(item);
 
         b.productName.setText(item.getName() );
-        b.productShortDesc.setText(item.getDescription() );
-        b.productPrice.setText(String.valueOf(item.getSellingPricePerUnit()));
-        b.sellingPrice.setText(String.valueOf(item.getDiscountPrice()));
         b.brandName.setText(item.getCompany() );
-        b.discount.setText(String.valueOf(item.getDiscountPrice())  + " %   OFF");
+
+        int discountedPrice = item.getSellingPricePerUnit()-item.getDiscountPrice();
+        b.productPrice.setText(String.valueOf(discountedPrice));
+        b.discountedPrice.setText(String.valueOf(item.getSellingPricePerUnit()));
+
+        if(discountedPrice>0){
+            b.productPrice.setPaintFlags(b.productPrice.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+        }else{
+            b.discountedPrice.setVisibility(View.GONE);
+        }
+
+
+        b.productShortDesc.setText(item.getDescription() );
         b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
 
-        if (item.getDiscountPrice() <= 0) {
-            b.discount.setVisibility(View.GONE);
-        }
+//        if (item.getDiscountPrice() <= 0) {
+//            b.discount.setVisibility(View.GONE);
+//        }
 
         if(item.getImage() != null){
             String imgUrl  = item.getImage().replace("http://127.0.0.1:8080/api/v1/", "");

@@ -88,8 +88,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         b.brandName.setText(item.getCompany() );
 
         int discountedPrice = item.getSellingPricePerUnit()-item.getDiscountPrice();
-        b.productPrice.setText(String.valueOf(discountedPrice));
-        b.discountedPrice.setText(String.valueOf(item.getSellingPricePerUnit()));
+        b.productPrice.setText(String.valueOf(item.getSellingPricePerUnit()));
+        b.discountedPrice.setText(String.valueOf(discountedPrice));
 
         if(discountedPrice>0){
             b.productPrice.setPaintFlags(b.productPrice.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);

@@ -87,6 +87,32 @@
                         android:textColor="@android:color/holo_blue_dark"
                         android:textSize="15sp" />
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/product_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:text="00"
+                            android:textColor="#757575"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/discounted_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="@dimen/_5ssdp"
+                            android:singleLine="true"
+                            android:text="00"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
 
@@ -139,43 +165,6 @@
 
 
                 </LinearLayout>
-
-
-                <TextView
-                    android:id="@+id/product_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/discounted_price"
-                    android:layout_alignBottom="@+id/discounted_price"
-                    android:layout_toEndOf="@+id/discounted_price"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:freezesText="true"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:scrollHorizontally="true"
-                    android:singleLine="true"
-                    android:text="  Rs 25"
-                    android:textColor="#757575"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/discounted_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="10dp"
-                    android:ellipsize="marquee"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:freezesText="true"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:scrollHorizontally="true"
-                    android:singleLine="true"
-                    android:text="Rs 20"
-                    android:textColor="@android:color/background_dark"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
             </RelativeLayout>
 
 

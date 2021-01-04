@@ -167,7 +167,7 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
             if(myCart != null)
             if(myCart.getProducts().size()>0) {
                 b.cartBtnLayout.setVisibility(View.VISIBLE);
-                b.totalAmount.setText("৳ "+myCart.getTotalProductPrice());
+                b.totalAmount.setText(myCart.getTotalProductPrice()+" ৳");
             }else{
                 b.cartBtnLayout.setVisibility(View.GONE);
             }

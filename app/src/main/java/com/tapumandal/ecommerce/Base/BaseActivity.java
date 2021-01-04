@@ -48,8 +48,11 @@ import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ApplicationControlViewModel;
 import com.tapumandal.ecommerce.databinding.AdminMessageDialogBinding;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import static android.text.util.Linkify.ALL;
 import static androidx.databinding.DataBindingUtil.inflate;
@@ -272,6 +275,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         month += 1;
         return year + "-" + month + "-" + day;
     }
+
 
     protected void addFragment(@IdRes int containerViewId,
                                @NonNull Fragment fragment,
@@ -523,5 +527,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         }
     }
+
 
 }

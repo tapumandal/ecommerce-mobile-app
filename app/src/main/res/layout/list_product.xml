@@ -58,21 +58,6 @@
                         android:textSize="15sp" />
 
                     <TextView
-                        android:id="@+id/product_short_desc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/product_name"
-                        android:ellipsize="end"
-                        android:focusable="false"
-                        android:freezesText="false"
-                        android:maxLines="1"
-                        android:scrollHorizontally="true"
-                        android:text="Product description"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="12sp"
-                        android:visibility="gone" />
-
-                    <TextView
                         android:id="@+id/brand_name"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
@@ -87,31 +72,21 @@
                         android:textColor="@android:color/holo_blue_dark"
                         android:textSize="15sp" />
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/product_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:text="00"
+                        android:textColor="#757575"
+                        android:textSize="14sp" />
 
-                        <TextView
-                            android:id="@+id/product_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="00"
-                            android:textColor="#757575"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/discounted_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="@dimen/_5ssdp"
-                            android:singleLine="true"
-                            android:text="00"
-                            android:textColor="@android:color/background_dark"
-                            android:textSize="14sp" />
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/discounted_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00"
+                        android:textColor="@color/highlightTextColor"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 

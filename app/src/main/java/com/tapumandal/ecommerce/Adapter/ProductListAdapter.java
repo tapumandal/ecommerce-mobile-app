@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -88,17 +89,16 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         b.brandName.setText(item.getCompany() );
 
         int discountedPrice = item.getSellingPricePerUnit()-item.getDiscountPrice();
-        b.productPrice.setText(String.valueOf(item.getSellingPricePerUnit()));
-        b.discountedPrice.setText(String.valueOf(discountedPrice));
+        b.productPrice.setText("Regular Price "+String.valueOf(item.getSellingPricePerUnit()));
+        b.discountedPrice.setText("Discounted Price "+String.valueOf(discountedPrice));
 
-        if(discountedPrice>0){
-            b.productPrice.setPaintFlags(b.productPrice.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-        }else{
+        if(discountedPrice<1){
             b.discountedPrice.setVisibility(View.GONE);
+//            b.productPrice.setTextColor(@android:color/background_dark);
+            b.productPrice.setTextColor(ContextCompat.getColor(context, R.color.highlightTextColor));
         }
 
 
-        b.productShortDesc.setText(item.getDescription() );
         b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
 
 //        if (item.getDiscountPrice() <= 0) {

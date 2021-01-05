@@ -103,17 +103,11 @@ public class ProductDetailsActivity extends BaseActivity {
         }
 
         b.apvTitle.setText(item.getName());
-        b.apvDescription.setText(item.getDescription());
-        b.apvCurrency.setText("BDT");
-        b.apvPrice.setText(String.valueOf(item.getSellingPricePerUnit()));
-        b.apvAttribute.setText("Attribute");
-        b.apvDiscount.setText(String.valueOf(item.getDiscountPrice()));
-//        b.apvImage.setText(item.);
-//        b.progressbar.setText(item.);
-//        b.quantityRl.setText(item.);
-        b.quantity.setText(String.valueOf(item.getQuantity()));
+        b.productPrice.setText(String.valueOf(item.getSellingPricePerUnit()));
+        b.discountedPrice.setText(String.valueOf(item.getDiscountPrice()));
+        b.deliveryCharge.setText(String.valueOf(item.getDeliveryCharge()));
+        b.productDescription.setText(item.getDescription());
+//        b.quantity.setText(String.valueOf(item.getQuantity()));
         b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
-//        b.quantityPlus
-//        b.quantityMinus
     }
 }

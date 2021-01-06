@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/_16ssdp"
         tools:context=".Activity.Product.MainActivity">
 
 <!--        <include-->
@@ -25,21 +24,24 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/_80ssdp"
                 android:clipToPadding="false"
-                android:paddingTop="@dimen/_10ssdp"
                 android:paddingBottom="@dimen/_20ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/cartBtnLayout"/>
 
         <LinearLayout
-                android:id="@+id/cartBtnLayout"
-                android:visibility="visible"
+            android:id="@+id/cartBtnLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_16ssdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <LinearLayout
                 android:layout_width="match_parent"
-            android:layout_height="@dimen/_50ssdp"
+                android:layout_height="@dimen/_50ssdp"
+                android:visibility="visible"
                 android:orientation="horizontal"
                 android:padding="@dimen/_5ssdp"
-                android:background="@drawable/round_shape_3dp_corner_red_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                android:background="@drawable/round_shape_3dp_corner_red_button">
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -76,7 +78,7 @@
             </LinearLayout>
         </LinearLayout>
 
-
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

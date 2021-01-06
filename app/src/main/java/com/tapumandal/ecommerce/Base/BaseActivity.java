@@ -401,7 +401,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     boolean appVersionDialogViewing = false;
 
-    private void checkAppUpdate(final VersionControlModel versionControlModel) {
+    protected void checkAppUpdate(final VersionControlModel versionControlModel) {
         if (versionControlModel == null)
             return;
 
@@ -460,8 +460,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             });
             dialog.show();
             appVersionDialogViewing = true;
-
-
         }
 
     }

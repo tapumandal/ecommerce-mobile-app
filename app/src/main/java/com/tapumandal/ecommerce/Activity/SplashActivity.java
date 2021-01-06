@@ -57,6 +57,11 @@ public class SplashActivity extends BaseActivity {
             if (response != null) {
                 if (response.isSuccess() && response.getData() != null) {
                     businessSettings = (BusinessSettings) response.getData();
+
+//                    VersionControlModel versionControlModel = getVersionControlModel(businessSettings);
+//                    System.out.println("VersionControlModel:"+new Gson().toJson(versionControlModel));
+//                    checkAppUpdate(versionControlModel);
+
                     OfflineCache.saveOffline(OfflineCache.BUSINESS_SETTINGS, businessSettings);
                     Log.d("SPLASH_SCREEN", new Gson().toJson(businessSettings));
                     setMyCart();
@@ -69,7 +74,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
 
-//    All data will be loaded from API
+    //    All data will be loaded from API
     private void setBusinessSettings() {
         Log.d("BusinessSettings","ProductActivity setBusinessSettings()");
 

@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         businessSettings = OfflineCache.getOfflineSingle(OfflineCache.BUSINESS_SETTINGS);
         VersionControlModel versionControlModel = getVersionControlModel(businessSettings);
         System.out.println("VersionControlModel:"+new Gson().toJson(versionControlModel));
-        checkAppUpdate(versionControlModel);
+        checkAppUpdate(businessSettings.getVersionControlModel());
 
         setActionBarTitle("Products");
 

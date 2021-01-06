@@ -62,6 +62,9 @@ public class BusinessSettings implements Serializable {
     @SerializedName("mobilePaymentCondition")
     protected List<DiscountTypeCondition> mobilePaymentCondition;
 
+    @SerializedName("versionControlModel")
+    protected VersionControlModel versionControlModel;
+
 
     public int getId() {
         return id;
@@ -189,5 +192,13 @@ public class BusinessSettings implements Serializable {
 
     public void setMobilePaymentCondition(List<DiscountTypeCondition> mobilePaymentCondition) {
         this.mobilePaymentCondition = mobilePaymentCondition;
+    }
+
+    public VersionControlModel getVersionControlModel() {
+        return versionControlModel;
+    }
+
+    public void setVersionControlModel(VersionControlModel versionControlModel) {
+        this.versionControlModel = versionControlModel;
     }
 }

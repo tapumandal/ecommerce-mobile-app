@@ -62,7 +62,7 @@ public class BusinessSettings implements Serializable {
     @SerializedName("mobilePaymentCondition")
     protected List<DiscountTypeCondition> mobilePaymentCondition;
 
-    @SerializedName("versionControlModel")
+    @SerializedName("versionControl")
     protected VersionControlModel versionControlModel;
 
 

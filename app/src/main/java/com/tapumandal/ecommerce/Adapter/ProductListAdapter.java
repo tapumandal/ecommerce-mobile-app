@@ -86,17 +86,24 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         item = constants.cartMatchProduct(item);
 
         b.productName.setText(item.getName() );
+        b.productUnit.setText(String.valueOf(item.getUnit()));
+        b.productUnitTitle.setText(item.getUnitTitle());
         b.brandName.setText(item.getCompany() );
 
         int discountedPrice = item.getSellingPricePerUnit()-item.getDiscountPrice();
-        b.productPrice.setText("Regular Price "+String.valueOf(item.getSellingPricePerUnit()));
-        b.discountedPrice.setText("Discounted Price "+String.valueOf(discountedPrice));
-
+        b.productPrice.setText(""+String.valueOf(item.getSellingPricePerUnit()));
+        b.discountedPrice.setText(""+String.valueOf(discountedPrice));
+        if(!item.getDiscountTitle().isEmpty()) {
+            b.productOfferTitle.setText(" (" + item.getDiscountTitle() + ")");
+        }
         if(discountedPrice<1){
             b.discountedPrice.setVisibility(View.GONE);
+            b.productOfferTitle.setVisibility(View.GONE);
 //            b.productPrice.setTextColor(@android:color/background_dark);
-            b.productPrice.setTextColor(ContextCompat.getColor(context, R.color.highlightTextColor));
+//            b.productPrice.setTextColor(ContextCompat.getColor(context, R.color.highlightTextColor));
         }
+
+
 
 
         b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
@@ -106,8 +113,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 //        }
 
         if(item.getImage() != null){
-            String imgUrl  = item.getImage().replace("http://127.0.0.1:8080/api/v1/", "");
-            Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).placeholder(R.drawable.app_logo).into(b.productImg);
+//            String imgUrl  = item.getImage().replace("http://127.0.0.1:8080/api/v1/", "");
+//            Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).placeholder(R.drawable.app_logo).into(b.productImg);
+
+            String imgUrl  = item.getImage();
+            Picasso.get().load(imgUrl).placeholder(R.drawable.app_logo).into(b.productImg);
+
         }
 
         Product finalItem = item;

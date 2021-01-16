@@ -17,6 +17,9 @@ public class Cart implements Serializable {
     @SerializedName("userId")
     protected int userId;
 
+    @SerializedName("invoiceNo")
+    protected String invoiceNo;
+
     @SerializedName("name")
     protected String name;
 
@@ -61,6 +64,12 @@ public class Cart implements Serializable {
 
     @SerializedName("productList")
     protected List<Product> products;
+
+    @SerializedName("status")
+    protected String status = "Processing";
+
+    @SerializedName("createdAt")
+    protected String createdAt;
 
 
     public int getId() {
@@ -197,6 +206,30 @@ public class Cart implements Serializable {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getInvoiceNo() {
+        return invoiceNo;
+    }
+
+    public void setInvoiceNo(String invoiceNo) {
+        this.invoiceNo = invoiceNo;
     }
 }
 

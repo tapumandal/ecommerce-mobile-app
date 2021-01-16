@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 
@@ -13,8 +14,10 @@ import com.tapumandal.ecommerce.Adapter.CustomEventListener;
 import com.tapumandal.ecommerce.Adapter.ProductListAdapter;
 import com.tapumandal.ecommerce.Base.BaseFragment;
 import com.tapumandal.ecommerce.Model.Cart;
+import com.tapumandal.ecommerce.Model.MyPagination;
 import com.tapumandal.ecommerce.Model.Product;
 import com.tapumandal.ecommerce.R;
+import com.tapumandal.ecommerce.Utility.EndlessRecyclerViewScrollListener;
 import com.tapumandal.ecommerce.Utility.OfflineCache;
 import com.tapumandal.ecommerce.ViewModel.ProductControlViewModel;
 import com.tapumandal.ecommerce.databinding.FragmentProductListBinding;
@@ -36,6 +39,7 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
 
     Context context;
     String selectedMenu;
+    MyPagination pagination;
 
 
     @Override
@@ -105,31 +109,30 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
         b.recycleView.setAdapter(adapter);
 
 //        initShimmer(b.loading.shimmerViewContainer);
-        getData("1");
+        getData(1);
 
-//        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
-//            @Override
-//            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-//                page += 1;
-//                if (page <= totalPage) {
-//                    getData(String.valueOf(page));
-//                    //b.progressBar.setVisibility(View.VISIBLE);
-//                }
-//            }
-//
-//            @Override
-//            public void onScroll(int dx, int dy) {
-//
-//            }
-//
-//        };
-//        b.recycleView.addOnScrollListener(scrollListener);
+        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                page += 1;
+                if (page <= pagination.getTotalPage()) {
+                    getData(page);
+                }
+            }
+
+            @Override
+            public void onScroll(int dx, int dy) {
+
+            }
+
+        };
+        b.recycleView.addOnScrollListener(scrollListener);
     }
 
 
-    public void getData(String page) {
+    public void getData(int page) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("page", page);
+        params.put("page", String.valueOf(page));
 
         if(selectedMenu.isEmpty()) {
             selectedMenu = " ";
@@ -140,6 +143,7 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
 //            stopShimmer();
             if (response != null) {
                 if (response.isSuccess()) {
+                    pagination = response.getMyPagination();
                     adapter.setData(response.getData());
                     adapter.notifyDataSetChanged();
 
@@ -167,7 +171,7 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
             if(myCart != null)
             if(myCart.getProducts().size()>0) {
                 b.cartBtnLayout.setVisibility(View.VISIBLE);
-                b.totalAmount.setText("৳ "+myCart.getTotalProductPrice());
+                b.totalAmount.setText((myCart.getTotalProductPrice()-myCart.getTotalDiscount())+" ৳");
             }else{
                 b.cartBtnLayout.setVisibility(View.GONE);
             }

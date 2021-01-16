@@ -78,9 +78,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         viewModel = ViewModelProviders.of(this).get(ProductControlViewModel.class);
         expandableListAdapter = null;
 
+        businessSettings = OfflineCache.getOfflineSingle(OfflineCache.BUSINESS_SETTINGS);
+        VersionControlModel versionControlModel = getVersionControlModel(businessSettings);
+        System.out.println("VersionControlModel:"+new Gson().toJson(versionControlModel));
+        checkAppUpdate(businessSettings.getVersionControlModel());
+
         setActionBarTitle("Products");
 
-        businessSettings = OfflineCache.getOfflineSingle(OfflineCache.BUSINESS_SETTINGS);
+
         loadMenu();
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -108,6 +113,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         getAppActions();
         viewManagement();
         clickEvent();
+    }
+
+    private VersionControlModel getVersionControlModel(BusinessSettings businessSettings) {
+        VersionControlModel versionControlModel = new VersionControlModel();
+        versionControlModel.setForce(true);
+        versionControlModel.setForceableVersion(2);
+        versionControlModel.setAppVersion(2);
+        versionControlModel.setTitle("Update!");
+        versionControlModel.setMessage("To get new offer.");
+
+        return versionControlModel;
     }
 
     private void viewManagement() {

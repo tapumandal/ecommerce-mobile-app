@@ -23,7 +23,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/_180ssdp"
                 android:clipToPadding="false"
-                android:paddingTop="@dimen/_10ssdp"
                 android:paddingBottom="@dimen/_20ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/checkoutLayout"/>

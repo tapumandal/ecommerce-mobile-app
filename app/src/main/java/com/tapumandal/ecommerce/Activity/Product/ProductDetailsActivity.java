@@ -97,23 +97,17 @@ public class ProductDetailsActivity extends BaseActivity {
     private void viewPopulate(){
         System.out.println("IMAGE IMAGE IMAGE "+item.getImage());
         if(item.getImage() != null){
-            String imgUrl  = item.getImage().replace("http://127.0.0.1:8080/api/v1/", "");
+            String imgUrl  = item.getImage();
             imgUrl  = imgUrl.replace("thumbnail.", "");
-            Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).into(b.apvImage);
+            Picasso.get().load(imgUrl).into(b.apvImage);
         }
 
         b.apvTitle.setText(item.getName());
-        b.apvDescription.setText(item.getDescription());
-        b.apvCurrency.setText("BDT");
-        b.apvPrice.setText(String.valueOf(item.getSellingPricePerUnit()));
-        b.apvAttribute.setText("Attribute");
-        b.apvDiscount.setText(String.valueOf(item.getDiscountPrice()));
-//        b.apvImage.setText(item.);
-//        b.progressbar.setText(item.);
-//        b.quantityRl.setText(item.);
-        b.quantity.setText(String.valueOf(item.getQuantity()));
+        b.productPrice.setText(String.valueOf(item.getSellingPricePerUnit()));
+        b.discountedPrice.setText(String.valueOf(item.getDiscountPrice()));
+        b.deliveryCharge.setText(String.valueOf(item.getDeliveryCharge()));
+        b.productDescription.setText(item.getDescription());
+//        b.quantity.setText(String.valueOf(item.getQuantity()));
         b.orderQuantity.setText(String.valueOf(item.getOrderQuantity()));
-//        b.quantityPlus
-//        b.quantityMinus
     }
 }

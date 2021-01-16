@@ -10,10 +10,10 @@ import java.io.Serializable;
  * For any query ask online.tapu@gmail.com
  */
 public class VersionControlModel implements Serializable {
-    @SerializedName("isForce")
+    @SerializedName("force")
     @Expose
     private boolean force;
-    @SerializedName("version")
+    @SerializedName("appVersion")
     @Expose
     private Integer appVersion;
     @SerializedName("forceable_version")

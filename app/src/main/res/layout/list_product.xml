@@ -44,20 +44,6 @@
                     android:gravity="left|center"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/product_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:focusable="false"
-                        android:freezesText="true"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:scrollHorizontally="true"
-                        android:singleLine="true"
-                        android:text="Product Name"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="15sp" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -65,7 +51,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/product_unit"
+                            android:id="@+id/product_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="marquee"
@@ -74,7 +60,22 @@
                             android:marqueeRepeatLimit="marquee_forever"
                             android:scrollHorizontally="true"
                             android:singleLine="true"
-                            android:text="10"
+                            android:text="Product Name"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/product_unit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/_10ssdp"
+                            android:ellipsize="marquee"
+                            android:focusable="false"
+                            android:freezesText="true"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:text="0"
                             android:textColor="@android:color/background_dark"
                             android:textSize="12sp" />
 
@@ -112,6 +113,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="@dimen/_5ssdp"
+                            android:text="৳"
+                            android:textColor="#757575"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/product_price"

@@ -97,9 +97,9 @@ public class ProductDetailsActivity extends BaseActivity {
     private void viewPopulate(){
         System.out.println("IMAGE IMAGE IMAGE "+item.getImage());
         if(item.getImage() != null){
-            String imgUrl  = item.getImage();
+            String imgUrl = item.getImage().split("api/v1/")[1];
             imgUrl  = imgUrl.replace("thumbnail.", "");
-            Picasso.get().load(imgUrl).into(b.apvImage);
+            Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).into(b.apvImage);
         }
 
         b.apvTitle.setText(item.getName());

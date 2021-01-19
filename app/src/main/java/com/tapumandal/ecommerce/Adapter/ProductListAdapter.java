@@ -90,17 +90,19 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         b.productUnitTitle.setText(item.getUnitTitle());
         b.brandName.setText(item.getCompany() );
 
-        int discountedPrice = item.getSellingPricePerUnit()-item.getDiscountPrice();
         b.productPrice.setText(""+String.valueOf(item.getSellingPricePerUnit()));
-        b.discountedPrice.setText(""+String.valueOf(discountedPrice));
-        if(!item.getDiscountTitle().isEmpty()) {
-            b.productOfferTitle.setText(" (" + item.getDiscountTitle() + ")");
-        }
-        if(discountedPrice<1){
+
+        if(item.getDiscountPrice()<1){
             b.discountedPrice.setVisibility(View.GONE);
             b.productOfferTitle.setVisibility(View.GONE);
 //            b.productPrice.setTextColor(@android:color/background_dark);
 //            b.productPrice.setTextColor(ContextCompat.getColor(context, R.color.highlightTextColor));
+        }else{
+            b.discountedPrice.setText(""+String.valueOf(item.getSellingPricePerUnit()-item.getDiscountPrice()));
+
+            if(!item.getDiscountTitle().isEmpty()) {
+                b.productOfferTitle.setText(" (" + item.getDiscountTitle() + ")");
+            }
         }
 
 

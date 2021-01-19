@@ -56,18 +56,29 @@
                         android:textColor="@color/white"
                         android:layout_gravity="center"
                         android:textSize="@dimen/_18ssdp"
-                        android:text="Purchase :"/>
+                        android:text="Purchase:"/>
                 <TextView
                         android:id="@+id/totalAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:paddingStart="@dimen/_6ssdp"
+                        android:textColor="@color/textColorLightRed"
+                        android:layout_gravity="bottom"
+                        android:gravity="left"
+                        android:textSize="@dimen/_18ssdp"
+                        android:text="12"/>
+                <TextView
+                        android:id="@+id/totalDiscountedAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:paddingStart="@dimen/_6ssdp"
                         android:textColor="@color/white"
-                        android:layout_gravity="center"
+                        android:layout_gravity="bottom"
                         android:gravity="left"
                         android:textSize="@dimen/_20ssdp"
-                        android:text=""/>
+                        android:text="25"/>
 
 <!--                <ImageView-->
 <!--                    android:layout_width="@dimen/_30ssdp"-->

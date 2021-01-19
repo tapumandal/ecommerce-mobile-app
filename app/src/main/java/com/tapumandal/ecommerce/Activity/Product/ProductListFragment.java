@@ -2,12 +2,14 @@ package com.tapumandal.ecommerce.Activity.Product;
 
 import android.content.Context;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.TypedValue;
 import android.view.View;
 
 import com.tapumandal.ecommerce.Adapter.CustomEventListener;
@@ -167,11 +169,20 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
         if(visibility) {
             Cart myCart = OfflineCache.getOfflineSingle(OfflineCache.MY_CART);
 
+            System.out.println("XX TOTAL PRODUCT PRICE:"+myCart.getTotalProductPrice());
+            System.out.println("XX TOTAL DISCOUNT PRICE:"+myCart.getTotalProductDiscount());
 //            if(myCart.getProducts() != null)
             if(myCart != null)
             if(myCart.getProducts().size()>0) {
                 b.cartBtnLayout.setVisibility(View.VISIBLE);
-                b.totalAmount.setText((myCart.getTotalProductPrice()-myCart.getTotalDiscount())+" ৳");
+                b.totalAmount.setText("৳ "+myCart.getTotalProductPrice());
+                b.totalDiscountedAmount.setText(""+(myCart.getTotalProductPrice()-myCart.getTotalProductDiscount()));
+                if(myCart.getTotalProductDiscount()<1){
+//                    b.totalAmount.setTextColor(R.color.textColorLightRed);
+                    b.totalDiscountedAmount.setVisibility(View.GONE);
+                    b.totalAmount.setTextColor(ContextCompat.getColor(context, R.color.white));
+                    b.totalAmount.setTextSize(20);
+                }
             }else{
                 b.cartBtnLayout.setVisibility(View.GONE);
             }

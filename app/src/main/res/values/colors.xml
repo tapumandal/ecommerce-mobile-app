@@ -12,6 +12,7 @@
     <color name="lightestGray">#D5D5D5</color>
     <color name="lessLightGray">#2C2C2C</color>
     <color name="textColorRed">#CB0101</color>
+    <color name="textColorLightRed">#FABABA</color>
     <color name="lineColorRed">#F3AFAF</color>
     <color name="textTitleColor">#2E2E2E</color>
     <color name="textTitleColorWhite">#FFFFFF</color>

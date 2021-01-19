@@ -4,6 +4,7 @@ import android.util.Log;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
@@ -42,6 +43,7 @@ public class ProductDetailsActivity extends BaseActivity {
     List<Product> myProducts;
     private Cart myCart;
     Constants constants;
+    Fragment fragment;
 
     @Override
     protected int getLayoutResourceFile() {
@@ -89,9 +91,20 @@ public class ProductDetailsActivity extends BaseActivity {
                 if((itemTmp.getOrderQuantity())>0){
                     b.orderQuantity.setText(String.valueOf(constants.removeProduct(itemTmp).getOrderQuantity()));
                 }
-
             }
         });
+
+//        b.companyLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                System.out.println("Product Details Activity Company Product!");
+//                fragment = new ProductListFragment();
+//                Bundle bundle = new Bundle();
+//                bundle.putString("selectedMenu", itemTmp.getCompany());
+//                fragment.setArguments(bundle);
+//                addFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG");
+//            }
+//        });
     }
 
     private void viewPopulate(){

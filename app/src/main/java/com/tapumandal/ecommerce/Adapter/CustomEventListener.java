@@ -6,4 +6,5 @@ package com.tapumandal.ecommerce.Adapter;
  */
 public interface CustomEventListener {
     public void cartBtnLayout(boolean visibility);
+    public void loadFragment(String flag);
 }

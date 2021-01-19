@@ -183,4 +183,9 @@ public class MyCartFragment extends BaseFragment implements CustomEventListener 
     public void cartBtnLayout(boolean visibility) {
         getData();
     }
+
+    @Override
+    public void loadFragment(String flag) {
+
+    }
 }

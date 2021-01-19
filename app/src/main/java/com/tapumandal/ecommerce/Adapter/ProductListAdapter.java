@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
@@ -121,10 +123,26 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         }
 
         Product finalItem = item;
-        b.productItemLayout.setOnClickListener(new View.OnClickListener() {
+        b.productImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startProductDetailsActivity(finalItem);
+            }
+        });
+
+        b.productNameUnit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startProductDetailsActivity(finalItem);
+            }
+        });
+
+        final String flag = item.getCompany();
+        b.brandName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("CLICKED loadFragment");
+                customEventListener.loadFragment(flag);
             }
         });
 

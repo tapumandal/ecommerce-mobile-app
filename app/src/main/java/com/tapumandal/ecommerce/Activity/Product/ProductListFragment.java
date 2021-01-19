@@ -4,11 +4,13 @@ import android.content.Context;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -42,6 +44,7 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
     Context context;
     String selectedMenu;
     MyPagination pagination;
+    Fragment fragment;
 
 
     @Override
@@ -193,5 +196,20 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
         }else{
             b.cartBtnLayout.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void loadFragment(String flag) {
+        selectedMenu = flag;
+        System.out.println("FRAGMENT LOADED");
+        getData(1);
+//        fragment = new ProductListFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("selectedMenu", flag);
+//        fragment.setArguments(bundle);
+//        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//        fragmentTransaction.detach(fragment);
+//        fragmentTransaction.attach(fragment);
+//        fragmentTransaction.commit();
     }
 }

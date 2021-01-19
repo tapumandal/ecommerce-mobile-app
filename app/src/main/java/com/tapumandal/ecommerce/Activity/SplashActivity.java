@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Handler;
 
 import android.util.Log;
+import android.view.View;
+
 import androidx.lifecycle.ViewModelProviders;
 import com.google.gson.Gson;
 import com.tapumandal.ecommerce.Activity.Product.MainActivity;
@@ -52,26 +54,36 @@ public class SplashActivity extends BaseActivity {
 
     public void getBusinessSettingsFromLive() {
 
-        viewModel.getBusinessSettings().observe(this, response -> {
-            hideProgressDialog();
-            if (response != null) {
-                if (response.isSuccess() && response.getData() != null) {
-                    businessSettings = (BusinessSettings) response.getData();
+        if(isNetworkAvailable()) {
+
+            viewModel.getBusinessSettings().observe(this, response -> {
+                hideProgressDialog();
+                if (response != null) {
+                    if (response.isSuccess() && response.getData() != null) {
+                        businessSettings = (BusinessSettings) response.getData();
 
 //                    VersionControlModel versionControlModel = getVersionControlModel(businessSettings);
 //                    System.out.println("VersionControlModel:"+new Gson().toJson(versionControlModel));
 //                    checkAppUpdate(versionControlModel);
 
-                    OfflineCache.saveOffline(OfflineCache.BUSINESS_SETTINGS, businessSettings);
-                    Log.d("SPLASH_SCREEN", new Gson().toJson(businessSettings));
-                    setMyCart();
+                        OfflineCache.saveOffline(OfflineCache.BUSINESS_SETTINGS, businessSettings);
+                        Log.d("SPLASH_SCREEN", new Gson().toJson(businessSettings));
+                        setMyCart();
+                    } else {
+//                    showFailedToast(response.getMessage());
+                        binding.appOpeningStatusLayout.setVisibility(View.VISIBLE);
+                        binding.appOpeningStatus.setText("Something went wrong \nPlease try again later!");
+                    }
                 } else {
-                    showFailedToast(response.getMessage());
+//                    showFailedToast(getString(R.string.something_went_wrong));
+                    binding.appOpeningStatusLayout.setVisibility(View.VISIBLE);
+                    binding.appOpeningStatus.setText("Something went wrong \nPlease try again later!");
                 }
-            } else {
-                showFailedToast(getString(R.string.something_went_wrong));
-            }
-        });
+            });
+        }else{
+            binding.appOpeningStatusLayout.setVisibility(View.VISIBLE);
+            binding.appOpeningStatus.setText("Turn on internet !\n and try again!");
+        }
     }
 
     //    All data will be loaded from API

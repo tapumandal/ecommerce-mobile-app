@@ -622,7 +622,7 @@ public class CheckoutActivity extends BaseActivity {
                     UserProfile myProfile = (UserProfile) loginResponse.getUser();
                     myProfile.setAccessToken(loginResponse.getJwt());
                     saveUserProfile(myProfile);
-
+                    userProfile = myProfile;
                     checkPaymentStatusAndPost();
 
                 } else {

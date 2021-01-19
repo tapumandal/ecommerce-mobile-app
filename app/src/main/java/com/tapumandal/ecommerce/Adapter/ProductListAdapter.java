@@ -86,8 +86,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         item = constants.cartMatchProduct(item);
 
         b.productName.setText(item.getName() );
-        b.productUnit.setText(String.valueOf(item.getUnit()));
-        b.productUnitTitle.setText(item.getUnitTitle());
+        b.productUnit.setText(String.valueOf(item.getUnit()).replace(".0", ""));
+        b.productUnitTitle.setText(" "+item.getUnitTitle());
         b.brandName.setText(item.getCompany() );
 
         b.productPrice.setText(""+String.valueOf(item.getSellingPricePerUnit()));

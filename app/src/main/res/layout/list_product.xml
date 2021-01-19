@@ -75,7 +75,7 @@
                             android:marqueeRepeatLimit="marquee_forever"
                             android:scrollHorizontally="true"
                             android:singleLine="true"
-                            android:text="0"
+                            android:text=""
                             android:textColor="@android:color/background_dark"
                             android:textSize="12sp" />
 
@@ -178,31 +178,35 @@
 
                         <ImageView
                             android:id="@+id/remove"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:padding="2dp"
-                            android:src="@drawable/ic_round_remove_circle_outline_24" />
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_minus_thin" />
 
                         <TextView
                             android:id="@+id/orderQuantity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="-1dp"
                             android:layout_marginLeft="5dp"
                             android:background="#00000000"
-                            android:paddingTop="@dimen/_3ssdp"
                             android:hint="0"
+                            android:padding="@dimen/_3ssdp"
                             android:inputType="number"
                             android:text="0"
                             android:textColor="@color/blue_grey"
-                            android:textSize="20sp" />
+                            android:textSize="23sp" />
 
                         <ImageView
                             android:id="@+id/add"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:layout_gravity="center"
                             android:padding="2dp"
-                            android:src="@drawable/ic_baseline_add_circle_outline_24" />
+                            android:src="@drawable/ic_plus_thin" />
                     </LinearLayout>
 
 

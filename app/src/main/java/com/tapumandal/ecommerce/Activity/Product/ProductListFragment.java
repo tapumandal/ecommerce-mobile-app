@@ -182,6 +182,10 @@ public class ProductListFragment extends BaseFragment implements CustomEventList
                     b.totalDiscountedAmount.setVisibility(View.GONE);
                     b.totalAmount.setTextColor(ContextCompat.getColor(context, R.color.white));
                     b.totalAmount.setTextSize(20);
+                }else{
+                    b.totalDiscountedAmount.setVisibility(View.VISIBLE);
+                    b.totalAmount.setTextColor(ContextCompat.getColor(context, R.color.textColorLightRed));
+                    b.totalAmount.setTextSize(18);
                 }
             }else{
                 b.cartBtnLayout.setVisibility(View.GONE);

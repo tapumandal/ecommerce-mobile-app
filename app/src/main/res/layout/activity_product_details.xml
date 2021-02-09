@@ -6,6 +6,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
+            android:background="#fff"
             android:layout_height="match_parent">
 
             <LinearLayout
@@ -16,7 +17,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fff"
                     android:paddingTop="@dimen/_30ssdp"
                     android:padding="@dimen/_16ssdp"
                     android:orientation="vertical">
@@ -27,28 +27,88 @@
 
                         <ImageView
                             android:id="@+id/apv_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:maxHeight="@dimen/_350ssdp"
                             android:layout_centerInParent="true"
                             android:src="@drawable/app_logo"
                             android:adjustViewBounds="true" />
                     </RelativeLayout>
 
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:weightSum="10">-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:gravity="center"-->
+<!--                            android:layout_weight="3">-->
+<!--                            <TextView-->
+<!--                                android:id="@+id/apv_title"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Product Name"-->
+<!--                                android:textColor="@color/colorTex"-->
+<!--                                android:textSize="21dp"-->
+<!--                                android:visibility="visible"-->
+<!--                                tools:ignore="MissingClass" />-->
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:gravity="center">-->
+<!--                            <TextView-->
+<!--                                android:id="@+id/product_unit"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:ellipsize="marquee"-->
+<!--                                android:focusable="false"-->
+<!--                                android:freezesText="true"-->
+<!--                                android:marqueeRepeatLimit="marquee_forever"-->
+<!--                                android:scrollHorizontally="true"-->
+<!--                                android:singleLine="true"-->
+<!--                                android:text="12"-->
+<!--                                android:textColor="@android:color/background_dark"-->
+<!--                                android:textSize="12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:id="@+id/product_unit_title"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:ellipsize="marquee"-->
+<!--                                android:focusable="false"-->
+<!--                                android:freezesText="true"-->
+<!--                                android:marqueeRepeatLimit="marquee_forever"-->
+<!--                                android:scrollHorizontally="true"-->
+<!--                                android:singleLine="true"-->
+<!--                                android:text=" Liter"-->
+<!--                                android:textColor="@android:color/background_dark"-->
+<!--                                android:textSize="12sp" />-->
+<!--                        </LinearLayout>-->
+<!--                    </LinearLayout>-->
+
+
                     <LinearLayout
+                        android:id="@+id/size"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginTop="16dp"
-                        android:orientation="horizontal"
-                        android:weightSum="10">
+                        android:layout_height="match_parent"
+                        android:paddingTop="@dimen/_10ssdp"
+                        android:layout_gravity="end"
+                        android:background="#fff"
+                        android:gravity="end"
+                        android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
+                            android:paddingLeft="@dimen/_8ssdp"
                             android:layout_weight="3">
-
-
                             <TextView
                                 android:id="@+id/apv_title"
                                 android:layout_width="wrap_content"
@@ -58,18 +118,109 @@
                                 android:textSize="21dp"
                                 android:visibility="visible"
                                 tools:ignore="MissingClass" />
+
+                            <TextView
+                                android:id="@+id/product_unit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="@dimen/_10ssdp"
+                                android:ellipsize="marquee"
+                                android:focusable="false"
+                                android:freezesText="true"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:scrollHorizontally="true"
+                                android:singleLine="true"
+                                android:text="12"
+                                android:textColor="@android:color/background_dark"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/product_unit_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="marquee"
+                                android:focusable="false"
+                                android:freezesText="true"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:scrollHorizontally="true"
+                                android:singleLine="true"
+                                android:text=" Liter"
+                                android:textColor="@android:color/background_dark"
+                                android:textSize="12sp" />
                         </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:id="@+id/qut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="@dimen/_10ssdp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/remove"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="2dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_minus_thin" />
+
+                            <TextView
+                                android:id="@+id/orderQuantity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="-1dp"
+                                android:layout_marginLeft="5dp"
+                                android:background="#00000000"
+                                android:hint="0"
+                                android:padding="@dimen/_3ssdp"
+                                android:inputType="number"
+                                android:text="0"
+                                android:textColor="@color/blue_grey"
+                                android:textSize="23sp" />
+
+                            <ImageView
+                                android:id="@+id/add"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_gravity="center"
+                                android:padding="2dp"
+                                android:src="@drawable/ic_plus_thin" />
+                        </LinearLayout>
+
+
                     </LinearLayout>
 
 
                     <!--*********Shipping**********-->
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colordevider"
-                        android:padding="16dp" />
 
+                    <LinearLayout
+                        android:id="@+id/companyLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_8ssdp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Company"
+                            android:textColor="@color/colorSub" />
+
+                        <TextView
+                            android:id="@+id/brand_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:text="Company"
+                            android:textColor="@android:color/holo_blue_dark"
+                            android:textSize="15sp" />
+                    </LinearLayout>
 
                     <LinearLayout
 
@@ -176,67 +327,6 @@
                             android:text="Discounted Price"
                             android:textColor="@color/colorSub" />
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colordevider"
-                        android:padding="16dp" />
-
-
-                    <LinearLayout
-                        android:id="@+id/size"
-                        android:layout_marginTop="8dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@+id/product_name"
-                        android:layout_gravity="end"
-                        android:layout_toRightOf="@+id/product_price"
-                        android:background="#fff"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-
-                        <LinearLayout
-                            android:id="@+id/qut"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingRight="@dimen/_10ssdp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/remove"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:padding="2dp"
-                                android:src="@drawable/ic_round_remove_circle_outline_24" />
-
-                            <TextView
-                                android:id="@+id/orderQuantity"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:background="#00000000"
-                                android:paddingTop="@dimen/_3ssdp"
-                                android:hint="0"
-                                android:inputType="number"
-                                android:text="0"
-                                android:textColor="@color/blue_grey"
-                                android:textSize="20sp" />
-
-                            <ImageView
-                                android:id="@+id/add"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_marginLeft="5dp"
-                                android:padding="2dp"
-                                android:src="@drawable/ic_baseline_add_circle_outline_24" />
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
 
                 </LinearLayout>
             </LinearLayout>

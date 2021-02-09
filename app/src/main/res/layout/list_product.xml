@@ -29,43 +29,31 @@
                 android:src="@drawable/app_logo" />
 
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="7"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/productDetail"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight="7"
                     android:gravity="left|center"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/product_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:focusable="false"
-                        android:freezesText="true"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:scrollHorizontally="true"
-                        android:singleLine="true"
-                        android:text="Product Name"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="15sp" />
-
                     <LinearLayout
+                        android:id="@+id/productNameUnit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-3dp"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/product_unit"
+                            android:id="@+id/product_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="marquee"
@@ -74,7 +62,22 @@
                             android:marqueeRepeatLimit="marquee_forever"
                             android:scrollHorizontally="true"
                             android:singleLine="true"
-                            android:text="10"
+                            android:text="Product Name"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/product_unit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/_10ssdp"
+                            android:ellipsize="marquee"
+                            android:focusable="false"
+                            android:freezesText="true"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:text=""
                             android:textColor="@android:color/background_dark"
                             android:textSize="12sp" />
 
@@ -114,6 +117,15 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="@dimen/_5ssdp"
+                            android:text="৳"
+                            android:textColor="#757575"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+
+                        <TextView
                             android:id="@+id/product_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -150,9 +162,9 @@
 
                 <LinearLayout
                     android:id="@+id/size"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_toRightOf="@+id/productDetail"
+                    android:layout_weight="4"
                     android:background="#fff"
                     android:gravity="right"
                     android:orientation="horizontal">
@@ -163,41 +175,42 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:paddingRight="@dimen/_10ssdp"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/remove"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:padding="2dp"
-                            android:src="@drawable/ic_round_remove_circle_outline_24" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_4ssdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_minus_thin" />
 
                         <TextView
                             android:id="@+id/orderQuantity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="-1dp"
                             android:background="#00000000"
-                            android:paddingTop="@dimen/_3ssdp"
                             android:hint="0"
+                            android:padding="@dimen/_7ssdp"
                             android:inputType="number"
                             android:text="0"
                             android:textColor="@color/blue_grey"
-                            android:textSize="20sp" />
+                            android:textSize="23sp" />
 
                         <ImageView
                             android:id="@+id/add"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="5dp"
-                            android:padding="2dp"
-                            android:src="@drawable/ic_baseline_add_circle_outline_24" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_4ssdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_plus_thin" />
                     </LinearLayout>
 
 
                 </LinearLayout>
-            </RelativeLayout>
+            </LinearLayout>
 
 
             <TextView

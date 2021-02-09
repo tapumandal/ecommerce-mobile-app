@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
@@ -60,6 +61,7 @@ public class OrderHistoryActivity extends BaseActivity {
 
     private void initRecyclerView() {
 
+        initShimmer(binding.shimmerLayout.shimmerViewContainer);
         binding.recycleView.setHasFixedSize(true);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
@@ -69,7 +71,6 @@ public class OrderHistoryActivity extends BaseActivity {
 
         adapter = new OrderListAdapter(context , cartList, "PRODUCT_LIST");
         binding.recycleView.setAdapter(adapter);
-
 
         EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
@@ -92,11 +93,11 @@ public class OrderHistoryActivity extends BaseActivity {
 
     private void getOrders(int page) {
         viewModel.getOrders(page).observe(this, response -> {
-            //            hideProgressDialog();
-//            stopShimmer();
+//            hideProgressDialog();
+            stopShimmer();
             if (response != null) {
                 if (response.isSuccess()) {
-
+                    binding.noItemLayout.mainLayout.setVisibility(View.GONE);
                     Log.d("ORDER_HISTORY", "Pagination: "+ new Gson().toJson(response.getMyPagination()));
                     Log.d("ORDER_HISTORY", "Data: "+new Gson().toJson(response.getMyPagination()));
                     pagination = response.getMyPagination();
@@ -104,8 +105,7 @@ public class OrderHistoryActivity extends BaseActivity {
                     populateView();
 
                 } else {
-                    showFailedToast(response.getMessage());
-
+//                    showFailedToast(response.getMessage());
 //                    binding.noItem.mainLayout.setVisibility(View.VISIBLE);
 //                    binding.noItem.titleMessage.setText(response.getMessage());
                 }

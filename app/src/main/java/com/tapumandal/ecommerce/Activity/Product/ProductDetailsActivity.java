@@ -4,6 +4,7 @@ import android.util.Log;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
@@ -42,6 +43,7 @@ public class ProductDetailsActivity extends BaseActivity {
     List<Product> myProducts;
     private Cart myCart;
     Constants constants;
+    Fragment fragment;
 
     @Override
     protected int getLayoutResourceFile() {
@@ -89,22 +91,39 @@ public class ProductDetailsActivity extends BaseActivity {
                 if((itemTmp.getOrderQuantity())>0){
                     b.orderQuantity.setText(String.valueOf(constants.removeProduct(itemTmp).getOrderQuantity()));
                 }
-
             }
         });
+
+//        b.companyLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                System.out.println("Product Details Activity Company Product!");
+//                fragment = new ProductListFragment();
+//                Bundle bundle = new Bundle();
+//                bundle.putString("selectedMenu", itemTmp.getCompany());
+//                fragment.setArguments(bundle);
+//                addFragment(R.id.fragmentLayout, fragment, "FRAGMENT TAG");
+//            }
+//        });
     }
 
     private void viewPopulate(){
         System.out.println("IMAGE IMAGE IMAGE "+item.getImage());
         if(item.getImage() != null){
-            String imgUrl  = item.getImage();
+            String imgUrl = item.getImage().split("api/v1/")[1];
             imgUrl  = imgUrl.replace("thumbnail.", "");
-            Picasso.get().load(imgUrl).into(b.apvImage);
+            Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).into(b.apvImage);
         }
 
         b.apvTitle.setText(item.getName());
+        b.productUnit.setText(String.valueOf(item.getUnit()).replace(".0", ""));
+        b.productUnitTitle.setText(" "+item.getUnitTitle());
         b.productPrice.setText(String.valueOf(item.getSellingPricePerUnit()));
-        b.discountedPrice.setText(String.valueOf(item.getDiscountPrice()));
+        String discountTitle = "";
+        if(!item.getDiscountTitle().isEmpty()){
+            discountTitle = "("+item.getDiscountTitle()+")";
+        }
+        b.discountedPrice.setText(String.valueOf(item.getDiscountPrice())+" "+discountTitle);
         b.deliveryCharge.setText(String.valueOf(item.getDeliveryCharge()));
         b.productDescription.setText(item.getDescription());
 //        b.quantity.setText(String.valueOf(item.getQuantity()));

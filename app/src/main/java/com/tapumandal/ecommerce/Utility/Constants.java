@@ -393,10 +393,12 @@ public class Constants {
         }
 
         if(item.getOrderQuantity()<item.getMaximumOrderQuantity()){
-
             myCart.setTotalProductQuantity( myCart.getTotalProductQuantity() + 1 );
             myCart.setTotalProductPrice( myCart.getTotalProductPrice() + item.getSellingPricePerUnit() );
             myCart.setTotalProductDiscount( myCart.getTotalProductDiscount() + item.getDiscountPrice() );
+
+            System.out.println("TOTAL PRODUCT PRICE:"+myCart.getTotalProductPrice());
+            System.out.println("TOTAL DISCOUNT PRICE:"+myCart.getTotalProductDiscount());
 
             if(myCart.getDeliveryCharge() < item.getDeliveryCharge()) {
                 myCart.setDeliveryCharge(item.getDeliveryCharge());
@@ -432,6 +434,8 @@ public class Constants {
         myCart.setTotalProductPrice( myCart.getTotalProductPrice() - item.getSellingPricePerUnit() );
         myCart.setTotalProductDiscount( myCart.getTotalProductDiscount() - item.getDiscountPrice() );
 
+        System.out.println("TOTAL PRODUCT PRICE:"+myCart.getTotalProductPrice());
+        System.out.println("TOTAL DISCOUNT PRICE:"+myCart.getTotalProductDiscount());
         for (int i = 0; i < myProducts.size(); i++) {
             if (myProducts.get(i).getId() == item.getId()) {
                 myProducts.get(i).setOrderQuantity(item.getOrderQuantity());

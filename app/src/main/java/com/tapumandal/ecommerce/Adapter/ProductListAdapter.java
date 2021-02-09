@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
@@ -86,21 +88,23 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         item = constants.cartMatchProduct(item);
 
         b.productName.setText(item.getName() );
-        b.productUnit.setText(String.valueOf(item.getUnit()));
-        b.productUnitTitle.setText(item.getUnitTitle());
+        b.productUnit.setText(String.valueOf(item.getUnit()).replace(".0", ""));
+        b.productUnitTitle.setText(" "+item.getUnitTitle());
         b.brandName.setText(item.getCompany() );
 
-        int discountedPrice = item.getSellingPricePerUnit()-item.getDiscountPrice();
         b.productPrice.setText(""+String.valueOf(item.getSellingPricePerUnit()));
-        b.discountedPrice.setText(""+String.valueOf(discountedPrice));
-        if(!item.getDiscountTitle().isEmpty()) {
-            b.productOfferTitle.setText(" (" + item.getDiscountTitle() + ")");
-        }
-        if(discountedPrice<1){
+
+        if(item.getDiscountPrice()<1){
             b.discountedPrice.setVisibility(View.GONE);
             b.productOfferTitle.setVisibility(View.GONE);
 //            b.productPrice.setTextColor(@android:color/background_dark);
 //            b.productPrice.setTextColor(ContextCompat.getColor(context, R.color.highlightTextColor));
+        }else{
+            b.discountedPrice.setText(""+String.valueOf(item.getSellingPricePerUnit()-item.getDiscountPrice()));
+
+            if(!item.getDiscountTitle().isEmpty()) {
+                b.productOfferTitle.setText(" (" + item.getDiscountTitle() + ")");
+            }
         }
 
 
@@ -114,18 +118,31 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         if(item.getImage() != null){
 //            String imgUrl  = item.getImage().replace("http://127.0.0.1:8080/api/v1/", "");
-//            Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).placeholder(R.drawable.app_logo).into(b.productImg);
-
-            String imgUrl  = item.getImage();
-            Picasso.get().load(imgUrl).placeholder(R.drawable.app_logo).into(b.productImg);
-
+            String imgUrl = item.getImage().split("api/v1/")[1];
+            Picasso.get().load(URLs.ROOT_URL_MAIN+imgUrl).placeholder(R.drawable.app_logo).into(b.productImg);
         }
 
         Product finalItem = item;
-        b.productItemLayout.setOnClickListener(new View.OnClickListener() {
+        b.productImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startProductDetailsActivity(finalItem);
+            }
+        });
+
+        b.productNameUnit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startProductDetailsActivity(finalItem);
+            }
+        });
+
+        final String flag = item.getCompany();
+        b.brandName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("CLICKED loadFragment");
+                customEventListener.loadFragment(flag);
             }
         });
 
